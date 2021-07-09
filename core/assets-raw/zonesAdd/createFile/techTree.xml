@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node block="coreShard">
+	<node block="conveyor">
+		<node block="junction">
+			<node block="router">
+				<node block="launchPad">
+					<node block="launchPadLarge"/>
+				</node>
+				<node block="distributor"/>
+				<node block="sorter">
+					<node block="invertedSorter"/>
+					<node block="message"/>
+					<node block="overflowGate">
+						<node block="underflowGate"/>
+					</node>
+				</node>
+				<node block="container">
+					<node block="unloader"/>
+					<node block="vault"/>
+				</node>
+				<node block="itemBridge">
+					<node block="titaniumConveyor">
+						<node block="phaseConveyor">
+							<node block="massDriver"/>
+						</node>
+						<node block="armoredConveyor"/>
+					</node>
+				</node>
+			</node>
+		</node>
+	</node>
+	<node block="duo">
+		<node block="scatter">
+			<node block="hail">
+				<node block="salvo">
+					<node block="swarmer">
+						<node block="cyclone">
+							<node block="spectre"/>
+						</node>
+					</node>
+					<node block="ripple">
+						<node block="fuse"/>
+					</node>
+				</node>
+			</node>
+		</node>
+		<node block="scorch">
+			<node block="arc">
+				<node block="wave"/>
+				<node block="lancer">
+					<node block="meltdown"/>
+					<node block="shockMine"/>
+				</node>
+			</node>
+		</node>
+		<node block="copperWall">
+			<node block="copperWallLarge">
+				<node block="titaniumWall">
+					<node block="titaniumWallLarge"/>
+					<node block="door">
+						<node block="doorLarge"/>
+					</node>
+					<node block="plastaniumWall">
+						<node block="plastaniumWallLarge"/>
+					</node>
+					<node block="thoriumWall">
+						<node block="thoriumWallLarge"/>
+						<node block="surgeWall">
+							<node block="surgeWallLarge"/>
+							<node block="phaseWall">
+								<node block="phaseWallLarge"/>
+							</node>
+						</node>
+					</node>
+				</node>
+			</node>
+		</node>
+	</node>
+	<node block="mechanicalDrill">
+		<node block="graphitePress">
+			<node block="pneumaticDrill">
+				<node block="cultivator"/>
+				<node block="laserDrill">
+					<node block="blastDrill"/>
+					<node block="waterExtractor">
+						<node block="oilExtractor"/>
+					</node>
+				</node>
+			</node>
+			<node block="pyratiteMixer">
+				<node block="blastMixer"/>
+			</node>
+			<node block="siliconSmelter">
+				<node block="sporePress">
+					<node block="coalCentrifuge"/>
+					<node block="multiPress"/>
+					<node block="plastaniumCompressor">
+						<node block="phaseWeaver"/>
+					</node>
+				</node>
+				<node block="kiln">
+					<node block="incinerator">
+						<node block="melter">
+							<node block="surgeSmelter"/>
+							<node block="separator">
+								<node block="pulverizer"/>
+							</node>
+							<node block="cryofluidMixer"/>
+						</node>
+					</node>
+				</node>
+			</node>
+		</node>
+		<node block="mechanicalPump">
+			<node block="conduit">
+				<node block="liquidJunction">
+					<node block="liquidRouter">
+						<node block="liquidTank"/>
+						<node block="bridgeConduit"/>
+						<node block="pulseConduit">
+							<node block="phaseConduit"/>
+							<node block="platedConduit"/>
+						</node>
+						<node block="rotaryPump">
+							<node block="thermalPump"/>
+						</node>
+					</node>
+				</node>
+			</node>
+		</node>
+		<node block="combustionGenerator">
+			<node block="powerNode">
+				<node block="powerNodeLarge">
+					<node block="diode">
+						<node block="surgeTower"/>
+					</node>
+				</node>
+				<node block="battery">
+					<node block="batteryLarge"/>
+				</node>
+				<node block="mender">
+					<node block="mendProjector">
+						<node block="forceProjector">
+							<node block="overdriveProjector"/>
+						</node>
+						<node block="repairPoint"/>
+					</node>
+				</node>
+				<node block="turbineGenerator">
+					<node block="thermalGenerator">
+						<node block="differentialGenerator">
+							<node block="thoriumReactor">
+								<node block="impactReactor"/>
+								<node block="rtgGenerator"/>
+							</node>
+						</node>
+					</node>
+				</node>
+				<node block="solarPanel">
+					<node block="largeSolarPanel"/>
+				</node>
+			</node>
+			<node block="draugFactory">
+				<node block="spiritFactory">
+					<node block="phantomFactory"/>
+				</node>
+				<node block="daggerFactory">
+					<node block="commandCenter"/>
+					<node block="crawlerFactory">
+						<node block="titanFactory">
+							<node block="fortressFactory"/>
+						</node>
+					</node>
+					<node block="wraithFactory">
+						<node block="ghoulFactory">
+							<node block="revenantFactory"/>
+						</node>
+					</node>
+				</node>
+			</node>
+			<node block="dartPad">
+				<node block="deltaPad">
+					<node block="javelinPad">
+						<node block="tridentPad">
+							<node block="glaivePad"/>
+						</node>
+					</node>
+					<node block="tauPad">
+						<node block="omegaPad"/>
+					</node>
+				</node>
+			</node>
+		</node>
+	</node>
+</node>

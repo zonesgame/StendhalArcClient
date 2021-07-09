@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute name="z.entities.type.base.BlockUnit">
+    </attribute>
+
+    <animation>
+        <caesar>
+            <region dir="8" frame="12">marketlady</region>
+        </caesar>
+    </animation>
+
+</root>

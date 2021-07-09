@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute name="z.world.blocks.production.FarmIso">
+        <fields>
+            <!--basic-->
+            <!--块尺寸设置-->
+            <size>{size: 3}</size>
+
+            <!--UpgradeBlock begon-->
+            <!--建造和升级时间消耗-->
+            <buildCost>{buildCost: [ 300, 360, 420, 480, 600, 600]}</buildCost>
+            <!--生命值数据-->
+            <health>{health: [ 300, 360, 420, 480, 600, 600]}</health>
+            <!--物品容量-->
+            <itemCapacity>{itemCapacity: [ 3, 4, 5, 6, 7, 8]}</itemCapacity>
+            <!--UpgradeBlock end-->
+
+            <!--WorkBlock begon-->
+            <!--工作需要农民数量-->
+            <needPeasants>{needPeasants: [ 2, 3, 3, 4, 5, 5]}</needPeasants>
+            <!--提供工作工人数量-->
+            <forWork>{forWork: [ 1, 1, 1, 1, 1, 1]}</forWork>
+            <!--携带生产物品最大数量数量-->
+            <carryItemDump>{carryItemDump: [ 2, 2, 3, 4, 5, 5]}</carryItemDump>
+            <!--WorkBlock end-->
+
+            <!--DrillIso begon-->
+            <!--绘制物品图标-->
+            <drawMineItem>{drawMineItem: true}</drawMineItem>
+            <!--开采时间-->
+            <drillTime>{drillTime: [ 240, 300, 360, 420, 480, 480]}</drillTime>
+            <!--开采物品数量-->
+            <drillCount>{drillCount: [ 1, 2, 2, 3, 4, 4]}</drillCount>
+            <!--开采物品-->
+            <spawnItem>{spawnItem: Items.fruit}</spawnItem>
+            <!--DrillIso end-->
+        </fields>
+
+        <methods>
+            <!--UpgradeBlock begon-->
+            <!--建造升级需要物品-->
+            <requirements method="requirements" paramsCount="3">
+                <param1 class="Category">{ value: production }</param1>
+                <param2 class="ItemStack[][]">
+                    [
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    ]
+                </param2>
+                <param3>{ class: java.lang.Boolean, value: true }</param3>
+            </requirements>
+            <!--UpgradeBlock end-->
+        </methods>
+
+    </attribute>
+
+    <animation>
+        <caesar>
+            <node frame="5">farmFruit-ani1x</node>
+        </caesar>
+    </animation>
+
+</root>

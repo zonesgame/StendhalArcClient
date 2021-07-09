@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute name="worker">
+    </attribute>
+
+    <animation>
+        <qqtx>
+            <anis>10201_1, 10201_2, 10201_4</anis>
+        </qqtx>
+    </animation>
+
+</root>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--    避免类修改时, 挨个修改文件, 不建议配置文件中直接使用包名-->
+    <!-- 添加xml加载需要的Class, 如果为注入了, 第一次使用时要包含package
+            PS: 注入后调用类Items.wheat,  为注入调用mindustry.content.Items.wheat-->
+
+    <!-- 科技树-->
+    <node key="mindustry.content.Blocks" class="mindustry.content.Blocks"/>
+    <node key="Blocks" class="mindustry.content.Blocks"/>
+
+    <!--   物品静态池 -->
+    <node key="mindustry.content.Items" class="mindustry.content.Items"/>
+    <node key="Items" class="mindustry.content.Items"/>
+
+    <!--    子弹静态池-->
+    <node key="mindustry.content.Bullets" class="mindustry.content.Bullets"/>
+    <node key="Bullets" class="mindustry.content.Bullets"/>
+
+    <!--    块分类-->
+    <node key="mindustry.type.Category" class="mindustry.type.Category"/>
+    <node key="Category" class="mindustry.type.Category"/>
+
+    <!--    物品堆栈-->
+    <node key="mindustry.type.ItemStack" class="mindustry.type.ItemStack"/>
+    <node key="ItemStack" class="mindustry.type.ItemStack"/>
+
+    <!--    物品堆栈二维数组-->
+    <node key="[[Lmindustry.type.ItemStack;" class="[[Lmindustry.type.ItemStack;"/>
+    <node key="ItemStack[][]" class="[[Lmindustry.type.ItemStack;"/>
+
+    <node key="[Ljava.lang.Object;" class="[Ljava.lang.Object;"/>
+    <node key="Object[]" class="[Ljava.lang.Object;"/>
+
+    <node key="[[Ljava.lang.Object;" class="[[Ljava.lang.Object;"/>
+    <node key="Object[][]" class="[[Ljava.lang.Object;"/>
+
+    <!--    java内部Class, 非必须添加-->
+    <!--    <node key="" class=""/>-->
+</root>

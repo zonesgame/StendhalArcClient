@@ -1,0 +1,22 @@
+{
+  param: [
+    {
+      class: mindustry.type.Category,
+      value: crafting
+    },
+    [
+      [
+        {
+          amount: 10
+        },
+        {
+          amount: 5
+        }
+      ]
+    ],
+    {
+      class: java.lang.Boolean,
+      value: false
+    }
+  ]
+}

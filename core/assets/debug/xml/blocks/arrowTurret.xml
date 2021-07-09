@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute class="z.world.blocks.defense.turrets.ArrowTurretIso">
+        <fields>
+            <!--basic-->
+            <!--块尺寸设置-->
+            <size>{size: 1}</size>
+
+            <!--UpgradeBlock begon-->
+            <!--建造和升级时间消耗-->
+            <buildCost>{buildCost: [ 300, 360, 420, 480, 600, 660]}</buildCost>
+            <!--生命值数据-->
+            <health>{health: [ 300, 360, 420, 480, 600, 660]}</health>
+            <!--物品容量-->
+            <itemCapacity>{itemCapacity: [ 4, 6, 8, 10, 12, 14]}</itemCapacity>
+            <!--UpgradeBlock end-->
+
+            <!--WorkBlock begon-->
+            <!--工作需要农民数量-->
+            <needPeasants>{needPeasants: [ 0, 0, 0, 0, 0, 0]}</needPeasants>
+            <!--提供工作工人数量-->
+            <forWork>{forWork: [ 1, 1, 1, 1, 1, 1]}</forWork>
+            <!--携带生产物品最大数量数量-->
+<!--            <carryItemDump>{carryItemDump: [ 2, 2, 3, 4, 5, 5]}</carryItemDump>-->
+            <!--携带生产需要物品最大数量数量-->
+            <carryItemObtain>{carryItemObtain: [ 4, 4, 6, 8, 10, 10]}</carryItemObtain>
+            <!--WorkBlock end-->
+
+            <!--TurretIso begon-->
+            <!--射击一次需要的弹药量, (默认值1)-->
+            <ammoPerShot>{ ammoPerShot: [ 1, 1, 1, 1, 1, 1] }</ammoPerShot>
+            <!--攻击范围8为一个Tile单位-->
+            <range>{ range: [ 12, 7f, 8f, 8f, 8f, 9] }</range>
+            <!--装填速度-->
+            <reload>{ reload: [ 10, 10, 10, 10, 10, 10] }</reload>
+            <!--射击误差-->
+            <inaccuracy>{ inaccuracy: [ 0, 0, 0, 0, 0, 0] }</inaccuracy>
+            <!--射击数量-->
+            <shots>{ shots: [ 1, 1, 1, 1, 1, 1] }</shots>
+            <!--扩散值-->
+            <spread>{ spread: [ 4, 4, 4, 4, 4, 4] }</spread>
+            <!--旋转速度-->
+            <rotatespeed>{ rotatespeed: [ 10, 10, 10, 10, 10, 10] }</rotatespeed>
+            <!--物品转化为弹药基于弹药倍数, 继续扩展倍数(qqtx扩展, 默认值1)-->
+            <extendAmmoMultiplier>{ extendAmmoMultiplier: [ 1, 1, 1, 1, 1, 1] }</extendAmmoMultiplier>
+
+            <!--关闭物品状态条显示-->
+            <showItemsBar>{showItemsBar: false}</showItemsBar>
+            <!--TurretIso end-->
+
+            <!--ItemTurretIso begon-->
+            <!--最大弹药数量-->
+            <maxAmmo>{ maxAmmo: [ 40, 40, 40, 40, 40, 40] }</maxAmmo>
+            <!--到达供应弹药配置-->
+            <supplyAmmo>{ supplyAmmo: [ 40, 40, 40, 40, 40, 40] }</supplyAmmo>
+            <!--ItemTurretIso end-->
+        </fields>
+
+        <!--自定义执行function-->
+        <methods>
+            <requirements>
+                <param1 class="Category">{ value: turret }</param1>
+                <param2 class="ItemStack[][]">
+                    [
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    ]
+                </param2>
+                <param3>{ class: java.lang.Boolean, value: true }</param3>
+            </requirements>
+
+            <ammo>
+                <param1 class="Object[][]">
+                    [
+                        [
+                        Items.timber, Bullets.standardCopper,
+                        Items.marble, Bullets.standardDense,
+                        Items.iron, Bullets.standardIncendiary,
+                        Items.weapons, Bullets.standardHoming,
+                        ],
+
+                        [
+                        Items.timber, Bullets.standardCopper,
+                        Items.marble, Bullets.standardDense,
+                        Items.iron, Bullets.standardIncendiary,
+                        Items.weapons, Bullets.standardHoming,
+                        ],
+
+                        [
+                        Items.timber, Bullets.standardCopper,
+                        Items.marble, Bullets.standardDense,
+                        Items.iron, Bullets.standardIncendiary,
+                        Items.weapons, Bullets.standardHoming,
+                        ],
+
+                        [
+                        Items.timber, Bullets.standardCopper,
+                        Items.marble, Bullets.standardDense,
+                        Items.iron, Bullets.standardIncendiary,
+                        Items.weapons, Bullets.standardHoming,
+                        ],
+
+                        [
+                        Items.timber, Bullets.standardCopper,
+                        Items.marble, Bullets.standardDense,
+                        Items.iron, Bullets.standardIncendiary,
+                        Items.weapons, Bullets.artilleryDense,
+                        ],
+
+                        [
+                        Items.timber, Bullets.standardCopper,
+                        Items.marble, Bullets.standardDense,
+                        Items.iron, Bullets.standardIncendiary,
+                        Items.weapons, Bullets.artilleryDense,
+                        ],
+                    ]
+                </param1>
+            </ammo>
+        </methods>
+
+    </attribute>
+
+    <animation>
+        <qqtx>
+            <regions>102051, 102052, 102053, 102054, 102055, 102056</regions>
+            <background>1, 0, 0</background>
+        </qqtx>
+    </animation>
+
+</root>

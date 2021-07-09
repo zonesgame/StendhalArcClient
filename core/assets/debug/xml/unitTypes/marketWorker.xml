@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute name="worker">
+    </attribute>
+
+    <animation>
+        <caesar ani="19" dir="8" frame="11">
+            <region dir="8" frame="11" index="0">citizen1x</region>
+            <region index="1">cartnone</region>
+            <region index="2">emmigrant</region>
+            <region index="3">cartwheat</region>
+            <region index="4">cartfruit</region>
+            <region index="5">cartfruit</region>
+            <region index="6">cartolive</region>
+            <region index="7">cartgrape</region>
+            <region index="8">cartmeat</region>
+            <region index="9">cartwine</region>
+            <region index="10">cartoil</region>
+            <region index="11">cartiron</region>
+            <region index="12">carttimber</region>
+            <region index="13">cartclay</region>
+            <region index="14">cartmarble</region>
+            <region index="15">cartweapon</region>
+            <region index="16">cartfurniture</region>
+            <region index="17">cartpottery</region>
+            <region index="18">cartfish</region>
+        </caesar>
+    </animation>
+
+</root>

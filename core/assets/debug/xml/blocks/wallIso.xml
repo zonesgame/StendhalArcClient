@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute class="z.world.blocks.defense.WallIso">
+        <fields>
+            <!--没有type属性时将使用json默认解析, txt内容为libgdx-json数据-->
+<!--            <levBuildCosts type="float">{levBuildCosts: [ 0, 60, 180, 360, 360, 360]}</levBuildCosts>-->
+        </fields>
+
+        <!--自定义执行function-->
+        <methods>
+            <requirements method="requirements" paramsCount="3">
+                <param1 class="Category">{ value: defense }</param1>
+                <param2 class="ItemStack[][]">
+                    [
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    ]
+                </param2>
+                <param3>{ class: java.lang.Boolean, value: false }</param3>
+            </requirements>
+        </methods>
+    </attribute>
+
+    <animation>
+        <qqtx>
+            <regions>102021, 102022, 102023, 102024, 102025, 102026</regions>
+            <background>1, 0, 0</background>
+        </qqtx>
+    </animation>
+
+</root>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute class="z.world.blocks.caesar.HousingIso">
+        <fields>
+            <!--没有type属性时将使用json默认解析, txt内容为libgdx-json数据-->
+            <!--tile尺寸-->
+            <size>{size: 2}</size>
+            <!--生命值数据develop-->
+            <health>{health: [ 60, 120, 130, 140, 150]}</health>
+            <!--建造时间消耗-->
+            <buildCost>{buildCost: [ 300]}</buildCost>
+            <!--消耗单位时间1second=60-->
+            <craftTime>{craftTime: [ 480, 560, 640, 720, 800]}</craftTime>
+            <!--农民基础的保护数据develop-->
+            <baseOfferPeasant>{baseOfferPeasant: 4}</baseOfferPeasant>
+            <!--工人基础的保护数据develop-->
+            <baseOfferWorker>{baseOfferWorker: 4}</baseOfferWorker>
+            <!--提供农民数量-->
+            <offerPeasant>{offerPeasant: [ 1, 1, 1, 1, 1]}</offerPeasant>
+            <!--提供工人数量-->
+            <offerWorker>{offerWorker: [ 1, 1, 1, 1, 1]}</offerWorker>
+        </fields>
+
+        <methods>
+            <!--房屋升级所需物品-->
+            <needItemConsume>
+                <param1 class="ItemStack[][]">
+                    [
+                    [
+                    { item: Items.wheat, amount: 1 }
+                    ],
+
+                    [
+                    { item: Items.wheat, amount: 1 },
+                    { item: Items.vegetables, amount: 1 },
+                    { item: Items.furniture, amount: 1 },
+                    ],
+
+                    [
+                    { item: Items.wheat, amount: 1 },
+                    { item: Items.vegetables, amount: 1 },
+                    { item: Items.fruit, amount: 1 },
+                    { item: Items.furniture, amount: 1 },
+                    { item: Items.oil, amount: 1 },
+                    ],
+
+                    [
+                    { item: Items.wheat, amount: 1 },
+                    { item: Items.vegetables, amount: 1 },
+                    { item: Items.fruit, amount: 1 },
+                    { item: Items.furniture, amount: 1 },
+                    { item: Items.oil, amount: 1 },
+                    { item: Items.wine, amount: 1 },
+                    ],
+
+                    [
+                    { item: Items.wheat, amount: 1 },
+                    { item: Items.vegetables, amount: 1 },
+                    { item: Items.fruit, amount: 1 },
+                    { item: Items.meat, amount: 1 },
+                    { item: Items.furniture, amount: 1 },
+                    { item: Items.oil, amount: 1 },
+                    { item: Items.wine, amount: 1 },
+                    { item: Items.pottery, amount: 1 },
+                    ],
+                    ]
+                </param1>
+            </needItemConsume>
+
+            <!--建造升级需要物品-->
+            <requirements>
+                <param1 class="Category">{ value: defense }</param1>
+                <param2 class="ItemStack[][]">
+                    [
+                    [ { item: Items.copper, amount: 10 } ]
+                    ]
+                </param2>
+                <param3>{ class: java.lang.Boolean, value: true }</param3>
+            </requirements>
+
+        </methods>
+
+    </attribute>
+
+    <animation>
+        <caesar>
+            <node frame="8" >housing2x-lev1x</node>
+            <node frame="12" >housing2x-lev2x</node>
+            <node frame="12" >housing2x-lev3x</node>
+            <node frame="16" >housing2x-lev4x</node>
+            <node frame="8" >housing2x-lev5x</node>
+            <node frame="1" >housing2x-background</node>
+        </caesar>
+    </animation>
+
+</root>

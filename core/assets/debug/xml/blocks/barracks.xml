@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- Block 属性初始化(标签文本为json数据)-->
+    <attribute name="z.world.blocks.production.GenericCrafterIso">
+        <fields>
+        </fields>
+
+        <!--paramCount, method非必须设置-->
+        <methods>
+        </methods>
+    </attribute>
+
+    <animation>
+        <qqtx>
+            <regions>102011</regions>
+        </qqtx>
+    </animation>
+
+</root>

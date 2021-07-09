@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute class="z.world.blocks.distribution.ConveyorIso">
+        <fields>
+            <!--没有type属性时将使用json默认解析, txt内容为libgdx-json数据-->
+
+            <!--生命值数据develop-->
+            <health>{health: [ 60]}</health>
+            <!--建造时间消耗-->
+            <buildCost>{buildCost: [ 300]}</buildCost>
+
+            <!---->
+            <speed>{speed: 0.03}</speed>
+            <!---->
+            <displayedSpeed>{displayedSpeed: 4.2}</displayedSpeed>
+            <!--建造时间消耗-->
+        </fields>
+
+        <methods>
+            <!--建造升级需要物品-->
+            <requirements>
+                <param1 class="Category">{ value: distribution }</param1>
+                <param2 class="ItemStack[][]">
+                    [
+                    [ { item: Items.copper, amount: 1 } ]
+                    ]
+                </param2>
+                <param3>{ class: java.lang.Boolean, value: true }</param3>
+            </requirements>
+
+        </methods>
+
+    </attribute>
+
+    <animation>
+        <caesar>
+            <node frame="15" >roads2x</node>
+        </caesar>
+    </animation>
+
+</root>

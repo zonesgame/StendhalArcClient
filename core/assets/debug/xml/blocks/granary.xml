@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <attribute class="z.world.blocks.storage.GranaryIso">
+        <fields>
+            <!--没有type属性时将使用json默认解析, txt内容为libgdx-json数据-->
+            <!--块尺寸设置-->
+            <size>{size: 2}</size>
+
+            <!--UpgradeBlock begon-->
+            <!--建造和升级时间消耗-->
+            <buildCost>{buildCost: [ 300, 300, 360, 420, 480, 600]}</buildCost>
+            <!--生命值数据-->
+            <health>{health: [ 300, 300, 360, 420, 480, 600]}</health>
+            <!--物品容量(must be value%8 == 0)-->
+            <itemCapacity>{itemCapacity: [ 64, 64, 72, 80, 88, 96]}</itemCapacity>
+            <!--UpgradeBlock end-->
+
+            <!--WorkBlock begon-->
+            <!--工作需要农民数量-->
+            <needPeasants>{needPeasants: [ 2, 2, 3, 3, 4, 5]}</needPeasants>
+            <!--提供工作工人数量-->
+            <forWork>{forWork: [ 1, 1, 1, 1, 1, 1]}</forWork>
+            <!--携带倾泻物品最大数量数量-->
+            <carryItemDump>{carryItemDump: [ 2, 2, 2, 3, 4, 5]}</carryItemDump>
+            <!--携带获取物品最大数量数量-->
+            <carryItemObtain>{carryItemObtain: [ 2, 2, 2, 3, 4, 5]}</carryItemObtain>
+            <!--WorkBlock end-->
+        </fields>
+
+        <!--自定义执行function-->
+        <methods>
+            <requirements method="requirements" paramsCount="3">
+                <param1 class="Category">{ value: effect }</param1>
+                <param2 class="ItemStack[][]">
+                    [
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    [ { item: Items.copper, amount: 10 } ],
+                    ]
+                </param2>
+                <param3>{ class: java.lang.Boolean, value: false }</param3>
+            </requirements>
+        </methods>
+
+    </attribute>
+
+    <animation>
+        <qqtx>
+            <regions>101041, 101042, 101043, 101044, 101045, 101046</regions>
+            <background>1, 0, 1</background>
+            <!--animations-->
+            <anis>3</anis>
+        </qqtx>
+    </animation>
+
+</root>

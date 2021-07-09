@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <block
+        name="surface"
+        variants="6">
+        <center>
+            -49,-95,-49,-95,-49,-95,-49,-95,-49,-95,-49,-95
+        </center>
+    </block>
+
+    <block
+        name="timber"
+        variants="6">
+        <center>
+            -49,-95,-51,-98,-49,-98,-49,-96,-49,-95,-49,-95
+        </center>
+    </block>
+
+    <block
+        name="clay"
+        variants="6">
+        <center>
+            -49,-95,-49,-95,-49,-98,-57,-98,-49,-95,-49,-95
+        </center>
+    </block>
+
+    <block
+        name="farmland"
+        variants="6">
+        <center>
+            -47,-92,-47,-92,-47,-92,-47,-92,-47,-92,-47,-92
+        </center>
+    </block>
+
+    <block
+        name="sea"
+        variants="0">
+        <center>
+            -39,-80
+        </center>
+    </block>
+
+    <block
+        name="marble"
+        variants="8">
+        <center>
+            -41,-85,-41,-85,-41,-85,-41,-85,-41,-85,-41,-85,-41,-85,-41,-85
+        </center>
+    </block>
+
+    <block
+        name="iron"
+        variants="0">
+        <center>
+            -41,-82
+        </center>
+    </block>
+
+</root>
