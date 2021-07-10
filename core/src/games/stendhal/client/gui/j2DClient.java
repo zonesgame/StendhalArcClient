@@ -63,11 +63,11 @@ public class j2DClient implements UserInterface {
 
 
 	/** Chat channels. */
-	private final NotificationChannelManager channelManager = new NotificationChannelManager();
+/*	private final NotificationChannelManager channelManager = new NotificationChannelManager();*/
 
 	private User lastuser;
 	private final PositionChangeMulticaster positionChangeListener = new PositionChangeMulticaster();
-	private final J2DClientGUI gui;
+	private /*final*/ J2DClientGUI gui;
 	/**
 	 * The stendhal client.
 	 */
@@ -150,11 +150,11 @@ public class j2DClient implements UserInterface {
 		 */
 		SlashActionRepository.register();
 
-		gui = new SwingClientGUI(client, userContext, channelManager, splash);
+/*		gui = new SwingClientGUI(client, userContext, channelManager, splash);
 
 		for (PositionChangeListener listener : gui.getPositionChangeListeners()) {
 			positionChangeListener.add(listener);
-		}
+		}*/
 
 		// Display a hint if this is a debug client
 		if (Debug.PRE_RELEASE_VERSION != null) {
@@ -310,12 +310,12 @@ public class j2DClient implements UserInterface {
 	 * @param mw A managed window.
 	 */
 	public void addWindow(final ManagedWindow mw) {
-		if (mw instanceof InternalManagedWindow) {
+/*		if (mw instanceof InternalManagedWindow) {
 			gui.addDialog((InternalManagedWindow) mw);
 		} else {
 			throw new IllegalArgumentException("Unsupport ManagedWindow type: "
 					+ mw.getClass().getName());
-		}
+		}*/
 	}
 
 	public void requestQuit() {
@@ -324,7 +324,7 @@ public class j2DClient implements UserInterface {
 
 	@Override
 	public void addEventLine(final EventLine line) {
-		channelManager.addEventLine(line);
+		/*channelManager.addEventLine(line);*/
 	}
 
 	@Override
@@ -375,7 +375,7 @@ public class j2DClient implements UserInterface {
 	 * Clear the visible channel log.
 	 */
 	public void clearGameLog() {
-		channelManager.getVisibleChannel().clear();
+	/*	channelManager.getVisibleChannel().clear();*/
 	}
 
 	/**
