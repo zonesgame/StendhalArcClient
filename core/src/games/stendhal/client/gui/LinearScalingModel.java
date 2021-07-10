@@ -17,72 +17,72 @@ package games.stendhal.client.gui;
  * maximum representation when the value is the specified maximum.
  */
 public class LinearScalingModel extends AbstractScalingModel {
-	private double maxValue;
-	private int maxRepresentation;
-	private double scale;
-	private double value;
+    private double maxValue;
+    private int maxRepresentation;
+    private double scale;
+    private double value;
 
-	/**
-	 * Create a LinearScalingModel with maximum value of 1.0, and maximum
-	 * representation 1.
-	 */
-	public LinearScalingModel() {
-		this(1.0, 1);
-	}
+    /**
+     * Create a LinearScalingModel with maximum value of 1.0, and maximum
+     * representation 1.
+     */
+    public LinearScalingModel() {
+        this(1.0, 1);
+    }
 
-	/**
-	 * Create a LinearScalingModel.
-	 *
-	 * @param maxValue maximum value of the variable
-	 * @param maxRepresentation the maximum of the presentation of the value
-	 */
-	public LinearScalingModel(double maxValue, int maxRepresentation) {
-		this.maxValue = maxValue;
-		this.maxRepresentation = maxRepresentation;
-		calculateScale();
-	}
+    /**
+     * Create a LinearScalingModel.
+     *
+     * @param maxValue          maximum value of the variable
+     * @param maxRepresentation the maximum of the presentation of the value
+     */
+    public LinearScalingModel(double maxValue, int maxRepresentation) {
+        this.maxValue = maxValue;
+        this.maxRepresentation = maxRepresentation;
+        calculateScale();
+    }
 
-	@Override
-	public void setValue(double value) {
-		this.value = value;
-		setRepresentation(Math.min((int) Math.round(this.value * scale), maxRepresentation));
-	}
+    @Override
+    public void setValue(double value) {
+        this.value = value;
+        setRepresentation(Math.min((int) Math.round(this.value * scale), maxRepresentation));
+    }
 
-	/**
-	 * Get the internal value.
-	 *
-	 * @return value
-	 */
-	public double getValue() {
-		return value;
-	}
+    /**
+     * Get the internal value.
+     *
+     * @return value
+     */
+    public double getValue() {
+        return value;
+    }
 
-	@Override
-	public void setMaxRepresentation(int max) {
-		if (max != maxRepresentation) {
-			maxRepresentation = max;
-			calculateScale();
-			setValue(value);
-		}
-	}
+    @Override
+    public void setMaxRepresentation(int max) {
+        if (max != maxRepresentation) {
+            maxRepresentation = max;
+            calculateScale();
+            setValue(value);
+        }
+    }
 
-	/**
-	 * Set the maximum value for the model, ie. the value that corresponds to
-	 * the maximum representation.
-	 *
-	 * @param maxValue new maximum value
-	 */
-	public void setMaxValue(double maxValue) {
-		this.maxValue = maxValue;
-		calculateScale();
-		// Fires changed event, if needs be
-		setValue(value);
-	}
+    /**
+     * Set the maximum value for the model, ie. the value that corresponds to
+     * the maximum representation.
+     *
+     * @param maxValue new maximum value
+     */
+    public void setMaxValue(double maxValue) {
+        this.maxValue = maxValue;
+        calculateScale();
+        // Fires changed event, if needs be
+        setValue(value);
+    }
 
-	/**
-	 * Calculate the scaling factor.
-	 */
-	private void calculateScale() {
-		scale = maxRepresentation / maxValue;
-	}
+    /**
+     * Calculate the scaling factor.
+     */
+    private void calculateScale() {
+        scale = maxRepresentation / maxValue;
+    }
 }
