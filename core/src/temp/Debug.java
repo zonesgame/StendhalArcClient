@@ -10,4 +10,6 @@ public class Debug {
 
     public static final boolean TEMP = true;
 
+    public static final boolean NOTE1 = true;
+
 }
