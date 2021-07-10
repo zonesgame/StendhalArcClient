@@ -11,9 +11,9 @@
  ***************************************************************************/
 package games.stendhal.client;
 
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Graphics;
+import arc.graphics.Color;
+import temp.java.awt.Composite;
+import temp.java.awt.Graphics;
 
 import games.stendhal.client.sprite.EmptySprite;
 import games.stendhal.client.sprite.Sprite;

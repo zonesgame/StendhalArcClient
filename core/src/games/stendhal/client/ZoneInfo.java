@@ -11,8 +11,8 @@
  ***************************************************************************/
 package games.stendhal.client;
 
-import java.awt.Color;
-import java.awt.Composite;
+import arc.graphics.Color;
+import temp.java.awt.Composite;
 
 /**
  * General information about the current zone.

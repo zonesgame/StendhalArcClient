@@ -12,7 +12,7 @@
  ***************************************************************************/
 package games.stendhal.client;
 
-import java.awt.Graphics;
+import temp.java.awt.Graphics;
 
 //
 //

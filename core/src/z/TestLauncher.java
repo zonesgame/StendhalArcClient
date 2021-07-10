@@ -19,6 +19,7 @@ import arc.math.Mathf;
 import arc.scene.ui.layout.Scl;
 import arc.util.Time;
 import arc.util.async.Threads;
+import marauroa.client.ClientFramework;
 import mindustry.Vars;
 import mindustry.core.FileTree;
 import mindustry.game.EventType;
@@ -86,7 +87,14 @@ public class TestLauncher extends ApplicationCore {
         };
 
         Shaders.init();
+
+        {
+//            UserContext userContext = new UserContext();
+//            PerceptionDispatcher perceptionDispatch = new PerceptionDispatcher();
+//            client = new StendhalClient(userContext, perceptionDispatch);
+        }
     }
+    public static ClientFramework client;
 
     @Override
     public void add(ApplicationListener module){

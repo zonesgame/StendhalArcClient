@@ -14,7 +14,6 @@ package games.stendhal.client.sprite;
 import temp.java.awt.Composite;
 import temp.java.awt.Graphics;
 
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

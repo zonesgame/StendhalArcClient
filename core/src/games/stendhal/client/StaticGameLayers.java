@@ -12,8 +12,11 @@
  ***************************************************************************/
 package games.stendhal.client;
 
-import java.awt.Graphics;
-import java.awt.geom.Rectangle2D;
+import java.util.List;
+
+import arc.z.util.ZonesAnnotate.ZAdd;
+import temp.java.awt.Graphics;
+import temp.java.awt.geom.Rectangle2D;
 
 import games.stendhal.common.CollisionDetection;
 import marauroa.common.Logger;
@@ -131,13 +134,38 @@ public class StaticGameLayers {
 	 * @param adjustLayer name of the adjustment layer
 	 * @param layers names of the layer set, starting from the bottom
 	 */
-	void drawLayers(Graphics g, final String area, final String compositeName,
+	public void drawLayers(Graphics g, final String area, final String compositeName,
 			final int x, final int y, final int width, final int height,
 			String adjustLayer, String ... layers) {
 		LayerRenderer lr = getMerged(area, compositeName, adjustLayer, layers);
 		if (lr != null) {
 			lr.draw(g, x, y, width, height);
 		}
+	}
+
+	@ZAdd
+	public void drawLayersZones(Graphics g, final String area, final String compositeName,
+								final int x, final int y, final int width, final int height,
+								String adjustLayer, String ... layers) {
+		List<TileRenderer> lr = getMergedZones(area, compositeName, adjustLayer, layers);
+		if (lr != null) {
+			for (LayerRenderer l : lr) {
+				l.draw(g, x, y, width, height);
+			}
+		}
+	}
+
+	@ZAdd
+	private List<TileRenderer> getMergedZones(String area, String compositeName,
+											  String adjustLayer, String ... layers) {
+		if (currentZone != null) {
+			if (currentZone.getName().equals(area)) {
+				return currentZone.getMergedZones(compositeName, adjustLayer, layers);
+			} else {
+				logger.warn("Trying to draw zone: " + area + ", but the current zone is: " + currentZone.getName());
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -149,7 +177,7 @@ public class StaticGameLayers {
 	 * @param width
 	 * @param height
 	 */
-	void drawWeather(Graphics g, int x, int y, int width, int height) {
+	public void drawWeather(Graphics g, int x, int y, int width, int height) {
 		if (currentZone != null) {
 			if (currentZone.getName().equals(area)) {
 				currentZone.getWeather().draw(g, x, y, width, height);

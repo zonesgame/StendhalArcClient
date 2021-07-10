@@ -11,7 +11,7 @@
  ***************************************************************************/
 package games.stendhal.client.gui.styled.cursor;
 
-import java.awt.Point;
+import temp.java.awt.Point;
 
 /**
  * An enumeration of cursors.

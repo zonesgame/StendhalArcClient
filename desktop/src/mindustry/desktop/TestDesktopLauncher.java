@@ -58,7 +58,7 @@ public class TestDesktopLauncher extends TestLauncher  implements Platform {
         try{
             Vars.loadLogger();
             new SdlApplication(new TestDesktopLauncher(arg), new SdlConfig(){{
-                title = "Mindustry";
+                title = "TestJoinServer";
 //                maximized = true;
                 depth = 0;
                 stencil = 0;

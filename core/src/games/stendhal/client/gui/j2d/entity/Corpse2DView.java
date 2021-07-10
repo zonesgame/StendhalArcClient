@@ -12,11 +12,7 @@
  ***************************************************************************/
 package games.stendhal.client.gui.j2d.entity;
 
-
-import java.awt.Graphics2D;
 import java.util.List;
-
-import javax.swing.SwingUtilities;
 
 import games.stendhal.client.IGameScreen;
 import games.stendhal.client.ZoneInfo;
@@ -26,14 +22,16 @@ import games.stendhal.client.entity.Corpse;
 import games.stendhal.client.entity.IEntity;
 import games.stendhal.client.entity.Inspector;
 import games.stendhal.client.entity.User;
-import games.stendhal.client.gui.InternalWindow;
-import games.stendhal.client.gui.InternalWindow.CloseListener;
-import games.stendhal.client.gui.SlotWindow;
+//import games.stendhal.client.gui.InternalWindow;
+//import games.stendhal.client.gui.InternalWindow.CloseListener;
+//import games.stendhal.client.gui.SlotWindow;
 import games.stendhal.client.gui.styled.cursor.StendhalCursor;
 import games.stendhal.client.gui.wt.core.WtWindowManager;
 import games.stendhal.client.sprite.Sprite;
 import games.stendhal.client.sprite.SpriteStore;
 import marauroa.common.game.RPSlot;
+import temp.Debug;
+import temp.java.awt.Graphics;
 
 /**
  * The 2D view of a corpse.
@@ -60,7 +58,7 @@ class Corpse2DView<T extends Corpse> extends Entity2DView<T> {
 	/**
 	 * The current content inspector.
 	 */
-	private volatile SlotWindow slotWindow;
+//	private volatile SlotWindow slotWindow;
 
 	/**
 	 * Has the corpse been opened once on an auto raise?
@@ -117,6 +115,9 @@ class Corpse2DView<T extends Corpse> extends Entity2DView<T> {
 		setSprite(sprite);
 
 		calculateOffset(entity, width, height);
+
+		if (Debug.TEMP)
+			;
 	}
 
 	/**
@@ -208,39 +209,41 @@ class Corpse2DView<T extends Corpse> extends Entity2DView<T> {
 		}
 		switch (at) {
 		case INSPECT:
-			boolean addListener = slotWindow == null;
-			RPSlot content = entity.getContent();
-			slotWindow = inspector.inspectMe(entity, content, slotWindow, 2, 2);
-			SlotWindow window = slotWindow;
-			if (window != null) {
-				window.setTitle(entity.getTitle());
-				window.setMinimizable(false);
-				prepareInspectAutoClose(window, entity, content);
-			}
-			/*
-			 * Register a listener for window closing so that we can
-			 * drop the reference to the closed window and let the
-			 * garbage collector claim it.
-			 */
-			if (addListener && (window != null)) {
-				window.addCloseListener(new CloseListener() {
-					@Override
-					public void windowClosed(InternalWindow window) {
-						slotWindow = null;
-					}
-				});
-			}
-			/*
-			 * In case the view got released while the window was created and
-			 * added, and before the main thread was aware that there's a window
-			 * to be closed, close it now. (onAction is called from the event
-			 * dispatch thread).
-			 */
-			if (isReleased()) {
-				if (window != null) {
-					window.close();
-				}
-			}
+			if (Debug.TEMP)
+				;
+//			boolean addListener = slotWindow == null;
+//			RPSlot content = entity.getContent();
+//			slotWindow = inspector.inspectMe(entity, content, slotWindow, 2, 2);
+//			SlotWindow window = slotWindow;
+//			if (window != null) {
+//				window.setTitle(entity.getTitle());
+//				window.setMinimizable(false);
+//				prepareInspectAutoClose(window, entity, content);
+//			}
+//			/*
+//			 * Register a listener for window closing so that we can
+//			 * drop the reference to the closed window and let the
+//			 * garbage collector claim it.
+//			 */
+//			if (addListener && (window != null)) {
+//				window.addCloseListener(new CloseListener() {
+//					@Override
+//					public void windowClosed(InternalWindow window) {
+//						slotWindow = null;
+//					}
+//				});
+//			}
+//			/*
+//			 * In case the view got released while the window was created and
+//			 * added, and before the main thread was aware that there's a window
+//			 * to be closed, close it now. (onAction is called from the event
+//			 * dispatch thread).
+//			 */
+//			if (isReleased()) {
+//				if (window != null) {
+//					window.close();
+//				}
+//			}
 			break;
 
 		default:
@@ -257,25 +260,25 @@ class Corpse2DView<T extends Corpse> extends Entity2DView<T> {
 	 * @param entity inspected entity
 	 * @param slot inspected slot
 	 */
-	private void prepareInspectAutoClose(final SlotWindow window, final IEntity entity, final RPSlot slot) {
-		entity.addContentChangeListener(new ContentChangeListener() {
-			@Override
-			public void contentAdded(RPSlot added) {
-				// Unused
-			}
-
-			@Override
-			public void contentRemoved(RPSlot removed) {
-				if (slot.size() == removed.size()) {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							window.close();
-						}
-					});
-				}
-			}
-		});
+	private void prepareInspectAutoClose(final IEntity entity, final RPSlot slot) {		// z editor  final SlotWindow window,
+//		entity.addContentChangeListener(new ContentChangeListener() {
+//			@Override
+//			public void contentAdded(RPSlot added) {
+//				// Unused
+//			}
+//
+//			@Override
+//			public void contentRemoved(RPSlot removed) {
+//				if (slot.size() == removed.size()) {
+//					SwingUtilities.invokeLater(new Runnable() {
+//						@Override
+//						public void run() {
+//							window.close();
+//						}
+//					});
+//				}
+//			}
+//		});
 	}
 
 	/**
@@ -284,15 +287,17 @@ class Corpse2DView<T extends Corpse> extends Entity2DView<T> {
 	 */
 	@Override
 	public void release() {
-		final SlotWindow window = slotWindow;
-		if (window != null) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					window.close();
-				}
-			});
-		}
+		if (Debug.TEMP)
+			;
+//		final SlotWindow window = slotWindow;
+//		if (window != null) {
+//			SwingUtilities.invokeLater(new Runnable() {
+//				@Override
+//				public void run() {
+//					window.close();
+//				}
+//			});
+//		}
 
 		super.release();
 	}
@@ -326,9 +331,12 @@ class Corpse2DView<T extends Corpse> extends Entity2DView<T> {
 	 * @see games.stendhal.client.gui.j2d.entity.Entity2DView#draw(java.awt.Graphics2D)
 	 */
 	@Override
-	public void draw(Graphics2D g2d) {
+	public void draw(Graphics g2d) {
 		super.draw(g2d);
 		autoRaiseWindowIfDesired();
+
+		if (Debug.TEMP)
+			;
 	}
 
 	/**
@@ -350,12 +358,14 @@ class Corpse2DView<T extends Corpse> extends Entity2DView<T> {
 				 * avoid messing with the component layout while drawing.
 				 * Fixes flicker in certain situations (bug #3302772).
 				 */
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						onAction(ActionType.INSPECT);
-					}
-				});
+				if (Debug.TEMP)
+					;
+//				SwingUtilities.invokeLater(new Runnable() {
+//					@Override
+//					public void run() {
+//						onAction(ActionType.INSPECT);
+//					}
+//				});
 			}
 		}
 	}

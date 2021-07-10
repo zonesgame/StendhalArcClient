@@ -13,7 +13,8 @@
 package games.stendhal.client.events;
 
 import games.stendhal.client.entity.Entity;
-import games.stendhal.client.gui.imageviewer.ItemListImageViewerEvent;
+//import games.stendhal.client.gui.imageviewer.ItemListImageViewerEvent;
+import temp.Debug;
 
 
 /**
@@ -27,6 +28,8 @@ class ShowItemListEvent extends Event<Entity> {
 	 */
 	@Override
 	public void execute() {
-		new ItemListImageViewerEvent(event).view();
+		if (Debug.TEMP)
+			;
+//		new ItemListImageViewerEvent(event).view();
 	}
 }

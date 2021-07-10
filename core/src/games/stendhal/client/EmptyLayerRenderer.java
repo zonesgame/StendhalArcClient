@@ -11,7 +11,7 @@
  ***************************************************************************/
 package games.stendhal.client;
 
-import java.awt.Graphics;
+import temp.java.awt.Graphics;
 
 import games.stendhal.client.sprite.Tileset;
 
