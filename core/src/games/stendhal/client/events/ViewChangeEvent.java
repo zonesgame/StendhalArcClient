@@ -13,23 +13,26 @@ package games.stendhal.client.events;
 
 import javax.swing.SwingUtilities;
 
-import games.stendhal.client.GameScreen;
+//import games.stendhal.client.GameScreen;
 import games.stendhal.client.entity.Entity;
+import temp.Debug;
 
 /**
  * View center changing event.
  */
 class ViewChangeEvent extends Event<Entity> {
-	@Override
-	public void execute() {
-		final int x = event.getInt("x");
-		final int y = event.getInt("y");
+    @Override
+    public void execute() {
+        final int x = event.getInt("x");
+        final int y = event.getInt("y");
 
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				GameScreen.get().positionChanged(x, y);
-			}
-		});
-	}
+        if (Debug.TEMP)
+        	;
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                GameScreen.get().positionChanged(x, y);
+//            }
+//        });
+    }
 }
