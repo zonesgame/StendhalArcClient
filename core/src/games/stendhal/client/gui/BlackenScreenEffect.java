@@ -11,8 +11,8 @@
  ***************************************************************************/
 package games.stendhal.client.gui;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import arc.graphics.Color;
+import temp.java.awt.Graphics;
 
 /**
  * An effect that turns the screen black, fading in specified duration.
@@ -33,12 +33,13 @@ public class BlackenScreenEffect extends EffectLayer {
 		Color c;
 		long time = System.currentTimeMillis();
 		if (time > timestamp + duration) {
-			c = Color.BLACK;
+			c = Color.black;
 		} else {
 			int traslucency = (int) ((timestamp  + duration - time) * 255 / duration);
 			c = new Color(0, 0, 0, alpha(255 - traslucency));
 		}
-		g.setColor(c);
-		g.fillRect(x, y, w, h);
+//		g.setColor(c);
+//		g.fillRect(x, y, w, h);
+		g.fillRect(c, x, y, w, h);
 	}
 }
