@@ -13,7 +13,8 @@
 package games.stendhal.client.events;
 
 import games.stendhal.client.entity.RPEntity;
-import games.stendhal.client.gui.group.GroupPanelController;
+import temp.Debug;
+//import games.stendhal.client.gui.group.GroupPanelController;
 
 /**
  * The player was invited or the invitation expired
@@ -26,10 +27,12 @@ class GroupInviteEvent extends Event<RPEntity> {
 	 */
 	@Override
 	public void execute() {
-		if (event.has("expire")) {
-			GroupPanelController.get().expireInvite(event.get("leader"));
-		} else {
-			GroupPanelController.get().receiveInvite(event.get("leader"));
-		}
+		if (Debug.TEMP)
+			;
+//		if (event.has("expire")) {
+//			GroupPanelController.get().expireInvite(event.get("leader"));
+//		} else {
+//			GroupPanelController.get().receiveInvite(event.get("leader"));
+//		}
 	}
 }
