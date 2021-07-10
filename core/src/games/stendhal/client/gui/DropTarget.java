@@ -12,26 +12,27 @@
  ***************************************************************************/
 package games.stendhal.client.gui;
 
-import java.awt.Point;
+import temp.java.awt.Point;
 
 import games.stendhal.client.entity.IEntity;
 
 public interface DropTarget {
-	/**
-	 * Drop an entity at a given location. Called when dragging ends.
-	 *
-	 * @param entity dropped entity
-	 * @param amount number of dropped entities. -1 in case everything in the stack
-	 * 	should be dropped
-	 * @param point location within the DropTarget
-	 */
-	void dropEntity(IEntity entity, int amount, Point point);
-	/**
-	 * Check if the DropTarget can accept a certain entity.
-	 *
-	 * @param entity entity to be checked
-	 * @return <code>true</code>, if the DropTarget can process the entity in
-	 * 	question, <code>false</code> otherwise
-	 */
-	boolean canAccept(IEntity entity);
+    /**
+     * Drop an entity at a given location. Called when dragging ends.
+     *
+     * @param entity dropped entity
+     * @param amount number of dropped entities. -1 in case everything in the stack
+     *               should be dropped
+     * @param point  location within the DropTarget
+     */
+    void dropEntity(IEntity entity, int amount, Point point);
+
+    /**
+     * Check if the DropTarget can accept a certain entity.
+     *
+     * @param entity entity to be checked
+     * @return <code>true</code>, if the DropTarget can process the entity in
+     * question, <code>false</code> otherwise
+     */
+    boolean canAccept(IEntity entity);
 }
