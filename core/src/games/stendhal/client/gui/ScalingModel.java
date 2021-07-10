@@ -11,7 +11,7 @@
  ***************************************************************************/
 package games.stendhal.client.gui;
 
-import javax.swing.event.ChangeListener;
+import temp.javax.swing.event.ChangeListener;
 
 /**
  * A model interface for values that need a representation as values [0, max],
@@ -19,29 +19,32 @@ import javax.swing.event.ChangeListener;
  * for example the length of a health bar.
  */
 public interface ScalingModel {
-	/**
-	 * Add a listener that should be notified when the representation of the
-	 * value changes.
-	 *
-	 * @param listener change listener
-	 */
-	void addChangeListener(ChangeListener listener);
-	/**
-	 * Set the internal value.
-	 *
-	 * @param value new value
-	 */
-	void setValue(double value);
-	/**
-	 * Get the representation value.
-	 *
-	 * @return representation
-	 */
-	int getRepresentation();
-	/**
-	 * Set the maximum representation value.
-	 *
-	 * @param max new maximum
-	 */
-	void setMaxRepresentation(int max);
+    /**
+     * Add a listener that should be notified when the representation of the
+     * value changes.
+     *
+     * @param listener change listener
+     */
+    void addChangeListener(ChangeListener listener);
+
+    /**
+     * Set the internal value.
+     *
+     * @param value new value
+     */
+    void setValue(double value);
+
+    /**
+     * Get the representation value.
+     *
+     * @return representation
+     */
+    int getRepresentation();
+
+    /**
+     * Set the maximum representation value.
+     *
+     * @param max new maximum
+     */
+    void setMaxRepresentation(int max);
 }
