@@ -17,6 +17,7 @@ import java.net.URL;
 import games.stendhal.client.sprite.DataLoader;
 import marauroa.common.Logger;
 import marauroa.common.game.RPEvent;
+import temp.Debug;
 
 /**
  * Opens an image in a styled internal frame with (possibly) some alternate
@@ -64,12 +65,14 @@ public final class RPEventImageViewer {
 	}
 
 	private void view() {
-		URL url = genURL();
-		if (url != null) {
-			final ViewPanel vp = new ImageViewPanel(url, caption);
-			new ImageViewWindow(title, vp);
-		} else {
-			logger.error("No such image: " + path);
-		}
+		if (Debug.TEMP)
+			;
+//		URL url = genURL();
+//		if (url != null) {
+//			final ViewPanel vp = new ImageViewPanel(url, caption);
+//			new ImageViewWindow(title, vp);
+//		} else {
+//			logger.error("No such image: " + path);
+//		}
 	}
 }
