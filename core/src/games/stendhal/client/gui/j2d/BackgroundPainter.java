@@ -11,7 +11,7 @@
  ***************************************************************************/
 package games.stendhal.client.gui.j2d;
 
-import java.awt.Graphics;
+import temp.java.awt.Graphics;
 
 import games.stendhal.client.sprite.Sprite;
 import games.stendhal.client.sprite.SpriteStore;
