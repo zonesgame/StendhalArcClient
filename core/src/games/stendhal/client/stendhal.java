@@ -33,7 +33,7 @@ import games.stendhal.client.gui.j2DClient;
 import games.stendhal.client.gui.login.LoginDialog;
 import games.stendhal.client.gui.login.Profile;
 import games.stendhal.client.gui.styled.StyledLookAndFeel;
-import games.stendhal.client.gui.styled.styles.StyleFactory;
+//import games.stendhal.client.gui.styled.styles.StyleFactory;
 import games.stendhal.client.gui.wt.core.WtWindowManager;
 import games.stendhal.client.update.ClientGameConfiguration;
 import games.stendhal.common.Debug;
@@ -266,25 +266,26 @@ public final class stendhal {
 			final PerceptionDispatcher perceptionDispatch = new PerceptionDispatcher();
 			final StendhalClient client = new StendhalClient(userContext, perceptionDispatch);
 
-			try {
-				WtWindowManager wm = WtWindowManager.getInstance();
-				String style = wm.getProperty("ui.style", "Wood (default)");
-				StyledLookAndFeel look = new StyledLookAndFeel(StyleFactory.createStyle(style));
-				UIManager.setLookAndFeel(look);
-				/*
-				 * Prevents the click event at closing a popup menu by clicking
-				 * outside it being passed to the component underneath.
-				 */
-				UIManager.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
-				int fontSize = wm.getPropertyInt("ui.font_size", 12);
-				look.setDefaultFontSize(fontSize);
-			} catch (UnsupportedLookAndFeelException e) {
-				/*
-				 * Should not happen as StyledLookAndFeel always returns true for
-				 * isSupportedLookAndFeel()
-				 */
-				logger.error("Failed to set Look and Feel", e);
-			}
+			// zones editor
+//			try {
+//				WtWindowManager wm = WtWindowManager.getInstance();
+//				String style = wm.getProperty("ui.style", "Wood (default)");
+//				StyledLookAndFeel look = new StyledLookAndFeel(StyleFactory.createStyle(style));
+//				UIManager.setLookAndFeel(look);
+//				/*
+//				 * Prevents the click event at closing a popup menu by clicking
+//				 * outside it being passed to the component underneath.
+//				 */
+//				UIManager.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
+//				int fontSize = wm.getPropertyInt("ui.font_size", 12);
+//				look.setDefaultFontSize(fontSize);
+//			} catch (UnsupportedLookAndFeelException e) {
+//				/*
+//				 * Should not happen as StyledLookAndFeel always returns true for
+//				 * isSupportedLookAndFeel()
+//				 */
+//				logger.error("Failed to set Look and Feel", e);
+//			}
 
 			UIManager.getLookAndFeelDefaults().put("ClassLoader", stendhal.class.getClassLoader());
 
