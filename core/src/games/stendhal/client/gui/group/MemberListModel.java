@@ -20,8 +20,8 @@ import java.util.Map;
 
 import javax.swing.AbstractListModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import temp.javax.swing.event.ChangeEvent;
+import temp.javax.swing.event.ChangeListener;
 
 /**
  * A <code>ListModel</code> for group members. The group leader is always kept
