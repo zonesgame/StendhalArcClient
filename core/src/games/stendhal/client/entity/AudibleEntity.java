@@ -29,89 +29,89 @@ import games.stendhal.common.math.Algebra;
  * @author silvio
  */
 abstract class AudibleEntity extends ActiveEntity {
-	private final AudibleCircleArea mAudibleArea = new AudibleCircleArea(Algebra.vecf(0, 0), 1.5f, 23);
-	private final HashMap<String, ArrayList<String>> mCategorys = new HashMap<String, ArrayList<String>>();
-	private long mWaitTime = 0;
+    private final AudibleCircleArea mAudibleArea = new AudibleCircleArea(Algebra.vecf(0, 0), 1.5f, 23);
+    private final HashMap<String, ArrayList<String>> mCategorys = new HashMap<String, ArrayList<String>>();
+    private long mWaitTime = 0;
 
-	protected void addSounds(String groupName, String categoryName, String... soundNames) {
-		ArrayList<String> soundNameList = mCategorys.get(categoryName);
-		SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
+    protected void addSounds(String groupName, String categoryName, String... soundNames) {
+        ArrayList<String> soundNameList = mCategorys.get(categoryName);
+        SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
 
-		if (soundNameList == null) {
-			soundNameList = new ArrayList<String>();
-		}
+        if (soundNameList == null) {
+            soundNameList = new ArrayList<String>();
+        }
 
-		for (String name : soundNames) {
-			if (group.loadSound(name, name + ".ogg", SoundFileType.OGG, false)) {
-				soundNameList.add(name);
-			}
-		}
+        for (String name : soundNames) {
+            if (group.loadSound(name, name + ".ogg", SoundFileType.OGG, false)) {
+                soundNameList.add(name);
+            }
+        }
 
-		if (soundNameList.size() > 0) {
-			mCategorys.put(categoryName, soundNameList);
-		}
-	}
+        if (soundNameList.size() > 0) {
+            mCategorys.put(categoryName, soundNameList);
+        }
+    }
 
-	/**
-	 * Get a random sound name from named group.
-	 *
-	 * @param groupName sound group name
-	 * @return sound name, or <code>null</code> if the group does not exist or
-	 * 	has no sounds
-	 */
-	private String getRandomSoundFromCategory(String groupName) {
-		ArrayList<String> soundNameList = mCategorys.get(groupName);
+    /**
+     * Get a random sound name from named group.
+     *
+     * @param groupName sound group name
+     * @return sound name, or <code>null</code> if the group does not exist or
+     * has no sounds
+     */
+    private String getRandomSoundFromCategory(String groupName) {
+        ArrayList<String> soundNameList = mCategorys.get(groupName);
 
-		if ((soundNameList != null) && !soundNameList.isEmpty()) {
-			return Rand.rand(soundNameList);
-		}
+        if ((soundNameList != null) && !soundNameList.isEmpty()) {
+            return Rand.rand(soundNameList);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	private String getSoundFromCategory(String groupName) {
-	    ArrayList<String> soundNameList = mCategorys.get(groupName);
+    private String getSoundFromCategory(String groupName) {
+        ArrayList<String> soundNameList = mCategorys.get(groupName);
 
-	    if ((soundNameList != null) && !soundNameList.isEmpty()) {
-	        return soundNameList.get(0);
-	    }
+        if ((soundNameList != null) && !soundNameList.isEmpty()) {
+            return soundNameList.get(0);
+        }
 
-	    return null;
-	}
+        return null;
+    }
 
-	private String getSoundFromCategory(String groupName, int index) {
-	    ArrayList<String> soundNameList = mCategorys.get(groupName);
+    private String getSoundFromCategory(String groupName, int index) {
+        ArrayList<String> soundNameList = mCategorys.get(groupName);
 
-	    if ((soundNameList != null) && !soundNameList.isEmpty()) {
-	        return soundNameList.get(index);
-	    }
+        if ((soundNameList != null) && !soundNameList.isEmpty()) {
+            return soundNameList.get(index);
+        }
 
-	    return null;
-	}
+        return null;
+    }
 
-	@Override
-	protected void onPosition(double x, double y) {
-		super.onPosition(x, y);
-		mAudibleArea.setPosition(Algebra.vecf((float) x, (float) y));
-		ClientSingletonRepository.getSound().update();
-	}
+    @Override
+    protected void onPosition(double x, double y) {
+        super.onPosition(x, y);
+        mAudibleArea.setPosition(Algebra.vecf((float) x, (float) y));
+        ClientSingletonRepository.getSound().update();
+    }
 
-	protected void playRandomSoundFromCategory(String groupName, String categoryName) {
-		SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
-		group.play(getRandomSoundFromCategory(categoryName), 0, mAudibleArea, new Time(), false, true);
-	}
+    protected void playRandomSoundFromCategory(String groupName, String categoryName) {
+        SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
+        group.play(getRandomSoundFromCategory(categoryName), 0, mAudibleArea, new Time(), false, true);
+    }
 
-	protected void playRandomSoundFromGroup(String groupName, String categoryName, long waitTimeInMilliSec) {
-		if (mWaitTime < System.currentTimeMillis() && Rand.rand(100) < 5) {
-			playRandomSoundFromCategory(groupName, categoryName);
-			mWaitTime = System.currentTimeMillis() + waitTimeInMilliSec;
-		}
-	}
+    protected void playRandomSoundFromGroup(String groupName, String categoryName, long waitTimeInMilliSec) {
+        if (mWaitTime < System.currentTimeMillis() && Rand.rand(100) < 5) {
+            playRandomSoundFromCategory(groupName, categoryName);
+            mWaitTime = System.currentTimeMillis() + waitTimeInMilliSec;
+        }
+    }
 
-	protected void playSoundFromCategory(String groupName, String categoryName) {
-	    SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
-	    group.play(getSoundFromCategory(categoryName), 0, mAudibleArea, new Time(), false, true);
-	}
+    protected void playSoundFromCategory(String groupName, String categoryName) {
+        SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
+        group.play(getSoundFromCategory(categoryName), 0, mAudibleArea, new Time(), false, true);
+    }
 
     protected void playSoundFromCategory(String groupName, String categoryName, int index) {
         SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
