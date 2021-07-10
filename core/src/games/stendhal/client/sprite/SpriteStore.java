@@ -24,6 +24,7 @@ import games.stendhal.client.gui.wt.core.WtWindowManager;
 import games.stendhal.client.sprite.TileSprite.TSRef;
 import marauroa.common.Logger;
 import stendhal.conversion.ReplaceFile;
+import temp.Debug;
 import temp.java.awt.Composite;
 
 /**
@@ -461,7 +462,10 @@ public class SpriteStore {
         }
 
 //        Texture texture = (Texture) ResourceManager.get().getResource(ref, ResourceMappingClass.TEXTURE.ordinal());
-        TextureRegion region =  (TextureRegion) Core.assets.getResource(ref, ResourceMappingClass.TEXTUREREGION.ordinal());
+        TextureRegion region = null;
+        if (Debug.NOTE1)
+            ;
+//        TextureRegion region =  (TextureRegion) Core.assets.getResource(ref, ResourceMappingClass.TEXTUREREGION.ordinal());
         region.flip(false, true);
         final Sprite sprite = new ImageSprite(region, ref);
         return sprite;
