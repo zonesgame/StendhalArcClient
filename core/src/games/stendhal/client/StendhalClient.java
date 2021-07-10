@@ -33,7 +33,7 @@ import arc.KeyBinds;
 import arc.input.KeyCode;
 import games.stendhal.client.entity.User;
 import games.stendhal.client.gui.chatlog.HeaderLessEventLine;
-import games.stendhal.client.gui.login.CharacterDialog;
+//import games.stendhal.client.gui.login.CharacterDialog;
 import games.stendhal.client.sprite.DataLoader;
 import games.stendhal.client.update.ClientGameConfiguration;
 import games.stendhal.client.update.HttpClient;
@@ -409,7 +409,7 @@ public class StendhalClient extends ClientFramework {
                 if (result.getResult().failed()) {
                     logger.error(result.getResult().getText());
                     if (Debug.TEMP)
-                    	;
+                        ;
 //                    JOptionPane.showMessageDialog(splashScreen, result.getResult().getText());
                 }
             } catch (final Exception e) {
@@ -424,7 +424,7 @@ public class StendhalClient extends ClientFramework {
                 chooseCharacter(character);
                 stendhal.setDoLogin();
                 if (Debug.TEMP)
-                	;
+                    ;
 //                if (splashScreen != null) {
 //                    splashScreen.dispose();
 //                }
@@ -435,8 +435,8 @@ public class StendhalClient extends ClientFramework {
         }
 
         // show character dialog
-		if (Debug.TEMP)
-			;
+        if (Debug.TEMP)
+            ;
 //        SwingUtilities.invokeLater(new Runnable() {
 //            @Override
 //            public void run() {
@@ -612,9 +612,9 @@ public class StendhalClient extends ClientFramework {
      *
      * @param splash first screen window
      */
-    public void setSplashScreen(Object splash) {			// default   JFrame
-    	if (Debug.TEMP)
-    		;
+    public void setSplashScreen(Object splash) {            // default   JFrame
+        if (Debug.TEMP)
+            ;
 //        splashScreen = splash;
     }
 
@@ -816,8 +816,8 @@ public class StendhalClient extends ClientFramework {
         HttpClient httpClient = new HttpClient(url);
         String message = httpClient.fetchFirstLine();
         if ((message != null) && (message.trim().length() > 0)) {
-        	if (Debug.TEMP)
-        		;
+            if (Debug.TEMP)
+                ;
 //            JOptionPane.showMessageDialog(splashScreen,
 //                    new JLabel(message), "Version Check",
 //                    JOptionPane.WARNING_MESSAGE);
@@ -868,14 +868,14 @@ public class StendhalClient extends ClientFramework {
      * @return Direction key found in pressedStateKeys list
      */
     public boolean directionKeyIsPressed() {
-		return pressedStateKeys.contains(KeyCode.UP)
-				|| pressedStateKeys.contains(KeyCode.DOWN)
-				|| pressedStateKeys.contains(KeyCode.LEFT)
-				|| pressedStateKeys.contains(KeyCode.RIGHT)
-				|| pressedStateKeys.contains(KeyCode.W)
-				|| pressedStateKeys.contains(KeyCode.S)
-				|| pressedStateKeys.contains(KeyCode.A)
-				|| pressedStateKeys.contains(KeyCode.D);
+        return pressedStateKeys.contains(KeyCode.UP)
+                || pressedStateKeys.contains(KeyCode.DOWN)
+                || pressedStateKeys.contains(KeyCode.LEFT)
+                || pressedStateKeys.contains(KeyCode.RIGHT)
+                || pressedStateKeys.contains(KeyCode.W)
+                || pressedStateKeys.contains(KeyCode.S)
+                || pressedStateKeys.contains(KeyCode.A)
+                || pressedStateKeys.contains(KeyCode.D);
 
 //        return pressedStateKeys.contains(KeyEvent.VK_UP)
 //                || pressedStateKeys.contains(KeyEvent.VK_DOWN)
