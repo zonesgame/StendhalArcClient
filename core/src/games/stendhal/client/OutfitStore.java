@@ -16,6 +16,8 @@ import static games.stendhal.common.Outfits.HATS_NO_HAIR;
 import static games.stendhal.common.Outfits.LAYER_NAMES;
 import static games.stendhal.common.Outfits.RECOLORABLE_OUTFIT_PARTS;
 
+import arc.graphics.Color;
+import temp.Debug;
 import temp.java.awt.Composite;
 import temp.java.awt.Graphics;
 
@@ -109,21 +111,23 @@ public class OutfitStore {
         }
 
         sprite = new ImageSprite(layer);
-        final Graphics g = sprite.getGraphics();
-
-        for (String lname : LAYER_NAMES) {
-            // hair is not drawn under certain hats/helmets
-            if (lname.equals("hair") && HATS_NO_HAIR.contains(layer_map.get("hat"))) {
-                continue;
-            }
-
-            if (RECOLORABLE_OUTFIT_PARTS.contains(lname)) {
-                layer = getLayerSprite(lname, layer_map.get(lname), color);
-            } else {
-                layer = getLayerSprite(lname, layer_map.get(lname));
-            }
-            layer.draw(g, 0, 0);
-        }
+//        final Graphics g = sprite.getGraphics();
+//
+//        for (String lname : LAYER_NAMES) {
+//            // hair is not drawn under certain hats/helmets
+//            if (lname.equals("hair") && HATS_NO_HAIR.contains(layer_map.get("hat"))) {
+//                continue;
+//            }
+//
+//            if (RECOLORABLE_OUTFIT_PARTS.contains(lname)) {
+//                layer = getLayerSprite(lname, layer_map.get(lname), color);
+//            } else {
+//                layer = getLayerSprite(lname, layer_map.get(lname));
+//            }
+//            layer.draw(g, 0, 0);
+//        }
+        if (Debug.NOTE1)
+            ;
 
         return sprite;
     }
@@ -282,7 +286,7 @@ public class OutfitStore {
             return getOutfit(strcode, color);
         } else {
             final String reference = buildReference(strcode, color.toString());
-            String fullRef = reference + ":" + adjColor.getRGB() + blend.toString();
+            String fullRef = reference + ":" + adjColor.toIntBits() + blend.toString();            // default adjColor.getRGB()
 
             // FIXME: set sprite to null until reference for extended outfit is fixed
             //Sprite sprite = cache.get(fullRef);
