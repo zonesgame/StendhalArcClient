@@ -12,150 +12,144 @@
  ***************************************************************************/
 package games.stendhal.client.entity;
 
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
+import temp.java.awt.Rectangle;
+import temp.java.awt.geom.Rectangle2D;
 
 import games.stendhal.client.gui.wt.core.WtWindowManager;
 import marauroa.common.game.RPObject;
 
 public class Creature extends RPEntity {
-	/**
-	 * Debug property.
-	 */
-	public static final Property PROP_DEBUG = new Property();
+    /**
+     * Debug property.
+     */
+    public static final Property PROP_DEBUG = new Property();
 
-	/**
-	 * Metamorphosis property.
-	 */
-	public static final Property PROP_METAMORPHOSIS = new Property();
+    /**
+     * Metamorphosis property.
+     */
+    public static final Property PROP_METAMORPHOSIS = new Property();
 
-	@Override
-	protected void nonCreatureClientAddEventLine(final String text) {
+    @Override
+    protected void nonCreatureClientAddEventLine(final String text) {
 
-		// no logging for Creature "sounds" in the client window
-	}
+        // no logging for Creature "sounds" in the client window
+    }
 
-	/**
-	 * The current debug info.
-	 */
-	private String debug;
+    /**
+     * The current debug info.
+     */
+    private String debug;
 
-	/**
-	 * The current metamorphosis.
-	 */
-	private String metamorphosis;
+    /**
+     * The current metamorphosis.
+     */
+    private String metamorphosis;
 
-	//
-	// Creature
-	//
+    //
+    // Creature
+    //
 
-	public String getDebug() {
-		return debug;
-	}
+    public String getDebug() {
+        return debug;
+    }
 
-	/**
-	 * Get the metamorphosis in effect.
-	 *
-	 * @return The metamorphosis, or <code>null</code>.
-	 */
-	public String getMetamorphosis() {
-		return metamorphosis;
-	}
+    /**
+     * Get the metamorphosis in effect.
+     *
+     * @return The metamorphosis, or <code>null</code>.
+     */
+    public String getMetamorphosis() {
+        return metamorphosis;
+    }
 
-	//
-	// Entity
-	//
+    //
+    // Entity
+    //
 
-	/**
-	 * Get the area the entity occupies.
-	 *
-	 * @return A rectange (in world coordinate units).
-	 */
-	@Override
-	public Rectangle2D getArea() {
-		// Hack for human like creatures
-		if ((Math.abs(getWidth() - 1.0) < 0.1)
-				&& (Math.abs(getHeight() - 2.0) < 0.1)) {
-			return new Rectangle.Double(getX(), getY() + 1.0, 1.0, 1.0);
-		}
+    /**
+     * Get the area the entity occupies.
+     *
+     * @return A rectange (in world coordinate units).
+     */
+    @Override
+    public Rectangle2D getArea() {
+        // Hack for human like creatures
+        if ((Math.abs(getWidth() - 1.0) < 0.1)
+                && (Math.abs(getHeight() - 2.0) < 0.1)) {
+            return new Rectangle.Double(getX(), getY() + 1.0, 1.0, 1.0);
+        }
 
-		return super.getArea();
-	}
+        return super.getArea();
+    }
 
-	/**
-	 * Initialize this entity for an object.
-	 *
-	 * @param object
-	 *            The object.
-	 *
-	 * @see #release()
-	 */
-	@Override
-	public void initialize(final RPObject object) {
-		super.initialize(object);
+    /**
+     * Initialize this entity for an object.
+     *
+     * @param object The object.
+     * @see #release()
+     */
+    @Override
+    public void initialize(final RPObject object) {
+        super.initialize(object);
 
-		if (object.has("metamorphosis")) {
-			metamorphosis = object.get("metamorphosis");
-		} else {
-			metamorphosis = null;
-		}
-	}
+        if (object.has("metamorphosis")) {
+            metamorphosis = object.get("metamorphosis");
+        } else {
+            metamorphosis = null;
+        }
+    }
 
 
-	//
-	// RPObjectChangeListener
-	//
+    //
+    // RPObjectChangeListener
+    //
 
-	/**
-	 * The object added/changed attribute(s).
-	 *
-	 * @param object
-	 *            The base object.
-	 * @param changes
-	 *            The changes.
-	 */
-	@Override
-	public void onChangedAdded(final RPObject object, final RPObject changes) {
-		super.onChangedAdded(object, changes);
+    /**
+     * The object added/changed attribute(s).
+     *
+     * @param object  The base object.
+     * @param changes The changes.
+     */
+    @Override
+    public void onChangedAdded(final RPObject object, final RPObject changes) {
+        super.onChangedAdded(object, changes);
 
-		/*
-		 * Debuging?
-		 */
-		if (changes.has("debug")) {
-			debug = changes.get("debug");
-			fireChange(PROP_DEBUG);
-		}
+        /*
+         * Debuging?
+         */
+        if (changes.has("debug")) {
+            debug = changes.get("debug");
+            fireChange(PROP_DEBUG);
+        }
 
-		if (changes.has("metamorphosis")) {
-			metamorphosis = object.get("metamorphosis");
-			fireChange(PROP_METAMORPHOSIS);
-		}
-	}
+        if (changes.has("metamorphosis")) {
+            metamorphosis = object.get("metamorphosis");
+            fireChange(PROP_METAMORPHOSIS);
+        }
+    }
 
-	/**
-	 * The object removed attribute(s).
-	 *
-	 * @param object
-	 *            The base object.
-	 * @param changes
-	 *            The changes.
-	 */
-	@Override
-	public void onChangedRemoved(final RPObject object, final RPObject changes) {
-		super.onChangedRemoved(object, changes);
+    /**
+     * The object removed attribute(s).
+     *
+     * @param object  The base object.
+     * @param changes The changes.
+     */
+    @Override
+    public void onChangedRemoved(final RPObject object, final RPObject changes) {
+        super.onChangedRemoved(object, changes);
 
-		if (changes.has("metamorphosis")) {
-			metamorphosis = null;
-			fireChange(PROP_METAMORPHOSIS);
-		}
-	}
+        if (changes.has("metamorphosis")) {
+            metamorphosis = null;
+            fireChange(PROP_METAMORPHOSIS);
+        }
+    }
 
-	// Called when entity says text
-	@Override
-	public void onTalk(final String text) {
-		boolean showCreatureSpeech = WtWindowManager.getInstance().getPropertyBoolean("gamescreen.creaturespeech", true);
-		if (showCreatureSpeech) {
-			super.onTalk(text);
-		}
-	}
+    // Called when entity says text
+    @Override
+    public void onTalk(final String text) {
+        boolean showCreatureSpeech = WtWindowManager.getInstance().getPropertyBoolean("gamescreen.creaturespeech", true);
+        if (showCreatureSpeech) {
+            super.onTalk(text);
+        }
+    }
 }
