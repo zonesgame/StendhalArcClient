@@ -13,8 +13,9 @@
 package games.stendhal.client.events;
 
 import games.stendhal.client.entity.RPEntity;
-import games.stendhal.client.gui.progress.ProgressLogController;
+//import games.stendhal.client.gui.progress.ProgressLogController;
 import marauroa.common.Logger;
+import temp.Debug;
 
 /**
  * adjust the quest progress view
@@ -30,17 +31,19 @@ class ProgressStatusEvent extends Event<RPEntity> {
 	@Override
 	public void execute() {
 		try {
-			if (!event.has("progress_type")) {
-				ProgressLogController.get().showCategories(event.getList("data"));
-			} else if (!event.has("item")) {
-				if (event.get("progress_type").equals("repeatable")) {
-					ProgressLogController.get().setRepeatable(event.getList("data"));
-				} else {
-					ProgressLogController.get().showCategorySummary(event.get("progress_type"), event.getList("data"));
-				}
-			} else {
-				ProgressLogController.get().showDescription(event.get("progress_type"), event.get("item"), event.get("description"), event.get("information"), event.getList("data"));
-			}
+			if (Debug.TEMP)
+				;
+//			if (!event.has("progress_type")) {
+//				ProgressLogController.get().showCategories(event.getList("data"));
+//			} else if (!event.has("item")) {
+//				if (event.get("progress_type").equals("repeatable")) {
+//					ProgressLogController.get().setRepeatable(event.getList("data"));
+//				} else {
+//					ProgressLogController.get().showCategorySummary(event.get("progress_type"), event.getList("data"));
+//				}
+//			} else {
+//				ProgressLogController.get().showDescription(event.get("progress_type"), event.get("item"), event.get("description"), event.get("information"), event.getList("data"));
+//			}
 		} catch (RuntimeException e) {
 			logger.error("Failed to process progress status. Event: " + event, e);
 		}
