@@ -12,7 +12,7 @@
  ***************************************************************************/
 package games.stendhal.client.entity;
 
-import java.awt.geom.Rectangle2D;
+import temp.java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 
