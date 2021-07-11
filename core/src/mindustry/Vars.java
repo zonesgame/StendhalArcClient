@@ -62,6 +62,7 @@ import mindustry.mod.Mods;
 import mindustry.net.BeControl;
 import mindustry.net.Net;
 import mindustry.world.blocks.defense.ForceProjector.ShieldEntity;
+import temp.Debug;
 import z.ai.units.StrategySystem;
 import z.entities.type.base.BlockUnit;
 import z.system.GroundSystem;
@@ -238,6 +239,9 @@ public class Vars implements Loadable{
 
     @Override
     public void loadAsync(){
+        if (Debug.NOTE1) {
+            return;
+        }
         loadSettings();
         init();
     }
