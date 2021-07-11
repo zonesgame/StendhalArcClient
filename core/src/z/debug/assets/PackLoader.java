@@ -16,6 +16,7 @@ import arc.graphics.Texture;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.Rect;
 import arc.struct.ObjectMap;
+import arc.util.Log;
 import arc.util.io.Streams;
 import arc.util.serialization.XmlReader;
 
