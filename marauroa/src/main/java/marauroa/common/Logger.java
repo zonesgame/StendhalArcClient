@@ -30,7 +30,7 @@ import arc.util.Log;
  *
  */
 public class Logger {
-	private static boolean gdxLog = false;
+	private static boolean gdxLog = true;
 
 	/** The log4j instance */
 //	org.apache.log4j.Logger _logger;
