@@ -17,6 +17,11 @@ import static z.debug.ZDebug.enable_editorIso;
 public class Assets {
 
     public static void debugInitRegions(TextureAtlas atlas) {
+        if (true) {
+            PackLoader.getInstance().loadAsync(Core.files.internal("stendhal/pack/tileset.c3"));
+            return;
+        }
+
         TextureRegion tempRegion = loadRegion("debug/node1/rally.png");
         atlas.addRegion("rally", tempRegion);
 //        atlas.addRegion("rally-icon", tempRegion);
