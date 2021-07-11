@@ -62,6 +62,7 @@ import mindustry.mod.Mods;
 import mindustry.net.BeControl;
 import mindustry.net.Net;
 import mindustry.world.blocks.defense.ForceProjector.ShieldEntity;
+import stendhal.test.T_ClientApplication;
 import temp.Debug;
 import z.ai.units.StrategySystem;
 import z.entities.type.base.BlockUnit;
@@ -473,4 +474,8 @@ public class Vars implements Loadable{
     /** 序列化xml配置文件数据*/
     public static XmlSerialize xmlSerialize;
     // zones add end
+
+    // develop temp data begon
+    public static T_ClientApplication clientScence;
+    // develop temp date end
 }
