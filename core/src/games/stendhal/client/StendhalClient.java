@@ -140,7 +140,7 @@ public class StendhalClient extends ClientFramework {
      * @param userContext
      * @param perceptionDispatcher
      */
-    StendhalClient(final UserContext userContext, final PerceptionDispatcher perceptionDispatcher) {
+    public StendhalClient(final UserContext userContext, final PerceptionDispatcher perceptionDispatcher) {
         super(LOG4J_PROPERTIES);
         client = this;
         ClientSingletonRepository.setClientFramework(this);
