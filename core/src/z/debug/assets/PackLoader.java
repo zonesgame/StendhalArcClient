@@ -82,6 +82,9 @@ public class PackLoader {
         }
     }
 
+    /**
+     * @param flipDir 5位方向纹理反转补齐为8位方向
+     * */
     public void loadRegions(Fi file, boolean flipDir) {
         Coding coding = Coding.ZO;
         byte[] txtbytes = ZonesAssetLoader.getZonesAssets(coding, file.readBytes());
