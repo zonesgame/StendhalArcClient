@@ -19,7 +19,7 @@ import marauroa.client.net.IPerceptionListener;
 import marauroa.common.game.RPObject;
 import marauroa.common.net.message.MessageS2CPerception;
 
-class PerceptionDispatcher implements IPerceptionListener {
+public class PerceptionDispatcher implements IPerceptionListener {
 
 	private final List<IPerceptionListener> listenerList = new LinkedList<IPerceptionListener>();
 
