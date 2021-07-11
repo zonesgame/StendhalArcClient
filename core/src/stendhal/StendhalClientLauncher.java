@@ -51,6 +51,7 @@ import mindustry.mod.Mod;
 import mindustry.mod.Mods;
 import mindustry.net.Net;
 import mindustry.ui.Fonts;
+import stendhal.test.T_ClientApplication;
 import stendhal.test.textClient;
 import z.ai.units.StrategySystem;
 import z.debug.Assets;
@@ -151,7 +152,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 //        add(renderer = new Renderer());
 //        add(ui = new UI());
 //        add(netServer = new NetServer());
-        add(netClient = new NetClient());
+//        add(netClient = new NetClient());
 //
 //        assets.load(mods);
 //        assets.load(schematics);
@@ -170,8 +171,9 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
         // zones add end
 
 
-        if (false) {
-            netClient.temp_connect();
+        if (true) {
+            add(Vars.clientScence = new T_ClientApplication());
+//            netClient.temp_connect();
 //            try {
 //                textClient.main(null);
 //            } catch (Exception e) {
