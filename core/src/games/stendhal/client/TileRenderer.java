@@ -12,6 +12,9 @@
  ***************************************************************************/
 package games.stendhal.client;
 
+import arc.graphics.g2d.Draw;
+import arc.util.Log;
+import games.stendhal.client.sprite.ImageSprite;
 import temp.java.awt.Graphics;
 
 import java.io.IOException;
