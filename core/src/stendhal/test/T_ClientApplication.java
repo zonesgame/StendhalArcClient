@@ -1,11 +1,25 @@
 package stendhal.test;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import arc.ApplicationListener;
+import arc.util.Log;
+import games.stendhal.client.ClientSingletonRepository;
+import games.stendhal.client.PerceptionDispatcher;
+import games.stendhal.client.StendhalClient;
+import games.stendhal.client.UserContext;
+import games.stendhal.client.gui.UserInterface;
+import games.stendhal.client.gui.chatlog.EventLine;
+import games.stendhal.client.gui.login.Profile;
+import games.stendhal.client.sound.facade.SoundGroup;
+import games.stendhal.client.sound.facade.SoundHandle;
+import games.stendhal.client.sound.facade.SoundSystemFacade;
+import games.stendhal.client.sound.facade.Time;
 import games.stendhal.client.stendhal;
+import games.stendhal.common.NotificationType;
 import marauroa.client.net.IPerceptionListener;
 import marauroa.client.net.PerceptionHandler;
 import marauroa.common.game.RPAction;
@@ -17,14 +31,12 @@ public class T_ClientApplication implements ApplicationListener {
 
     @Override
     public void init() {
-        callInit();
+//        callInit();
 
-        try {
-            clientManager.connect(host, Integer.parseInt(port));
-            clientManager.login(username, password);
-        } catch (final Exception e) {
-            e.printStackTrace();
-            return;
+
+
+        { //
+//            T_GameScreen render = new T_GameScreen(client);
         }
     }
 
@@ -38,7 +50,9 @@ public class T_ClientApplication implements ApplicationListener {
     }
 
 
-
+    private Map<RPObject.ID, RPObject> world_objects;
+    private marauroa.client.ClientFramework clientManager;
+    private PerceptionHandler handler;
 
     private String host;
     private String username;
@@ -46,19 +60,93 @@ public class T_ClientApplication implements ApplicationListener {
     private String character;
     private String port;
     private boolean showWorld;
-    private Map<RPObject.ID, RPObject> world_objects;
-    private marauroa.client.ClientFramework clientManager;
-    private PerceptionHandler handler;
+//    private Map<RPObject.ID, RPObject> world_objects;
+    private StendhalClient client;
+    private Profile profile;
+//    private PerceptionHandler handler;
 
     public void callInit() {
+        {   //
+            ClientSingletonRepository.setUserInterface(new UserInterface() {
+                @Override
+                public void addEventLine(EventLine line) {
+                }
+
+                @Override
+                public void addGameScreenText(double x, double y, String text, NotificationType type, boolean isTalking) {
+                }
+
+                @Override
+                public void addAchievementBox(String title, String description, String category) {
+                }
+
+                @Override
+                public SoundSystemFacade getSoundSystemFacade() {
+                    return new SoundSystemFacade() {
+                        @Override
+                        public void exit() {
+                        }
+
+                        @Override
+                        public SoundGroup getGroup(String groupName) {
+                            return null;
+                        }
+
+                        @Override
+                        public void update() {
+                        }
+
+                        @Override
+                        public void stop(SoundHandle sound, Time fadingDuration) {
+                        }
+
+                        @Override
+                        public void mute(boolean turnOffSound, boolean useFading, Time delay) {
+                        }
+
+                        @Override
+                        public float getVolume() {
+                            return 0;
+                        }
+
+                        @Override
+                        public Collection<String> getGroupNames() {
+                            return null;
+                        }
+
+                        @Override
+                        public void changeVolume(float volume) {
+                        }
+
+                        @Override
+                        public List<String> getDeviceNames() {
+                            return null;
+                        }
+
+                        @Override
+                        public void positionChanged(double x, double y) {
+                        }
+                    };
+                }
+            });
+        }
+
         username = "zonesa";
         password = "a123456";
         character = "zonesa";
         host = "stendhalgame.org";
         port = "32160";
 //        tcp = true;
+        profile = new Profile(host, Integer.parseInt(port), username, password);
+        profile.setCharacter(character);
+
+        UserContext userContext = new UserContext();
+        PerceptionDispatcher perceptionDispatch = new PerceptionDispatcher();
+        client = new StendhalClient(userContext, perceptionDispatch);
+        ClientSingletonRepository.setClientFramework(client);
 
         world_objects = new HashMap<RPObject.ID, RPObject>();
+
         handler = new PerceptionHandler(new IPerceptionListener() {
 
             @Override
@@ -209,10 +297,29 @@ public class T_ClientApplication implements ApplicationListener {
             }
         };
 
+        try {
+//            clientManager.connect(host, Integer.parseInt(port));
+//            clientManager.login(username, password);
+
+            client.connect(profile.getHost(), profile.getPort());
+
+            client.setAccountUsername(profile.getUser());
+            client.setCharacter(profile.getCharacter());
+            client.login(profile.getUser(), profile.getPassword(), profile.getSeed());
+        } catch (final Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        initOver = true;
     }
 
+    boolean initOver = false;
     public void run() {
-        clientManager.loop(0);
+        if ( !initOver) return;
+
+        client.loop(0);
+//        clientManager.loop(0);
     }
 
 }
