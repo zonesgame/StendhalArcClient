@@ -7,6 +7,8 @@ public class Debug {
     public static final boolean CONTINUE_TRADING = false && debug;
     /**开启光影混合*/
     public static final boolean COLORING_ENABLED = false && debug;
+    /** 禁用音频*/
+    public static final Boolean disableAudio = true;
 
     public static final boolean TEMP = true;
 
