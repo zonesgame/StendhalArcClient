@@ -11,6 +11,7 @@ import arc.assets.loaders.MusicLoader;
 import arc.assets.loaders.SoundLoader;
 import arc.audio.Music;
 import arc.audio.Sound;
+import arc.files.Fi;
 import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.g2d.BitmapFont;
@@ -141,6 +142,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
         {
             Vars.atlasS = TextureAtlas.blankAtlas();
             assets.load("stendhal/pack/tileset.c3", Pack.class);
+            assets.load("stendhal/pack/sprites.c3", Pack.class);
 //            PackLoader.getInstance().loadAsync(Core.files.internal("stendhal/pack/tileset.c3"));
         }
 
@@ -252,6 +254,19 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
             }
         }else{
             super.update();
+//            {
+//                Fi file = Core.files.internal("D:\\Downloads\\OneDrive\\桌面\\aa.jpg");
+//                Texture t = new Texture(file);
+//                TextureRegion region = new TextureRegion(t);
+//                region.flip(false, true);
+//                Core.graphics.clear(Color.white);
+//                Draw.proj().setOrtho(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
+//                Draw.reset();
+//
+//                Draw.rectGdx(region, 0, 0);
+//
+//                Draw.flush();
+//            }
         }
 
         int targetfps = Core.settings.getInt("fpscap", 120);
