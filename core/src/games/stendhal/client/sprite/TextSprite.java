@@ -42,8 +42,13 @@ public class TextSprite extends ImageSprite {
     @ZonesAnnotate.ZMethod
     private TextSprite(TextureRegion image, String text, Color color) {
         super(image);
-        Fonts.def.getData().setScale(0.6f);
-        fontCache = Fonts.def.getCache();
+//        {
+//            if (Fonts.def != null || Fonts.chat != null || Fonts.icon != null || Fonts.outline != null) {
+//                System.out.println((Fonts.def != null) + "  " + (Fonts.chat != null) + "  " + (Fonts.icon != null) + "  " + (Fonts.outline != null) );
+//            }
+//        }
+        Fonts.outline.getData().setScale(0.6f);
+        fontCache = Fonts.outline.getCache();
         fontCache.setColor(color);        // or 	fontCache.setColors(color, 0, text.length());
         layout = fontCache.setText(text, 0, 0);
 //		Fonts.resetGameFontScale();
