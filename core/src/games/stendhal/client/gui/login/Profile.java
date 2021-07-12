@@ -41,7 +41,7 @@ public class Profile {
 		this("", DEFAULT_SERVER_PORT, "", "");
 	}
 
-	private Profile(final String host, final int port, final String user, final String password) {
+	public Profile(final String host, final int port, final String user, final String password) {			// default private
 		this.host = host;
 		this.port = port;
 		this.user = user;
