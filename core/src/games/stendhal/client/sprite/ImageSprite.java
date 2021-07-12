@@ -162,7 +162,7 @@ public class ImageSprite implements Sprite {
         }
 
         TextureRegion newRegion = new TextureRegion(image.getTexture(), x, y, width, height);
-        newRegion.flip(false, true);
+//        newRegion.flip(false, true);
         return new ImageSprite(newRegion, ref);
     }
 
