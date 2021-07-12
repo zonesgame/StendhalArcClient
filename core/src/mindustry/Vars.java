@@ -13,6 +13,7 @@ import arc.Settings;
 import arc.assets.Loadable;
 import arc.files.Fi;
 import arc.graphics.Color;
+import arc.graphics.g2d.TextureAtlas;
 import arc.scene.ui.layout.Scl;
 import arc.struct.Array;
 import arc.util.I18NBundle;
@@ -478,4 +479,7 @@ public class Vars implements Loadable{
     // develop temp data begon
     public static T_ClientApplication clientScence;
     // develop temp date end
+
+    /** Stendhal纹理管理器*/
+    public static TextureAtlas atlasS;
 }
