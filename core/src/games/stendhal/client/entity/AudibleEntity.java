@@ -22,6 +22,7 @@ import games.stendhal.client.sound.facade.SoundGroup;
 import games.stendhal.client.sound.facade.Time;
 import games.stendhal.common.Rand;
 import games.stendhal.common.math.Algebra;
+import temp.Debug;
 
 /**
  * An entity that can make noises.
@@ -34,6 +35,8 @@ abstract class AudibleEntity extends ActiveEntity {
     private long mWaitTime = 0;
 
     protected void addSounds(String groupName, String categoryName, String... soundNames) {
+        if (Debug.disableAudio)
+            return;
         ArrayList<String> soundNameList = mCategorys.get(categoryName);
         SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
 
@@ -97,11 +100,15 @@ abstract class AudibleEntity extends ActiveEntity {
     }
 
     protected void playRandomSoundFromCategory(String groupName, String categoryName) {
+        if (Debug.disableAudio)
+            return;
         SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
         group.play(getRandomSoundFromCategory(categoryName), 0, mAudibleArea, new Time(), false, true);
     }
 
     protected void playRandomSoundFromGroup(String groupName, String categoryName, long waitTimeInMilliSec) {
+        if (Debug.disableAudio)
+            return;
         if (mWaitTime < System.currentTimeMillis() && Rand.rand(100) < 5) {
             playRandomSoundFromCategory(groupName, categoryName);
             mWaitTime = System.currentTimeMillis() + waitTimeInMilliSec;
@@ -109,11 +116,15 @@ abstract class AudibleEntity extends ActiveEntity {
     }
 
     protected void playSoundFromCategory(String groupName, String categoryName) {
+        if (Debug.disableAudio)
+            return;
         SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
         group.play(getSoundFromCategory(categoryName), 0, mAudibleArea, new Time(), false, true);
     }
 
     protected void playSoundFromCategory(String groupName, String categoryName, int index) {
+        if (Debug.disableAudio)
+            return;
         SoundGroup group = ClientSingletonRepository.getSound().getGroup(groupName);
         group.play(getSoundFromCategory(categoryName, index), 0, mAudibleArea, new Time(), false, true);
     }
