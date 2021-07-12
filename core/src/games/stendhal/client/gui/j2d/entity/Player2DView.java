@@ -13,6 +13,7 @@
 package games.stendhal.client.gui.j2d.entity;
 
 import arc.graphics.Color;
+import temp.Debug;
 import temp.java.awt.AlphaComposite;
 import temp.java.awt.Composite;
 
@@ -176,7 +177,10 @@ class Player2DView<T extends Player> extends RPEntity2DView<T> {
             outfit = store.getFailsafeOutfit();
         }
 
-        return addShadow(outfit);
+        if (Debug.NOTE1)
+            ;
+        return outfit;
+//        return addShadow(outfit);
     }
 
     @Override
