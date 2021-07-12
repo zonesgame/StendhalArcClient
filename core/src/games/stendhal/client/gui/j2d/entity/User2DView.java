@@ -18,6 +18,7 @@ import games.stendhal.client.entity.ActionType;
 import games.stendhal.client.entity.IEntity;
 import games.stendhal.client.entity.User;
 import games.stendhal.client.gui.j2DClient;
+import temp.Debug;
 
 /**
  * The 2D view of a user.
@@ -31,7 +32,9 @@ class User2DView<T extends User> extends Player2DView<T> {
 		boolean updatePosition = this.entity == null;
 		super.initialize(entity);
 		if (updatePosition) {
-			j2DClient.get().setPosition(entity.getX(), entity.getY());
+			if (Debug.NOTE1)
+				;
+//			j2DClient.get().setPosition(entity.getX(), entity.getY());
 		}
 	}
 	//
