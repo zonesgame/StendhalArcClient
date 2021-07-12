@@ -36,7 +36,7 @@ import marauroa.common.Logger;
  * be called. The manager takes care of synchronizing the relevant data between
  * those.
  */
-class EntityViewManager {
+public class EntityViewManager {
     private static final Logger logger = Logger.getLogger(EntityViewManager.class);
 
     /**
@@ -62,7 +62,7 @@ class EntityViewManager {
     /**
      * User name. Used for grabbing user owned items hack.
      */
-    private /*final*/ String userName;      // = StendhalClient.get().getCharacter();
+    private final String userName;      // = StendhalClient.get().getCharacter();
 
     @ZAdd
     public EntityViewManager() {
@@ -75,7 +75,7 @@ class EntityViewManager {
      * @param entity new entity
      * @return view belonging to the entity, or <code>null</code>
      */
-    EntityView<IEntity> addEntity(final IEntity entity) {
+    public EntityView<IEntity> addEntity(final IEntity entity) {
         final EntityView<IEntity> view = EntityViewFactory.create(entity);
 
         if (view != null) {
@@ -225,7 +225,7 @@ class EntityViewManager {
      *
      * @param entity removed entity
      */
-    void removeEntity(final IEntity entity) {
+    public void removeEntity(final IEntity entity) {
         final EntityView<IEntity> view = entities.remove(entity);
 
         if (view != null) {
@@ -249,7 +249,7 @@ class EntityViewManager {
      * Reinitialize the views of all entities. Should be called only from the
      * game loop thread.
      */
-    void resetViews() {
+    public void resetViews() {
         // * Update the coloring of the entity views. *
         for (Entry<IEntity, EntityView<IEntity>> entry : entities.entrySet()) {
             // initialize() should trigger making a new image
@@ -265,7 +265,7 @@ class EntityViewManager {
      * @param setVisibleArea inform the entities about the visible area. This
      *                       should be only done when the whole screen is drawn
      */
-    void prepareViews(Rectangle area, boolean setVisibleArea) {
+    public void prepareViews(Rectangle area, boolean setVisibleArea) {
         visibleViews.clear();
         synchronized (views) {
             for (EntityView<IEntity> view : views) {
@@ -287,7 +287,7 @@ class EntityViewManager {
      *
      * @param g graphics
      */
-    void draw(Graphics g) {
+    public void draw(Graphics g) {
         for (final EntityView<IEntity> view : visibleViews) {
             try {
                 view.draw(g);
@@ -302,7 +302,7 @@ class EntityViewManager {
      *
      * @param g graphics
      */
-    void drawTop(Graphics g) {
+    public void drawTop(Graphics g) {
         for (final EntityView<IEntity> view : visibleViews) {
             try {
                 view.drawTop(g);
