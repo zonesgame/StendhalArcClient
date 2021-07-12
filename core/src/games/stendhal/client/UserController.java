@@ -17,7 +17,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import games.stendhal.client.gui.buddies.BuddyPanelController;
+//import games.stendhal.client.gui.buddies.BuddyPanelController;
 //import games.stendhal.client.gui.stats.KarmaIndicator;
 //import games.stendhal.client.gui.stats.ManaIndicator;
 //import games.stendhal.client.gui.stats.StatsPanelController;
@@ -33,9 +33,11 @@ class UserController implements ObjectChangeListener {
     // maybe extend this
 
     public UserController() {
-        pcs.addPropertyChangeListener("buddies", BuddyPanelController.get());
-/*        pcs.addPropertyChangeListener("features", KarmaIndicator.get());
-        pcs.addPropertyChangeListener("features", ManaIndicator.get());*/
+        if (Debug.NOTE1)
+            ;
+//        pcs.addPropertyChangeListener("buddies", BuddyPanelController.get());
+//        pcs.addPropertyChangeListener("features", KarmaIndicator.get());
+//        pcs.addPropertyChangeListener("features", ManaIndicator.get());
 
         if (Debug.TEMP)
             ;
