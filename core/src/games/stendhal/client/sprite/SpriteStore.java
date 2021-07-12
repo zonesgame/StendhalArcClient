@@ -464,8 +464,9 @@ public class SpriteStore {
 //        Texture texture = (Texture) ResourceManager.get().getResource(ref, ResourceMappingClass.TEXTURE.ordinal());
 //        TextureRegion region =  (TextureRegion) Core.assets.getResource(ref, ResourceMappingClass.TEXTUREREGION.ordinal());
 //        TextureRegion region =  (TextureRegion) Core.assets.get(ref, TextureRegion.class);
-        TextureRegion region =  (TextureRegion) Vars.atlasS.find(ref);
-        region.flip(false, true);
+        TextureRegion region = Vars.atlasS.find(ref);
+//        region.flip(false, true);
+//        region.flip(true, true);
         final Sprite sprite = new ImageSprite(region, ref);
         return sprite;
     }
