@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import arc.ApplicationListener;
+import arc.Core;
+import arc.files.Fi;
+import arc.graphics.Color;
+import arc.graphics.Texture;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 import arc.util.Log;
 import games.stendhal.client.ClientSingletonRepository;
 import games.stendhal.client.PerceptionDispatcher;
@@ -29,6 +35,8 @@ import marauroa.common.net.message.TransferContent;
 
 public class T_ClientApplication implements ApplicationListener {
 
+    T_GameScreen render;
+
     @Override
     public void init() {
 //        callInit();
@@ -36,7 +44,7 @@ public class T_ClientApplication implements ApplicationListener {
 
 
         { //
-//            T_GameScreen render = new T_GameScreen(client);
+
         }
     }
 
@@ -320,6 +328,16 @@ public class T_ClientApplication implements ApplicationListener {
 
         client.loop(0);
 //        clientManager.loop(0);
+
+        Core.graphics.clear(Color.white);
+        Draw.proj().setOrtho(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
+        Draw.reset();
+
+        if (render == null)
+            render = new T_GameScreen(client);
+        render.draw();
+
+        Draw.flush();
     }
 
 }
