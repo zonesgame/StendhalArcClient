@@ -103,7 +103,8 @@ class NPC2DView<T extends NPC> extends RPEntity2DView<T> {
 					info.getZoneColor(), info.getColorMethod());
 		}
 
-		return addShadow(sprite);
+		return sprite;
+//		return addShadow(sprite);
 	}
 
 	@Override
