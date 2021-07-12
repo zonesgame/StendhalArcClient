@@ -10,7 +10,8 @@ public enum ResourceMappingClass {
 
     PIXMAP,
     TEXTURE,
-    TEXTURE_LINEAR,
+        /** 纹理扩展， 绘制配置设置*/
+        TEXTURE_LINEAR,
     TEXTUREREGION,
     TEXTUREATLAS,
     SOUND,
