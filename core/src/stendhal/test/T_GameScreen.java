@@ -1,5 +1,6 @@
 package stendhal.test;
 
+import arc.util.Log;
 import games.stendhal.client.StaticGameLayers;
 import games.stendhal.client.StendhalClient;
 import temp.java.awt.Graphics2D;
@@ -10,8 +11,14 @@ public class T_GameScreen {
 
     private Graphics2D _batch;
 
+    public T_GameScreen() {
+        gameLayers = new StaticGameLayers();
+    }
+
     public T_GameScreen(StendhalClient client) {
         gameLayers = client.getStaticGameLayers();
+        if (gameLayers != null)
+            Log.info(gameLayers.getWidth() + "    " + gameLayers.getAreaName() + "   " );
     }
 
     public void draw() {
