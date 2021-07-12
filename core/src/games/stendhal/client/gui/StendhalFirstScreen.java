@@ -66,7 +66,7 @@ public class StendhalFirstScreen extends JFrame {
 
 	static {
 		// This is the initial window, when loaded at all.
-		Initializer.init();
+//		Initializer.init();
 	}
 
 	/**
