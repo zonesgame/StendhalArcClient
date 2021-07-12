@@ -18,8 +18,10 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.SpriteBatch;
 import arc.graphics.g2d.TextureAtlas;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Scl;
+import arc.struct.Array;
 import arc.util.Align;
 import arc.util.Log;
 import arc.util.Time;
@@ -53,8 +55,11 @@ import mindustry.net.Net;
 import mindustry.ui.Fonts;
 import stendhal.test.T_ClientApplication;
 import stendhal.test.textClient;
+import utils.assets.Pack;
+import utils.assets.ResourceManager;
 import z.ai.units.StrategySystem;
 import z.debug.Assets;
+import z.debug.assets.PackLoader;
 import z.system.GroundSystem;
 import z.system.ItemsSystem;
 import z.system.TroopsSystem;
@@ -108,7 +113,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
         });
 
         batch = new SpriteBatch();
-        assets = new AssetManager();
+        assets = new ResourceManager();     // default new AssetManager();
 //        assets.setLoader(Texture.class, "." + mapExtension, new MapPreviewLoader());
 
         tree = new FileTree();
@@ -130,9 +135,14 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
             atlas = (TextureAtlas)t;
             Fonts.mergeFontAtlas(atlas);
             {   // zones add function
-                Assets.debugInitRegions(atlas);
+//                Assets.debugInitRegions(atlas);
             }
         };
+        {
+            Vars.atlasS = TextureAtlas.blankAtlas();
+            assets.load("stendhal/pack/tileset.c3", Pack.class);
+//            PackLoader.getInstance().loadAsync(Core.files.internal("stendhal/pack/tileset.c3"));
+        }
 
 //        assets.loadRun("maps", Map.class, () -> maps.loadPreviews());
 
@@ -226,6 +236,19 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
                 // zones add end
                 super.resize(graphics.getWidth(), graphics.getHeight());
                 app.post(() -> app.post(() -> app.post(() -> app.post(() -> super.resize(graphics.getWidth(), graphics.getHeight())))));
+
+                {   // print assets path
+                    Vars.clientScence.callInit();
+//                    Array<TextureRegion> regions = assets.getAll(TextureRegion.class, new Array<TextureRegion>());
+//                    for (String keyname : assets.getAssetNames()) {
+//                        Log.info("____  " + keyname);
+//                    }
+//                    for (TextureAtlas.AtlasRegion region : Vars.atlasS.getRegions()) {
+//                        if (region.name.contains("fireplace_2.png")) {
+//                            Log.info(region.name + "______________");
+//                        }
+//                    }
+                }
             }
         }else{
             super.update();
