@@ -51,7 +51,7 @@ public class j2DClient implements UserInterface {
 	static {
 		// This is potentially the first loaded GUI component (happens when
 		// using web start)
-		Initializer.init();
+//		Initializer.init();
 	}
 	/** the logger instance. */
 	private static final Logger logger = Logger.getLogger(j2DClient.class);
