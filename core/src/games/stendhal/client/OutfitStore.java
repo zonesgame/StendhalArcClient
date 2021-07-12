@@ -17,6 +17,8 @@ import static games.stendhal.common.Outfits.LAYER_NAMES;
 import static games.stendhal.common.Outfits.RECOLORABLE_OUTFIT_PARTS;
 
 import arc.graphics.Color;
+import arc.struct.Array;
+import games.stendhal.client.sprite.QueueSprite;
 import temp.Debug;
 import temp.java.awt.Composite;
 import temp.java.awt.Graphics;
@@ -111,25 +113,31 @@ public class OutfitStore {
         }
 
         sprite = new ImageSprite(layer);
+//        ----------------------------------
 //        final Graphics g = sprite.getGraphics();
-//
-//        for (String lname : LAYER_NAMES) {
-//            // hair is not drawn under certain hats/helmets
-//            if (lname.equals("hair") && HATS_NO_HAIR.contains(layer_map.get("hat"))) {
-//                continue;
-//            }
-//
-//            if (RECOLORABLE_OUTFIT_PARTS.contains(lname)) {
-//                layer = getLayerSprite(lname, layer_map.get(lname), color);
-//            } else {
-//                layer = getLayerSprite(lname, layer_map.get(lname));
-//            }
+        Array<Sprite> spriteArr = new Array<>();
+        spriteArr.add(layer);
+
+        for (String lname : LAYER_NAMES) {
+            // hair is not drawn under certain hats/helmets
+            if (lname.equals("hair") && HATS_NO_HAIR.contains(layer_map.get("hat"))) {
+                continue;
+            }
+
+            if (RECOLORABLE_OUTFIT_PARTS.contains(lname)) {
+                layer = getLayerSprite(lname, layer_map.get(lname), color);
+            } else {
+                layer = getLayerSprite(lname, layer_map.get(lname));
+            }
+            spriteArr.add(layer);
 //            layer.draw(g, 0, 0);
-//        }
+        }
+//        ---------------------------
         if (Debug.NOTE1)
             ;
 
-        return sprite;
+        return new QueueSprite(spriteArr);
+//        return sprite;
     }
 
     /**
