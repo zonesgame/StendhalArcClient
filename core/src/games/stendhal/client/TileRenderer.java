@@ -114,7 +114,8 @@ class TileRenderer extends LayerRenderer {
         final int endX = Math.min(x + w, getWidth());
         final int endY = Math.min(y + h, getHeight());
 
-        int sy = y * IGameScreen.SIZE_UNIT_PIXELS;
+//        int sy = y * IGameScreen.SIZE_UNIT_PIXELS;            // default
+        int sy = (height - y - 1) * IGameScreen.SIZE_UNIT_PIXELS;
         for (int j = y; j < endY; j++) {
             int mapidx = (j * width) + x;
             int sx = x * IGameScreen.SIZE_UNIT_PIXELS;
@@ -124,7 +125,8 @@ class TileRenderer extends LayerRenderer {
                 mapidx++;
                 sx += IGameScreen.SIZE_UNIT_PIXELS;
             }
-            sy += IGameScreen.SIZE_UNIT_PIXELS;
+//            sy += IGameScreen.SIZE_UNIT_PIXELS;               // default
+            sy -= IGameScreen.SIZE_UNIT_PIXELS;
         }
     }
 }
