@@ -12,6 +12,7 @@ import arc.assets.loaders.SoundLoader;
 import arc.audio.Music;
 import arc.audio.Sound;
 import arc.files.Fi;
+import arc.graphics.Camera;
 import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.g2d.BitmapFont;
@@ -48,6 +49,7 @@ import mindustry.game.EventType.ClientLoadEvent;
 import mindustry.gen.Musics;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Pal;
+import mindustry.graphics.Shaders;
 import mindustry.maps.Map;
 import mindustry.maps.MapPreviewLoader;
 import mindustry.mod.Mod;
@@ -192,6 +194,9 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 //                e.printStackTrace();
 //            }
         }
+
+        Core.camera = new Camera();
+        Shaders.init();
     }
 
     @Override
