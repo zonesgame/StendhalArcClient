@@ -66,7 +66,7 @@ public class j2DClient implements UserInterface {
 /*	private final NotificationChannelManager channelManager = new NotificationChannelManager();*/
 
 	private User lastuser;
-	private final PositionChangeMulticaster positionChangeListener = new PositionChangeMulticaster();
+	public final PositionChangeMulticaster positionChangeListener = new PositionChangeMulticaster();			// default private
 	private /*final*/ J2DClientGUI gui;
 	/**
 	 * The stendhal client.
@@ -100,7 +100,9 @@ public class j2DClient implements UserInterface {
 
 		@Override
 		public void onSynced() {
-			gui.setOffline(false);
+			if (temp.Debug.TEMP)
+				;
+//			gui.setOffline(false);
 			times = 0;
 			logger.debug("Synced with server state.");
 			addEventLine(new HeaderLessEventLine("Synchronized",
@@ -330,12 +332,16 @@ public class j2DClient implements UserInterface {
 	@Override
 	public void addGameScreenText(final double x, final double y, final String text, final NotificationType type,
 			final boolean isTalking) {
-		gui.addGameScreenText(x, y, text, type, isTalking);
+		if (temp.Debug.TEMP)
+			;
+//		gui.addGameScreenText(x, y, text, type, isTalking);
 	}
 
 	@Override
 	public void addAchievementBox(String title, String description, String category) {
-		gui.addAchievementBox(title, description, category);
+		if (temp.Debug.TEMP)
+			;
+//		gui.addAchievementBox(title, description, category);
 	}
 
 	/**
