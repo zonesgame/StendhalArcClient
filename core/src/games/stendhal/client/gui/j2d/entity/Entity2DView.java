@@ -13,6 +13,8 @@
 package games.stendhal.client.gui.j2d.entity;
 
 import arc.graphics.Color;
+import games.stendhal.client.StendhalClient;
+import temp.Debug;
 import temp.java.awt.AlphaComposite;
 import temp.java.awt.Composite;
 import temp.java.awt.Graphics;
@@ -489,7 +491,10 @@ public abstract class Entity2DView<T extends IEntity> implements EntityView<T> {
      */
     @Override
     public Rectangle getArea() {
-        area.setBounds(getX() + getXOffset(), getY() + getYOffset(), getWidth(), getHeight());
+        if (Debug.NOTE1) {
+            area.setBounds(getX() + getXOffset(), (int)(StendhalClient.get().getStaticGameLayers().getHeight() * 32f - (getY() + getYOffset()) - getHeight()), getWidth(), getHeight());
+        }
+//        area.setBounds(getX() + getXOffset(), getY() + getYOffset(), getWidth(), getHeight());
         return area;
     }
 
