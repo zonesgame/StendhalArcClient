@@ -12,14 +12,18 @@ import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
+import arc.math.geom.Vec2;
 import arc.util.Log;
 import games.stendhal.client.ClientSingletonRepository;
 import games.stendhal.client.PerceptionDispatcher;
 import games.stendhal.client.StendhalClient;
 import games.stendhal.client.UserContext;
+import games.stendhal.client.gui.J2DClientGUI;
 import games.stendhal.client.gui.UserInterface;
 import games.stendhal.client.gui.chatlog.EventLine;
+import games.stendhal.client.gui.j2DClient;
 import games.stendhal.client.gui.login.Profile;
+import games.stendhal.client.listener.PositionChangeListener;
 import games.stendhal.client.sound.facade.SoundGroup;
 import games.stendhal.client.sound.facade.SoundHandle;
 import games.stendhal.client.sound.facade.SoundSystemFacade;
@@ -32,6 +36,8 @@ import marauroa.common.game.RPAction;
 import marauroa.common.game.RPObject;
 import marauroa.common.net.message.MessageS2CPerception;
 import marauroa.common.net.message.TransferContent;
+
+import static arc.Core.camera;
 
 public class T_ClientApplication implements ApplicationListener {
 
@@ -319,6 +325,18 @@ public class T_ClientApplication implements ApplicationListener {
             return;
         }
 
+        j2DClient locclient = new j2DClient(client, userContext, null);
+        perceptionDispatch.register(locclient.getPerceptionListener());
+
+        j2DClient.get().positionChangeListener.add(new PositionChangeListener() {
+            @Override
+            public void positionChanged(double x, double y) {
+                camera.position.lerpDelta(new Vec2((float)x * 32f, (float)((StendhalClient.get().getStaticGameLayers().getHeight() - y - 1) * 32f)), 0.8f);
+            }
+        });
+
+        Core.input.addProcessor(new T_InputHandler());
+
         initOver = true;
     }
 
@@ -329,12 +347,19 @@ public class T_ClientApplication implements ApplicationListener {
         client.loop(0);
 //        clientManager.loop(0);
 
-        Core.graphics.clear(Color.white);
-        Draw.proj().setOrtho(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
-        Draw.reset();
+        float zoom = 1f;
+        camera.resize(Core.graphics.getWidth() * zoom, Core.graphics.getHeight() * zoom);
 
-        if (render == null)
+        Core.graphics.clear(Color.white);
+//        Draw.proj(Core.camera.projection());
+        Draw.reset();
+        Draw.proj(camera.projection());
+//        Draw.proj().setOrtho(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
+
+
+        if (render == null) {
             render = new T_GameScreen(client);
+        }
         render.draw();
 
         Draw.flush();
