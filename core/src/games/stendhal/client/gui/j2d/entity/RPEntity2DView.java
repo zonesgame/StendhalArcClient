@@ -643,7 +643,7 @@ abstract class RPEntity2DView<T extends RPEntity> extends ActiveEntity2DView<T> 
     protected Sprite addShadow(final Sprite sprite) {
         if (temp.Debug.TEMP)
             ;
-        return null;
+        return sprite;
 
 //        final boolean draw_shadows = WtWindowManager.getInstance().getProperty("gamescreen.shadows", "true").equals("true");
 //
