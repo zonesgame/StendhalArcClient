@@ -130,7 +130,7 @@ public class PerceptionDispatcher implements IPerceptionListener {
 
 	}
 
-	void register(final IPerceptionListener listener) {
+	public void register(final IPerceptionListener listener) {
 		listenerList.add(listener);
 
 	}
