@@ -48,7 +48,6 @@ public class T_ClientApplication implements ApplicationListener {
 //        callInit();
 
 
-
         { //
 
         }
