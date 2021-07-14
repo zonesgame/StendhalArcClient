@@ -117,7 +117,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 
         batch = new SpriteBatch();
         assets = new ResourceManager();     // default new AssetManager();
-//        assets.setLoader(Texture.class, "." + mapExtension, new MapPreviewLoader());
+        assets.setLoader(Texture.class, "." + mapExtension, new MapPreviewLoader());
 
         tree = new FileTree();
         assets.setLoader(Sound.class, new SoundLoader(tree));
@@ -125,8 +125,8 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 
         assets.load("sprites/error.png", Texture.class);
         atlas = TextureAtlas.blankAtlas();
-        Vars.net = new Net(platform.getNet());
-        mods = new Mods();
+//        Vars.net = new Net(platform.getNet());
+//        mods = new Mods();
 
         Fonts.loadSystemCursors();
 
@@ -162,9 +162,9 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 //        });
 
 //        add(logic = new Logic());
-//        add(control = new Control());
+        add(control = new Control());
 //        add(renderer = new Renderer());
-//        add(ui = new UI());
+        add(ui = new UI());
 //        add(netServer = new NetServer());
 //        add(netClient = new NetClient());
 //
@@ -186,7 +186,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 
 
         if (true) {
-            add(Vars.clientScence = new T_ClientApplication());
+//            add(Vars.clientScence = new T_ClientApplication());
 //            netClient.temp_connect();
 //            try {
 //                textClient.main(null);
@@ -230,12 +230,12 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
                 for(ApplicationListener listener : modules){
                     listener.init();
                 }
-                mods.eachClass(Mod::init);
+//                mods.eachClass(Mod::init);
                 finished = true;
     /*            Events.fire(new ClientLoadEvent());*/
                 // zones add begon
                 {
-                    Events.fire(new EventType.ClearCacheEvent());
+//                    Events.fire(new EventType.ClearCacheEvent());
 //                    if(systemGround == null) systemGround = new GroundSystem();
 //                    if(systemWorker == null) systemWorker = new WorkerSystem();
 //                    if(systemItems == null) systemItems = new ItemsSystem();
@@ -291,7 +291,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
     public void init(){
         setup();
         // zones add begon
-        Assets.initSprites();
+//        Assets.initSprites();
         // zones add end
     }
 
