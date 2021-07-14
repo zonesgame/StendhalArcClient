@@ -64,7 +64,6 @@ import mindustry.net.BeControl;
 import mindustry.net.Net;
 import mindustry.world.blocks.defense.ForceProjector.ShieldEntity;
 import stendhal.test.T_ClientApplication;
-import temp.Debug;
 import z.ai.units.StrategySystem;
 import z.entities.type.base.BlockUnit;
 import z.system.GroundSystem;
@@ -241,11 +240,8 @@ public class Vars implements Loadable{
 
     @Override
     public void loadAsync(){
-        if (Debug.NOTE1) {
-            return;
-        }
-        loadSettings();
-        init();
+//        loadSettings();
+//        init();
     }
 
     public static void init(){
@@ -476,10 +472,11 @@ public class Vars implements Loadable{
     public static XmlSerialize xmlSerialize;
     // zones add end
 
+
+
     // develop temp data begon
     public static T_ClientApplication clientScence;
     // develop temp date end
-
     /** Stendhal纹理管理器*/
     public static TextureAtlas atlasS;
 }
