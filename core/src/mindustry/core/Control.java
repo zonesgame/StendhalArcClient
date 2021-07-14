@@ -402,11 +402,14 @@ public class Control implements ApplicationListener, Loadable{
 
     @Override
     public void dispose(){
-//        content.dispose();
-//        net.dispose();
-//        Musics.dispose();
-//        Sounds.dispose();
-//        ui.editor.dispose();
+        if (Debug.TEMP) {
+            return;
+        }
+        content.dispose();
+        net.dispose();
+        Musics.dispose();
+        Sounds.dispose();
+        ui.editor.dispose();
     }
 
     @Override
