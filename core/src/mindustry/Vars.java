@@ -242,6 +242,7 @@ public class Vars implements Loadable{
     @Override
     public void loadAsync(){
         if (Debug.TEMP) {
+            loadSettings();
             return;
         }
         loadSettings();
