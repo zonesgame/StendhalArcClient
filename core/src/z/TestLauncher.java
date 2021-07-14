@@ -19,7 +19,6 @@ import arc.math.Mathf;
 import arc.scene.ui.layout.Scl;
 import arc.util.Time;
 import arc.util.async.Threads;
-import marauroa.client.ClientFramework;
 import mindustry.Vars;
 import mindustry.core.FileTree;
 import mindustry.game.EventType;
@@ -87,14 +86,7 @@ public class TestLauncher extends ApplicationCore {
         };
 
         Shaders.init();
-
-        {
-//            UserContext userContext = new UserContext();
-//            PerceptionDispatcher perceptionDispatch = new PerceptionDispatcher();
-//            client = new StendhalClient(userContext, perceptionDispatch);
-        }
     }
-    public static ClientFramework client;
 
     @Override
     public void add(ApplicationListener module){
@@ -173,9 +165,9 @@ public class TestLauncher extends ApplicationCore {
         Draw.proj().setOrtho(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
 
         if (true) {
-            TextureRegion region = new TextureRegion(new Texture("debug/gui/items/item-wine.png"));
-            float x = 00;
-            float y = 00;
+            TextureRegion region = new TextureRegion(new Texture("C:\\Users\\zones\\Desktop\\409-1.png"));
+            float x = 200;
+            float y = 200;
 
 //            Draw.shader(diablo);
 //            diablo.setPalette(null);
