@@ -245,7 +245,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
                 app.post(() -> app.post(() -> app.post(() -> app.post(() -> super.resize(graphics.getWidth(), graphics.getHeight())))));
 
                 {   // print assets path
-                    Vars.clientScence.callInit();
+//                    Vars.clientScence.callInit();
 //                    Array<TextureRegion> regions = assets.getAll(TextureRegion.class, new Array<TextureRegion>());
 //                    for (String keyname : assets.getAssetNames()) {
 //                        Log.info("____  " + keyname);
