@@ -58,6 +58,7 @@ import mindustry.ui.dialogs.FloatingDialog;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.storage.CoreBlock;
+import temp.Debug;
 import z.debug.ZDebug;
 
 import static arc.Core.app;
@@ -256,7 +257,8 @@ public class Control implements ApplicationListener, Loadable{
 
         Core.input.setCatch(KeyCode.BACK, true);
 
-        data.load();
+        if (data != null)
+            data.load();
 
         Core.settings.defaults(
         "ip", "localhost",
@@ -265,9 +267,11 @@ public class Control implements ApplicationListener, Loadable{
         "lastBuild", 0
         );
 
-        createPlayer();
+        if ( !Debug.TEMP)
+            createPlayer();
 
-        saves.load();
+        if ( !Debug.TEMP)
+            saves.load();
     }
 
     void createPlayer(){
@@ -398,11 +402,11 @@ public class Control implements ApplicationListener, Loadable{
 
     @Override
     public void dispose(){
-        content.dispose();
-        net.dispose();
-        Musics.dispose();
-        Sounds.dispose();
-        ui.editor.dispose();
+//        content.dispose();
+//        net.dispose();
+//        Musics.dispose();
+//        Sounds.dispose();
+//        ui.editor.dispose();
     }
 
     @Override
