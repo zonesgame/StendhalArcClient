@@ -16,6 +16,7 @@ import mindustry.graphics.*;
 import mindustry.net.*;
 import mindustry.net.Packets.*;
 import mindustry.ui.*;
+import temp.Debug;
 
 import static mindustry.Vars.*;
 
@@ -216,10 +217,10 @@ public class JoinDialog extends FloatingDialog{
             versionString = Core.bundle.get("server.outdated");
         }else if(host.version < Version.build && Version.build != -1){
             versionString = Core.bundle.get("server.outdated") + "\n" +
-            Core.bundle.format("server.version", host.version, "");
+                    Core.bundle.format("server.version", host.version, "");
         }else if(host.version > Version.build && Version.build != -1){
             versionString = Core.bundle.get("server.outdated.client") + "\n" +
-            Core.bundle.format("server.version", host.version, "");
+                    Core.bundle.format("server.version", host.version, "");
         }else if(host.version == Version.build && Version.type.equals(host.versionType)){
             //not important
             versionString = "";
@@ -328,7 +329,8 @@ public class JoinDialog extends FloatingDialog{
         local.clear();
         local.background(null);
         local.table(Tex.button, t -> t.label(() -> "[accent]" + Core.bundle.get("hosts.discovering.any") + Strings.animated(Time.time(), 4, 10f, ".")).pad(10f)).growX();
-        net.discoverServers(this::addLocalHost, this::finishLocalHosts);
+        if ( !Debug.NOTE2)
+            net.discoverServers(this::addLocalHost, this::finishLocalHosts);
     }
 
     void refreshGlobal(){
@@ -367,7 +369,7 @@ public class JoinDialog extends FloatingDialog{
         local.row();
 
         TextButton button = local.addButton("", Styles.cleart, () -> safeConnect(host.address, host.port, host.version))
-        .width(w).pad(5f).get();
+                .width(w).pad(5f).get();
         button.clearChildren();
         buildServer(host, button);
     }
@@ -379,7 +381,7 @@ public class JoinDialog extends FloatingDialog{
         global.row();
 
         TextButton button = global.addButton("", Styles.cleart, () -> safeConnect(host.address, host.port, host.version))
-        .width(w).pad(5f).get();
+                .width(w).pad(5f).get();
         button.clearChildren();
         buildServer(host, button);
     }
@@ -411,7 +413,7 @@ public class JoinDialog extends FloatingDialog{
     void safeConnect(String ip, int port, int version){
         if(version != Version.build && Version.build != -1 && version != -1){
             ui.showInfo("[scarlet]" + (version > Version.build ? KickReason.clientOutdated : KickReason.serverOutdated).toString() + "\n[]" +
-            Core.bundle.format("server.versions", Version.build, version));
+                    Core.bundle.format("server.versions", Version.build, version));
         }else{
             connect(ip, port);
         }
