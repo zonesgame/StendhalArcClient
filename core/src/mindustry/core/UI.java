@@ -28,6 +28,7 @@ import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.*;
+import temp.Debug;
 import z.ui.dialogs.SettingInfoDialog;
 
 import static arc.scene.actions.Actions.*;
@@ -146,7 +147,7 @@ public class UI implements ApplicationListener, Loadable{
         }
 
         //draw overlay for buttons
-        if(state.rules.tutorial){
+        if( !Debug.NOTE1 && state.rules.tutorial){
             control.tutorial.draw();
             Draw.flush();
         }
@@ -159,33 +160,33 @@ public class UI implements ApplicationListener, Loadable{
 
         menufrag = new MenuFragment();
         hudfrag = new HudFragment();
-        chatfrag = new ChatFragment();
-        minimapfrag = new MinimapFragment();
+//        chatfrag = new ChatFragment();
+//        minimapfrag = new MinimapFragment();
         listfrag = new PlayerListFragment();
         loadfrag = new LoadingFragment();
-        scriptfrag = new ScriptConsoleFragment();
+//        scriptfrag = new ScriptConsoleFragment();
 
         picker = new ColorPicker();
         editor = new MapEditorDialog();
-        controls = new ControlsDialog();
+//        controls = new ControlsDialog();
         restart = new GameOverDialog();
-        join = new JoinDialog();
+//        join = new JoinDialog();
         discord = new DiscordDialog();
         load = new LoadDialog();
         custom = new CustomGameDialog();
-        language = new LanguageDialog();
+//        language = new LanguageDialog();
         database = new DatabaseDialog();
-        settings = new SettingsMenuDialog();
+//        settings = new SettingsMenuDialog();
         host = new HostDialog();
         paused = new PausedDialog();
         about = new AboutDialog();
-        bans = new BansDialog();
-        admins = new AdminsDialog();
+//        bans = new BansDialog();
+//        admins = new AdminsDialog();
         traces = new TraceDialog();
         maps = new MapsDialog();
         content = new ContentInfoDialog();
-        deploy = new DeployDialog();
-        tech = new TechTreeDialog();
+//        deploy = new DeployDialog();
+//        tech = new TechTreeDialog();
         mods = new ModsDialog();
         schematics = new SchematicsDialog();
         // zones add begon
@@ -196,20 +197,21 @@ public class UI implements ApplicationListener, Loadable{
 
         menuGroup.setFillParent(true);
         menuGroup.touchable(Touchable.childrenOnly);
-        menuGroup.visible(() -> state.is(State.menu));
+        menuGroup.visible(Debug.NOTE1 || true);
+//        menuGroup.visible(() -> state.is(State.menu));
         hudGroup.setFillParent(true);
         hudGroup.touchable(Touchable.childrenOnly);
-        hudGroup.visible(() -> !state.is(State.menu));
+//        hudGroup.visible(() -> !state.is(State.menu));
 
         Core.scene.add(menuGroup);
         Core.scene.add(hudGroup);
 
-        hudfrag.build(hudGroup);
+//        hudfrag.build(hudGroup);
         menufrag.build(menuGroup);
-        chatfrag.container().build(hudGroup);
-        minimapfrag.build(hudGroup);
-        listfrag.build(hudGroup);
-        scriptfrag.container().build(hudGroup);
+//        chatfrag.container().build(hudGroup);
+//        minimapfrag.build(hudGroup);
+//        listfrag.build(hudGroup);
+//        scriptfrag.container().build(hudGroup);
         loadfrag.build(group);
         new FadeInFragment().build(group);
     }
