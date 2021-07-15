@@ -9,6 +9,7 @@ import arc.util.ArcAnnotate.*;
 import mindustry.core.GameState.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
+import temp.Debug;
 
 import static mindustry.Vars.*;
 
@@ -51,7 +52,7 @@ public class MusicControl{
     public void update(){
         if(state.is(State.menu)){
             silenced = false;
-            if(ui.deploy.isShown()){
+            if( !Debug.NOTE2 && ui.deploy.isShown()){
                 play(Musics.launch);
             }else if(ui.editor.isShown()){
                 play(Musics.editor);
