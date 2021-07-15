@@ -16,23 +16,24 @@ import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
+import temp.Debug;
 
 import static mindustry.Vars.*;
 
 public class MenuFragment extends Fragment{
     private Table container, submenu;
     private Button currentMenu;
-    private MenuRenderer renderer;
+//    private MenuRenderer renderer;
 
     public MenuFragment(){
         Events.on(DisposeEvent.class, event -> {
-            renderer.dispose();
+//            renderer.dispose();
         });
     }
 
     @Override
     public void build(Group parent){
-        renderer = new MenuRenderer();
+//        renderer = new MenuRenderer();
 
         Group group = new WidgetGroup();
         group.setFillParent(true);
@@ -41,7 +42,7 @@ public class MenuFragment extends Fragment{
 
         parent = group;
 
-        parent.fill((x, y, w, h) -> renderer.render());
+//        parent.fill((x, y, w, h) -> renderer.render());
 
         parent.fill(c -> {
             container = c;
@@ -59,7 +60,7 @@ public class MenuFragment extends Fragment{
         if(mobile){
             parent.fill(c -> c.bottom().left().addButton("", Styles.infot, ui.about::show).size(84, 45));
             parent.fill(c -> c.bottom().right().addButton("", Styles.discordt, ui.discord::show).size(84, 45));
-        }else if(becontrol.active()){
+        }else if( !Debug.NOTE1 && becontrol.active()){
             parent.fill(c -> c.bottom().right().addImageTextButton("$be.check", Icon.refresh, () -> {
                 ui.loadfrag.show();
                 becontrol.checkUpdate(result -> {
@@ -164,21 +165,36 @@ public class MenuFragment extends Fragment{
             t.defaults().width(width).height(70f);
 
             buttons(t,
-                new Buttoni("$play", Icon.play,
-                    new Buttoni("$campaign", Icon.play, () -> checkPlay(ui.deploy::show)),
-                    new Buttoni("$joingame", Icon.add, () -> checkPlay(ui.join::show)),
-                    new Buttoni("$customgame", Icon.terrain, () -> checkPlay(ui.custom::show)),
-                    new Buttoni("$loadgame", Icon.download, () -> checkPlay(ui.load::show)),
-                    new Buttoni("$tutorial", Icon.info, () -> checkPlay(control::playTutorial))
-                ),
-                new Buttoni("$editor", Icon.terrain, () -> checkPlay(ui.maps::show)), steam ? new Buttoni("$workshop", Icon.book, platform::openWorkshop) : null,
-                new Buttoni(Core.bundle.get("mods"), Icon.bookOpen, ui.mods::show),
-                //not enough space for this button
-                //new Buttoni("$schematics", Icon.paste, ui.schematics::show),
-                new Buttoni("$settings", Icon.settings, ui.settings::show),
-                new Buttoni("$about.button", Icon.info, ui.about::show),
-                new Buttoni("$quit", Icon.exit, Core.app::exit)
+                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................")),
+                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................")),
+                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................")),
+                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................")),
+                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................"))
+//                    new Buttoni("$editor", Icon.terrain, () -> checkPlay(ui.maps::show)), steam ? new Buttoni("$workshop", Icon.book, platform::openWorkshop) : null,
+////                new Buttoni(Core.bundle.get("mods"), Icon.bookOpen, ui.mods::show),
+//                    //not enough space for this button
+//                    //new Buttoni("$schematics", Icon.paste, ui.schematics::show),
+//                    new Buttoni("$settings", Icon.settings, ui.settings::show),
+//                    new Buttoni("$about.button", Icon.info, ui.about::show),
+//                    new Buttoni("$quit", Icon.exit, Core.app::exit)
             );
+
+//            buttons(t,
+//                new Buttoni("$play", Icon.play,
+//                    new Buttoni("$campaign", Icon.play, () -> checkPlay(ui.deploy::show)),
+//                    new Buttoni("$joingame", Icon.add, () -> checkPlay(ui.join::show)),
+//                    new Buttoni("$customgame", Icon.terrain, () -> checkPlay(ui.custom::show)),
+//                    new Buttoni("$loadgame", Icon.download, () -> checkPlay(ui.load::show)),
+//                    new Buttoni("$tutorial", Icon.info, () -> checkPlay(control::playTutorial))
+//                ),
+//                new Buttoni("$editor", Icon.terrain, () -> checkPlay(ui.maps::show)), steam ? new Buttoni("$workshop", Icon.book, platform::openWorkshop) : null,
+////                new Buttoni(Core.bundle.get("mods"), Icon.bookOpen, ui.mods::show),
+//                //not enough space for this button
+//                //new Buttoni("$schematics", Icon.paste, ui.schematics::show),
+//                new Buttoni("$settings", Icon.settings, ui.settings::show),
+//                new Buttoni("$about.button", Icon.info, ui.about::show),
+//                new Buttoni("$quit", Icon.exit, Core.app::exit)
+//            );
 
         }).width(width).growY();
 
