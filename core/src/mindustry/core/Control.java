@@ -257,20 +257,19 @@ public class Control implements ApplicationListener, Loadable{
 
         Core.input.setCatch(KeyCode.BACK, true);
 
-        if (data != null)
+        if ( !Debug.NOTE1)
             data.load();
 
         Core.settings.defaults(
-        "ip", "localhost",
-        "color-0", playerColors[8].rgba(),
-        "name", "",
-        "lastBuild", 0
+                "ip", "localhost",
+                "color-0", playerColors[8].rgba(),
+                "name", "",
+                "lastBuild", 0
         );
 
-        if ( !Debug.TEMP)
-            createPlayer();
+        createPlayer();
 
-        if ( !Debug.TEMP)
+        if ( !Debug.NOTE2)
             saves.load();
     }
 
@@ -291,7 +290,8 @@ public class Control implements ApplicationListener, Loadable{
             player.add();
         }
 
-        Events.on(ClientLoadEvent.class, e -> input.add());
+        if ( !Debug.NOTE1)
+            Events.on(ClientLoadEvent.class, e -> input.add());
     }
 
     public void setInput(InputHandler newInput){
@@ -402,14 +402,13 @@ public class Control implements ApplicationListener, Loadable{
 
     @Override
     public void dispose(){
-        if (Debug.TEMP) {
-            return;
-        }
         content.dispose();
-        net.dispose();
+        if (net != null)
+            net.dispose();
         Musics.dispose();
         Sounds.dispose();
-        ui.editor.dispose();
+        if (ui.editor != null)
+            ui.editor.dispose();
     }
 
     @Override
