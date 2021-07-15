@@ -53,15 +53,20 @@ public class FloatingDialog extends Dialog{
         });
     }
 
+    public void addCloseListener() {
+        closeOnBack();
+    }
+
     @Override
     public void addCloseButton(){
         buttons.defaults().size(210f, 64f);
         buttons.addImageTextButton("$back", Icon.left, this::hide).size(210f, 64f);
 
-        keyDown(key -> {
-            if(key == KeyCode.ESCAPE || key == KeyCode.BACK){
-                Core.app.post(this::hide);
-            }
-        });
+        addCloseListener();
+//        keyDown(key -> {
+//            if(key == KeyCode.ESCAPE || key == KeyCode.BACK){
+//                Core.app.post(this::hide);
+//            }
+//        });
     }
 }
