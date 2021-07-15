@@ -154,9 +154,9 @@ public class Vars implements Loadable{
     /** if true, UI is not drawn */
     public static boolean disableUI;
     /** if true, game is set up in mobile mode, even on desktop. used for debugging */
-    public static boolean testMobile;
+    public static boolean testMobile = true;
     /** whether the game is running on a mobile device */
-    public static boolean mobile;
+    public static boolean mobile = true;
     /** whether the game is running on an iOS device */
     public static boolean ios;
     /** whether the game is running on an Android device */
@@ -241,10 +241,10 @@ public class Vars implements Loadable{
 
     @Override
     public void loadAsync(){
-        if (Debug.TEMP) {
-            loadSettings();
-            return;
-        }
+//        if (Debug.TEMP) {
+//            loadSettings();
+//            return;
+//        }
         loadSettings();
         init();
     }
@@ -286,21 +286,22 @@ public class Vars implements Loadable{
         world = new World();
         becontrol = new BeControl();
 
-        maps = new Maps();
-        spawner = new WaveSpawner();
-        indexer = new BlockIndexer();
-        pathfinder = new Pathfinder();
+//        maps = new Maps();
+//        spawner = new WaveSpawner();
+//        indexer = new BlockIndexer();
+//        pathfinder = new Pathfinder();
 
-        entities = new Entities();
-        playerGroup = entities.add(Player.class).enableMapping();
-        tileGroup = entities.add(TileEntity.class, false);
-        bulletGroup = entities.add(Bullet.class).enableMapping();
-        effectGroup = entities.add(EffectEntity.class, false);
-        groundEffectGroup = entities.add(DrawTrait.class, false);
-        puddleGroup = entities.add(Puddle.class).enableMapping();
-        shieldGroup = entities.add(ShieldEntity.class, false);
-        fireGroup = entities.add(Fire.class).enableMapping();
-        unitGroup = entities.add(BaseUnit.class).enableMapping();
+//        entities = new Entities();
+//        playerGroup = entities.add(Player.class).enableMapping();
+//        tileGroup = entities.add(TileEntity.class, false);
+//        bulletGroup = entities.add(Bullet.class).enableMapping();
+//        effectGroup = entities.add(EffectEntity.class, false);
+//        groundEffectGroup = entities.add(DrawTrait.class, false);
+//        puddleGroup = entities.add(Puddle.class).enableMapping();
+//        shieldGroup = entities.add(ShieldEntity.class, false);
+//        fireGroup = entities.add(Fire.class).enableMapping();
+//        unitGroup = entities.add(BaseUnit.class).enableMapping();
+
         // zones add begon
 //        squadIDPro = IntArray.with(7, 6, 5, 4, 3, 2, 1, 0);
 //        squadGroup = new Squad[Team.all().length][FinalCons.max_squad_count];
@@ -310,18 +311,18 @@ public class Vars implements Loadable{
 //                squadGroup[teamid][s] = new Squad(teamid, s);
 //            }
 //        }
-        blockunitGroup = entities.add(BlockUnit.class).enableMapping();
+//        blockunitGroup = entities.add(BlockUnit.class).enableMapping();
 
 //        workerPool = new WorkerPool<BlockUnit>();
         // zones add end
 
-        for(EntityGroup<?> group : entities.all()){
-            group.setRemoveListener(entity -> {
-                if(entity instanceof SyncTrait && net.client()){
-                    netClient.addRemovedEntity((entity).getID());
-                }
-            });
-        }
+//        for(EntityGroup<?> group : entities.all()){
+//            group.setRemoveListener(entity -> {
+//                if(entity instanceof SyncTrait && net.client()){
+//                    netClient.addRemovedEntity((entity).getID());
+//                }
+//            });
+//        }
 
         state = new GameState();
         data = new GlobalData();
@@ -343,7 +344,7 @@ public class Vars implements Loadable{
         modDirectory.mkdirs();
 
         mods.load();
-        maps.load();
+//        maps.load();
     }
 
     public static void loadLogger(){
