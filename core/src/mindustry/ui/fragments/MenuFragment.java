@@ -23,26 +23,29 @@ import static mindustry.Vars.*;
 public class MenuFragment extends Fragment{
     private Table container, submenu;
     private Button currentMenu;
-//    private MenuRenderer renderer;
+    private MenuRenderer renderer;
 
     public MenuFragment(){
         Events.on(DisposeEvent.class, event -> {
-//            renderer.dispose();
+            if ( !Debug.NOTE2)
+                renderer.dispose();
         });
     }
 
     @Override
     public void build(Group parent){
-//        renderer = new MenuRenderer();
+        if ( !Debug.NOTE2)
+            renderer = new MenuRenderer();
 
         Group group = new WidgetGroup();
         group.setFillParent(true);
-        group.visible(() -> !ui.editor.isShown());
+        group.visible(() -> !Debug.NOTE2  && !ui.editor.isShown());
         parent.addChild(group);
 
         parent = group;
 
-//        parent.fill((x, y, w, h) -> renderer.render());
+        if ( !Debug.NOTE2)
+            parent.fill((x, y, w, h) -> renderer.render());
 
         parent.fill(c -> {
             container = c;
@@ -60,7 +63,7 @@ public class MenuFragment extends Fragment{
         if(mobile){
             parent.fill(c -> c.bottom().left().addButton("", Styles.infot, ui.about::show).size(84, 45));
             parent.fill(c -> c.bottom().right().addButton("", Styles.discordt, ui.discord::show).size(84, 45));
-        }else if( !Debug.NOTE1 && becontrol.active()){
+        }else if(becontrol.active()){
             parent.fill(c -> c.bottom().right().addImageTextButton("$be.check", Icon.refresh, () -> {
                 ui.loadfrag.show();
                 becontrol.checkUpdate(result -> {
@@ -101,15 +104,15 @@ public class MenuFragment extends Fragment{
         container.defaults().size(size).pad(5).padTop(4f);
 
         MobileButton
-            play = new MobileButton(Icon.play, "$campaign", () -> checkPlay(ui.deploy::show)),
-            custom = new MobileButton(Icon.rightOpenOut, "$customgame", () -> checkPlay(ui.custom::show)),
-            maps = new MobileButton(Icon.download, "$loadgame", () -> checkPlay(ui.load::show)),
-            join = new MobileButton(Icon.add, "$joingame", () -> checkPlay(ui.join::show)),
-            editor = new MobileButton(Icon.terrain, "$editor", () -> checkPlay(ui.maps::show)),
-            tools = new MobileButton(Icon.settings, "$settings", ui.settings::show),
-            mods = new MobileButton(Icon.book, "$mods", ui.mods::show),
-            donate = new MobileButton(Icon.link, "$website", () -> Core.net.openURI("https://anuke.itch.io/mindustry")),
-            exit = new MobileButton(Icon.exit, "$quit", () -> Core.app.exit());
+                play = new MobileButton(Icon.play, "$campaign", () -> checkPlay(ui.deploy::show)),
+                custom = new MobileButton(Icon.rightOpenOut, "$customgame", () -> checkPlay(ui.custom::show)),
+                maps = new MobileButton(Icon.download, "$loadgame", () -> checkPlay(ui.load::show)),
+                join = new MobileButton(Icon.add, "$joingame", () -> checkPlay(ui.join::show)),     // deault ui.join::show
+                editor = new MobileButton(Icon.terrain, "$editor", () -> checkPlay(ui.maps::show)),
+                tools = new MobileButton(Icon.settings, "$settings", ui.settings::show),
+                mods = new MobileButton(Icon.book, "$mods", ui.mods::show),
+                donate = new MobileButton(Icon.link, "$website", () -> Core.net.openURI("https://anuke.itch.io/mindustry")),
+                exit = new MobileButton(Icon.exit, "$quit", () -> Core.app.exit());
 
         if(!Core.graphics.isPortrait()){
             container.marginTop(60f);
@@ -165,36 +168,21 @@ public class MenuFragment extends Fragment{
             t.defaults().width(width).height(70f);
 
             buttons(t,
-                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................")),
-                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................")),
-                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................")),
-                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................")),
-                    new Buttoni("$play", Icon.play, () -> System.out.println("Player................"))
-//                    new Buttoni("$editor", Icon.terrain, () -> checkPlay(ui.maps::show)), steam ? new Buttoni("$workshop", Icon.book, platform::openWorkshop) : null,
-////                new Buttoni(Core.bundle.get("mods"), Icon.bookOpen, ui.mods::show),
-//                    //not enough space for this button
-//                    //new Buttoni("$schematics", Icon.paste, ui.schematics::show),
-//                    new Buttoni("$settings", Icon.settings, ui.settings::show),
-//                    new Buttoni("$about.button", Icon.info, ui.about::show),
-//                    new Buttoni("$quit", Icon.exit, Core.app::exit)
+                    new Buttoni("$play", Icon.play,
+                            new Buttoni("$campaign", Icon.play, () -> checkPlay(ui.deploy::show)),
+                            new Buttoni("$joingame", Icon.add, () -> checkPlay(ui.join::show)),
+                            new Buttoni("$customgame", Icon.terrain, () -> checkPlay(ui.custom::show)),
+                            new Buttoni("$loadgame", Icon.download, () -> checkPlay(ui.load::show)),
+                            new Buttoni("$tutorial", Icon.info, () -> checkPlay(control::playTutorial))
+                    ),
+                    new Buttoni("$editor", Icon.terrain, () -> checkPlay(ui.maps::show)), steam ? new Buttoni("$workshop", Icon.book, platform::openWorkshop) : null,
+                    new Buttoni(Core.bundle.get("mods"), Icon.bookOpen, ui.mods::show),
+                    //not enough space for this button
+                    //new Buttoni("$schematics", Icon.paste, ui.schematics::show),
+                    new Buttoni("$settings", Icon.settings, ui.settings::show),
+                    new Buttoni("$about.button", Icon.info, ui.about::show),
+                    new Buttoni("$quit", Icon.exit, Core.app::exit)
             );
-
-//            buttons(t,
-//                new Buttoni("$play", Icon.play,
-//                    new Buttoni("$campaign", Icon.play, () -> checkPlay(ui.deploy::show)),
-//                    new Buttoni("$joingame", Icon.add, () -> checkPlay(ui.join::show)),
-//                    new Buttoni("$customgame", Icon.terrain, () -> checkPlay(ui.custom::show)),
-//                    new Buttoni("$loadgame", Icon.download, () -> checkPlay(ui.load::show)),
-//                    new Buttoni("$tutorial", Icon.info, () -> checkPlay(control::playTutorial))
-//                ),
-//                new Buttoni("$editor", Icon.terrain, () -> checkPlay(ui.maps::show)), steam ? new Buttoni("$workshop", Icon.book, platform::openWorkshop) : null,
-////                new Buttoni(Core.bundle.get("mods"), Icon.bookOpen, ui.mods::show),
-//                //not enough space for this button
-//                //new Buttoni("$schematics", Icon.paste, ui.schematics::show),
-//                new Buttoni("$settings", Icon.settings, ui.settings::show),
-//                new Buttoni("$about.button", Icon.info, ui.about::show),
-//                new Buttoni("$quit", Icon.exit, Core.app::exit)
-//            );
 
         }).width(width).growY();
 
