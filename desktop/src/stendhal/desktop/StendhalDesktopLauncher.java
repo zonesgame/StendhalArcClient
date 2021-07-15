@@ -68,9 +68,9 @@ public class StendhalDesktopLauncher extends StendhalClientLauncher {
     }
 
     public StendhalDesktopLauncher(String[] args){
-//        Version.init();
+        Version.init();
         boolean useSteam = Version.modifier.contains("steam");
-        testMobile = Array.with(args).contains("-testMobile");
+//        testMobile = Array.with(args).contains("-testMobile");
         {
             useSteam= false;
             useDiscord= false;
