@@ -211,7 +211,7 @@ project(":core"){
     }
 
     dependencies{
-        compileJava.dependsOn(preGen)
+//        compileJava.dependsOn(preGen)
 
         compile "org.lz4:lz4-java:1.4.1"
         compile arcModule("arc-core")       // marauroa
@@ -222,7 +222,7 @@ project(":core"){
 
         compile project(":marauroa")         // zones add
         compileOnly project(":annotations")
-        annotationProcessor project(":annotations")
+//        annotationProcessor project(":annotations")
     }
 }
 
