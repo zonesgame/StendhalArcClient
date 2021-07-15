@@ -15,6 +15,7 @@ import mindustry.*;
 import mindustry.gen.*;
 import mindustry.input.*;
 import mindustry.ui.*;
+import temp.Debug;
 
 import static arc.Core.*;
 import static mindustry.Vars.net;
@@ -62,7 +63,11 @@ public class ChatFragment extends Table{
 
         update(() -> {
 
-            if(net.active() && input.keyTap(Binding.chat) && (scene.getKeyboardFocus() == chatfield || scene.getKeyboardFocus() == null)){
+            if ( Debug.NOTE2) {
+                if(input.keyTap(Binding.chat) && (scene.getKeyboardFocus() == chatfield || scene.getKeyboardFocus() == null))
+                    toggle();
+            }
+            else if(net.active() && input.keyTap(Binding.chat) && (scene.getKeyboardFocus() == chatfield || scene.getKeyboardFocus() == null)){
                 toggle();
             }
 
