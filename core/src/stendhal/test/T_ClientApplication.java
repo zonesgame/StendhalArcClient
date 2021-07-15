@@ -7,6 +7,7 @@ import java.util.Map;
 
 import arc.ApplicationListener;
 import arc.Core;
+import arc.Events;
 import arc.files.Fi;
 import arc.graphics.Color;
 import arc.graphics.Texture;
@@ -36,6 +37,7 @@ import marauroa.common.game.RPAction;
 import marauroa.common.game.RPObject;
 import marauroa.common.net.message.MessageS2CPerception;
 import marauroa.common.net.message.TransferContent;
+import mindustry.game.EventType;
 
 import static arc.Core.camera;
 
@@ -48,9 +50,9 @@ public class T_ClientApplication implements ApplicationListener {
 //        callInit();
 
 
-        { //
-
-        }
+        Events.on(EventType.ClientLoadEvent.class, e -> {
+            callInit();
+        });
     }
 
     @Override
