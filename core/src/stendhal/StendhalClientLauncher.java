@@ -57,6 +57,7 @@ import mindustry.mod.Mods;
 import mindustry.net.Net;
 import mindustry.ui.Fonts;
 import stendhal.test.T_ClientApplication;
+import stendhal.test.T_InputApplication;
 import stendhal.test.textClient;
 import utils.assets.Pack;
 import utils.assets.ResourceManager;
@@ -150,8 +151,8 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 
 //        assets.loadRun("maps", Map.class, () -> maps.loadPreviews());
 
-//        Musics.load();
-//        Sounds.load();
+        Musics.load();
+        Sounds.load();
 
 //        assets.loadRun("contentcreate", Content.class, () -> {
 //            content.createBaseContent();
@@ -186,7 +187,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 
 
         if (true) {
-//            add(Vars.clientScence = new T_ClientApplication());
+            add(new T_InputApplication());
 //            netClient.temp_connect();
 //            try {
 //                textClient.main(null);
@@ -232,7 +233,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
                 }
 //                mods.eachClass(Mod::init);
                 finished = true;
-    /*            Events.fire(new ClientLoadEvent());*/
+                Events.fire(new ClientLoadEvent());
                 // zones add begon
                 {
 //                    Events.fire(new EventType.ClearCacheEvent());
@@ -258,7 +259,12 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
                 }
             }
         }else{
+            Core.graphics.clear(Color.white);
+            Draw.reset();
+
             super.update();
+
+            Draw.flush();
 //            {
 //                Fi file = Core.files.internal("D:\\Downloads\\OneDrive\\桌面\\aa.jpg");
 //                Texture t = new Texture(file);
