@@ -19,6 +19,7 @@ import mindustry.ui.Cicon;
 import mindustry.world.*;
 import mindustry.world.blocks.Floor;
 import mindustry.world.blocks.OreBlock;
+import temp.Debug;
 
 import static mindustry.Vars.*;
 
@@ -38,7 +39,8 @@ public class MenuRenderer implements Disposable{
 
     public MenuRenderer(){
         Time.mark();
-        generate();
+        if ( !Debug.NOTE2)
+            generate();
         cache();
         Log.info("Time to generate menu: {0}", Time.elapsed());
     }
