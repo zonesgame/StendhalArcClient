@@ -11,6 +11,7 @@ import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.core.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -178,9 +179,15 @@ public class T_MenuFragment extends Fragment {
 
 //                        new Buttoni("$play", Icon.play, ui.joinDialog::show),
 //                        new Buttoni("$editor", Icon.terrain, ui.accountDialog::show),
-                        new Buttoni("$settings", Icon.settings, ui.settings::show),
+                        new Buttoni("$settings", Icon.settings, () -> {
+                            Vars.ui.showInfoText("AAAAAAA", "CCCC");
+                        }),
                         new Buttoni("$about.button", Icon.info, ui.about::show),
-                        new Buttoni("$quit", Icon.exit, Core.app::exit)
+                        new Buttoni("$quit", Icon.exit, () -> {
+//                            Core.settings.clear();
+//                            Core.settings.save();
+                            Core.app.exit();
+                        })
                 );
             }
 //            buttons(t,
