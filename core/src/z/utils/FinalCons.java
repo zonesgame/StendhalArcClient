@@ -32,6 +32,15 @@ public class FinalCons {
     /** 队伍最大成员数量*/
     public static final int max_member_count = 32;
 
+    public static interface SETTING_KEYS {
+        public final String lastLogin = "LASTLOGIN";
+        public final String savePassword = "SAVEPASSWORD";
+    }
+
+    public static interface PreFix {
+        public final String pfCharaName = "PREFIX_CHARACTERNAME";
+    }
+
 
     // function begon
 
