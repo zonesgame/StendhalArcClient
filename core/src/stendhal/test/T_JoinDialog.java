@@ -1,5 +1,8 @@
 package stendhal.test;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 import arc.*;
 import arc.input.*;
 import arc.math.*;
@@ -7,7 +10,18 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import arc.util.async.Threads;
 import arc.util.serialization.*;
+import games.stendhal.client.StendhalClient;
+import games.stendhal.client.gui.ProgressBar;
+import games.stendhal.client.gui.login.LoginDialog;
+import games.stendhal.client.gui.login.Profile;
+import marauroa.client.BannedAddressException;
+import marauroa.client.LoginFailedException;
+import marauroa.client.TimeoutException;
+import marauroa.common.Logger;
+import marauroa.common.net.InvalidVersionException;
+import marauroa.common.net.message.MessageS2CLoginNACK;
 import mindustry.*;
 import mindustry.annotations.Annotations.*;
 import mindustry.core.*;
@@ -22,18 +36,50 @@ import temp.Debug;
 
 import static arc.Core.settings;
 import static mindustry.Vars.*;
+import static z.debug.Strs.str29;
+import static z.debug.Strs.str30;
+import static z.debug.Strs.str31;
+import static z.debug.Strs.str32;
+import static z.debug.Strs.str33;
+import static z.debug.Strs.str34;
+import static z.utils.FinalCons.SETTING_KEYS.lastLogin;
+import static z.utils.FinalCons.SETTING_KEYS.savePassword;
 
 public class T_JoinDialog extends FloatingDialog {
-    Dialog add;
-    Table local = new Table();
-    Table remote = new Table();
-    Table global = new Table();
-    Table hosts = new Table();
-    int totalHosts;
+
+    private Profile profile;
+
+    private void init() {
+        profile = Profile.decode(settings.getString(lastLogin, ""));
+//
+//        profile.setHost((serverField.getText()).trim());
+//
+//        try {
+//            profile.setPort(Integer.parseInt(serverPortField.getText().trim()));
+//
+//            // Support for saving port number. Only save when input is a number
+//            // intensifly@gmx.com
+//
+//        } catch (final NumberFormatException ex) {
+//            JOptionPane.showMessageDialog(this,
+//                    "That is not a valid port number. Please try again.",
+//                    "Invalid port", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//
+//        profile.setUser(usernameField.getText().trim());
+//        profile.setPassword(new String(passwordField.getPassword()));
+    }
+
+    private void saveLogin() {
+        settings.save();
+    }
+
+    // end-------------------------------
 
     public T_JoinDialog(){
         super("$joingame");
-
+        init();
 
         if(!steam) buttons.add().width(60f);
         buttons.add().growX().width(-1);
@@ -45,51 +91,12 @@ public class T_JoinDialog extends FloatingDialog {
             buttons.addButton("?", () -> ui.showInfo("$join.info")).size(60f, 64f).width(-1);
         }
 
-//        add = new FloatingDialog("$joingame.title");
-//        add.cont.add("$joingame.ip").padRight(5f).left();
-//
-//        TextField field = add.cont.addField(Core.settings.getString("ip"), text -> {
-//            Core.settings.put("ip", text);
-//            Core.settings.save();
-//        }).size(320f, 54f).get();
-//
-//        platform.addDialog(field, 100);
-//
-//        add.cont.row();
-//        add.buttons.defaults().size(140f, 60f).pad(4f);
-//        add.buttons.addButton("$cancel", add::hide);
-//        add.buttons.addButton("$ok", () -> {
-//            if(renaming == null){
-//                Server server = new Server();
-//                server.setIP(Core.settings.getString("ip"));
-//                servers.add(server);
-//                saveServers();
-//                setupRemote();
-//                refreshRemote();
-//            }else{
-//                renaming.setIP(Core.settings.getString("ip"));
-//                saveServers();
-//                setupRemote();
-//                refreshRemote();
-//            }
-//            add.hide();
-//        }).disabled(b -> Core.settings.getString("ip").isEmpty() || net.active());
-//
-//        add.shown(() -> {
-//            add.title.setText(renaming != null ? "$server.edit" : "$server.add");
-//            if(renaming != null){
-//                field.setText(renaming.displayIP());
-//            }
-//        });
-//
-//        keyDown(KeyCode.F5, this::refreshAll);
-
         shown(() -> {
             setup();
 //            refreshAll();
 
             if(!steam){
-                Core.app.post(() -> Core.settings.getBoolOnce("joininfo", () -> ui.showInfo("$join.info")));
+//                Core.app.post(() -> Core.settings.getBoolOnce("joininfo", () -> ui.showInfo("$join.info")));
             }
         });
 
@@ -104,12 +111,7 @@ public class T_JoinDialog extends FloatingDialog {
     private String name3 = "NAME3";
 
     void setup(){
-        local.clear();
-        remote.clear();
-        global.clear();
         float w = targetWidth();
-
-        hosts.clear();
 
         if (true) {
             cont.clear();
@@ -122,33 +124,55 @@ public class T_JoinDialog extends FloatingDialog {
             pane.setFadeScrollBars(true);
             pane.setScrollingDisabled(false, false);
 
-            // ui组件添加
-//            groupParent.table(t -> {
-//                t.add("NAME1").padRight(10);        // 添加table
-//                t.addField(Core.settings.getString("NAME1"), text -> {      // 添加输入框
-//                    para1 = text;
-//                    Core.settings.put("NAME1", text);
-//                    Core.settings.save();
-//                }).grow().pad(8).get().setMaxLength(maxNameLength);
-//            }).width(w).height(70f).pad(4);
+            // 服务器地址
+            groupParent.table(t -> {
+                t.add(str29).padRight(10);        // 添加table
+                t.addField(profile.getHost(), text -> {      // 添加输入框
+                    if(Debug.NOTE2)
+                        ;
+                    profile.setHost(text);
+                }).grow().pad(8).get().setMaxLength(maxNameLength);
+            }).width(w).height(70f).pad(4);
+            groupParent.row();
 
-            for (int i = 4; --i >= 0; ) {
-                groupParent.table(t -> {
-                    t.add(name1).padRight(10);        // 添加table
-                    t.addField(Core.settings.getString(name1), text -> {      // 添加输入框
-                        Core.settings.put(name1, text);
-                        Core.settings.save();
-                    }).grow().pad(8).get().setMaxLength(maxNameLength);
-                }).width(w).height(70f).pad(4);
+            // 服务器端口
+            groupParent.table(t -> {
+                t.add(str30).padRight(10);
+                t.addField(String.valueOf(profile.getPort()), text -> {
+                    if (Debug.NOTE2)
+                        ;
+                    profile.setPort(Integer.parseInt(text));
+                }).grow().pad(8).get().setMaxLength(maxNameLength);
+            }).width(w).height(70f).pad(4);
+            groupParent.row();
 
-                groupParent.row();
-            }
+            // 账户名
+            groupParent.table(t -> {
+                t.add(str31).padRight(10);
+                t.addField(profile.getUser(), text -> {
+                    if (Debug.NOTE2)
+                        ;
+                    profile.setUser(text);
+                }).grow().pad(8).get().setMaxLength(maxNameLength);
+            }).width(w).height(70f).pad(4);
+            groupParent.row();
+
+            // 密码
+            groupParent.table(t -> {
+                t.add(str32).padRight(10);
+                t.addField(profile.getPassword(), text -> {
+                    if (Debug.NOTE2)
+                        ;
+                    profile.setPassword(text);
+                }).grow().pad(8).get().setMaxLength(maxNameLength);
+            }).width(w).height(70f).pad(4);
+            groupParent.row();
 
             // 选择框添加
-            CheckBox box = new CheckBox(name2);
-            box.update(() -> box.setChecked(settings.getBool(name2)));
+            CheckBox box = new CheckBox(str34);
+            box.update(() -> box.setChecked(settings.getBool(savePassword)));
             box.changed(() -> {
-                settings.put(name2, box.isChecked());
+                settings.put(savePassword, box.isChecked());
                 settings.save();
             });
             box.left();
@@ -161,106 +185,171 @@ public class T_JoinDialog extends FloatingDialog {
 //            buttons.addImageTextButton("$back", Icon.left, this::hide).size(210f, 64f);
 
             cont.add(pane);
+            cont.row();
             return;
         }
-
-        ScrollPane pane = new ScrollPane(hosts);
-        pane.setFadeScrollBars(false);
-        pane.setScrollingDisabled(true, false);
-
-//        setupRemote();
-
-        cont.clear();
-        cont.table(t -> {
-            t.add("$name").padRight(10);
-            if(!steam){
-                t.addField(Core.settings.getString("name"), text -> {
-                    player.name = text;
-                    Core.settings.put("name", text);
-                    Core.settings.save();
-                }).grow().pad(8).get().setMaxLength(maxNameLength);
-            }else{
-                t.add(player.name).update(l -> l.setColor(player.color)).grow().pad(8);
-            }
-
-//            ImageButton button = t.addImageButton(Tex.whiteui, Styles.clearFulli, 40, () -> {
-//                new PaletteDialog().show(color -> {
-//                    player.color.set(color);
-//                    Core.settings.put("color-0", color.rgba());
-//                    Core.settings.save();
-//                });
-//            }).size(54f).get();
-//            button.update(() -> button.getStyle().imageUpColor = player.color);
-        }).width(w).height(70f).pad(4);
-        cont.row();
-        cont.add(pane).width(w + 38).pad(0);
-        cont.row();
-        cont.addCenteredImageTextButton("$server.add", Icon.add, () -> {
-//            renaming = null;
-            add.show();
-        }).marginLeft(10).width(w).height(80f).update(button -> {
-            float pw = w;
-            float pad = 0f;
-            if(pane.getChildren().first().getPrefHeight() > pane.getHeight()){
-                pw = w + 30;
-                pad = 6;
-            }
-
-            Cell cell = ((Table)pane.getParent()).getCell(button);
-
-            if(!Mathf.equal(cell.minWidth(), pw)){
-                cell.width(pw);
-                cell.padLeft(pad);
-                pane.getParent().invalidateHierarchy();
-            }
-        });
     }
 
-
-    private void addEventButton() {
-
-    }
 
     @Override
     public void addCloseButton() {
         super.addCloseButton();
 //        buttons.defaults().size(210f, 64f);
 //        buttons.addImageTextButton("$back", Icon.left, this::hide).size(210f, 64f);
-        buttons.addImageTextButton(name3, Icon.left, this::hide).size(210f, 64f);
+        buttons.addImageTextButton(str33, Icon.left, () -> {
+            Profile savefile = Profile.decode(profile.encode());
+            if ( !settings.getBool(savePassword)) {
+                savefile.setPassword("");
+            }
+            settings.put(lastLogin, savefile.encode());
+            settings.save();
+
+            ui.loadfrag.show();      // Core.app.post(ui.loadfrag::show);       // ui.loadfrag.show();
+//            Core.app.post(() -> connect(profile));
+            Time.run(1f, () -> {
+//                connect(profile);
+                Threads.thread(() -> connect(profile));
+//                connectThread(profile);
+//                ui.loadfrag.hide();
+            });
+//            Core.app.post(() ->connect(profile));
+        }).size(210f, 64f);
 
 //        addCloseListener();
     }
-//    void addGlobalHost(Host host){
-//        global.background(null);
-//        float w = targetWidth();
-//
-//        global.row();
-//
-//        TextButton button = global.addButton("", Styles.cleart, () -> safeConnect(host.address, host.port, host.version))
-//                .width(w).pad(5f).get();
-//        button.clearChildren();
-//        buildServer(host, button);
-//    }
-//
-//
-//
-//    void safeConnect(String ip, int port, int version){
-//        if(version != Version.build && Version.build != -1 && version != -1){
-//            ui.showInfo("[scarlet]" + (version > Version.build ? KickReason.clientOutdated : KickReason.serverOutdated).toString() + "\n[]" +
-//                    Core.bundle.format("server.versions", Version.build, version));
-//        }else{
-//            connect(ip, port);
-//        }
-//    }
 
     float targetWidth(){
         return Math.min(Core.graphics.getWidth() / Scl.scl() * 0.9f, 500f);//Core.graphics.isPortrait() ? 350f : 500f;
     }
 
 
-    private void saveServers(){
-//        Core.settings.putObject("server-list", servers);
-//        Core.settings.save();
+
+    /*
+     * Run the connection procces in separate thread. added by TheGeneral
+     */
+    public void connectThread(final Profile profile) {
+        final Thread t = new Thread(new ConnectRunnable(profile), "Login");
+        t.start();
+    }
+
+    /**
+     * Connect to a server using a given profile.
+     *
+     * @param profile profile used for login
+     */
+    public void connect(final Profile profile) {
+        // We are not in EDT
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                progressBar = new ProgressBar(LoginDialog.this);
+//                progressBar.start();
+//            }
+//        });
+//        Core.app.post(ui.load::show);
+
+        StendhalClient client = StendhalClient.get();
+        try {
+            client.connect(profile.getHost(), profile.getPort());
+
+            // for each major connection milestone call step(). progressBar is
+            // created in EDT, so it is not guaranteed non null in the main
+            // thread.
+//            SwingUtilities.invokeLater(new Runnable() {
+//                @Override
+//                public void run() {
+//                    progressBar.step();
+//                }
+//            });
+        } catch (final Exception ex) {
+            // if something goes horribly just cancel the progressbar
+//            SwingUtilities.invokeLater(new Runnable() {
+//                @Override
+//                public void run() {
+//                    progressBar.cancel();
+//                    setEnabled(true);
+//                }
+//            });
+            ui.loadfrag.hide();
+
+            String message = "unable to connect to server";
+
+            if (profile != null) {
+                message = message + " " + profile.getHost() + ":" + profile.getPort();
+            } else {
+                message = message + ", because profile was null";
+            }
+            Logger.getLogger(LoginDialog.class).error(message, ex);
+            ui.showInfoText("Connection failed", "Unable to connect to server. Did you misspell the server name?");
+//            handleError("Unable to connect to server. Did you misspell the server name?", "Connection failed");
+            return;
+        }
+
+        try {
+            client.setAccountUsername(profile.getUser());
+            client.setCharacter(profile.getCharacter());
+            client.login(profile.getUser(), profile.getPassword(), profile.getSeed());
+//            SwingUtilities.invokeLater(new Runnable() {
+//                @Override
+//                public void run() {
+//                    progressBar.finish();
+//                    // workaround near failures in AWT at openjdk (tested on openjdk-1.6.0.0)
+//                    try {
+//                        setVisible(false);
+//                    } catch (NullPointerException npe) {
+//                        Logger.getLogger(LoginDialog.class).error("Error probably related to bug in JRE occured", npe);
+//                        LoginDialog.this.dispose();
+//                    }
+//                }
+//            });
+//            Time.runTask(0, () -> ui.load.hide());
+            ui.loadfrag.hide();
+
+        } catch (final InvalidVersionException e) {
+            ui.showConfirm("Invalid version", "You are running an incompatible version of Stendhal. Please update", ()->{});
+//            handleError("You are running an incompatible version of Stendhal. Please update",
+//                    "Invalid version");
+        } catch (final TimeoutException e) {
+            ui.showInfoText("Error Logging In", "Server is not available right now.\nThe server may be down or, if you are using a custom server,\nyou may have entered its name and port number incorrectly.");
+//            handleError("Server is not available right now.\nThe server may be down or, if you are using a custom server,\nyou may have entered its name and port number incorrectly.",
+//                    "Error Logging In");
+        } catch (final LoginFailedException e) {
+            ui.showConfirm("Login failed", e.getMessage(), () -> {
+                if (e.getReason() == MessageS2CLoginNACK.Reasons.SEED_WRONG) {
+                    Core.app.exit();
+                }
+            });
+//            handleError(e.getMessage(), "Login failed");
+//            if (e.getReason() == MessageS2CLoginNACK.Reasons.SEED_WRONG) {
+//                System.exit(1);
+//            }
+        } catch (final BannedAddressException e) {
+            ui.showInfoText( "IP Banned", "Your IP is banned.");
+//            handleError("Your IP is banned.",
+//                    "IP Banned");
+        }
+    }
+
+
+    /**
+     * Server connect thread runnable.
+     */
+    private final class ConnectRunnable implements Runnable {
+        private final Profile profile;
+
+        /**
+         * Create a new ConnectRunnable.
+         *
+         * @param profile profile used for connection
+         */
+        private ConnectRunnable(final Profile profile) {
+            this.profile = profile;
+        }
+
+        @Override
+        public void run() {
+            connect(profile);
+        }
     }
 
 }
