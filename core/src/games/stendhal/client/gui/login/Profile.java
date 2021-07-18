@@ -44,7 +44,7 @@ public class Profile {
     private String seed;
 
     public Profile() {
-        this("127.0.0.1", DEFAULT_SERVER_PORT, "", "");
+        this(NEW_SERVER_HOST, DEFAULT_SERVER_PORT, "", "");
     }
 
     public Profile(final String host, final int port, final String user, final String password) {            // default private
@@ -63,7 +63,7 @@ public class Profile {
      *
      * @return A string excoded form (with newlines).
      */
-    String encode() {
+    public String encode() {
         StringBuilder sbuf;
 
         sbuf = new StringBuilder();
@@ -112,7 +112,7 @@ public class Profile {
      * @param info The string encoded profile.
      * @return A login profile.
      */
-    static Profile decode(final String info) {
+    public static Profile decode(final String info) {
         String[] params;
         Profile profile;
         String s;
