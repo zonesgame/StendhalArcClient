@@ -28,6 +28,7 @@ import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.*;
+import stendhal.test.T_CharacterDialog;
 import stendhal.test.T_CreateAccountDialog;
 import stendhal.test.T_JoinDialog;
 import stendhal.test.T_MenuFragment;
@@ -86,6 +87,7 @@ public class UI implements ApplicationListener, Loadable{
 
     public T_JoinDialog joinDialog;
     public T_CreateAccountDialog accountDialog;
+    public T_CharacterDialog characterDialog;
     public T_MenuFragment menuFrag;
 
     public UI(){
@@ -217,6 +219,7 @@ public class UI implements ApplicationListener, Loadable{
         {
             joinDialog = new T_JoinDialog();
             accountDialog = new T_CreateAccountDialog();
+            characterDialog = new T_CharacterDialog();
             menuFrag = new T_MenuFragment();
         }
 
@@ -284,6 +287,7 @@ public class UI implements ApplicationListener, Loadable{
                 this.accepted = confirmed;
             }});
         }else{
+            Dialog dialog =
             new Dialog(titleText){{
                 cont.margin(30).add(dtext).padRight(6f);
                 TextFieldFilter filter = inumeric ? TextFieldFilter.digitsOnly : (f, c) -> true;
@@ -308,6 +312,7 @@ public class UI implements ApplicationListener, Loadable{
                 Core.scene.setKeyboardFocus(field);
                 field.setCursorPosition(def.length());
             }};
+            dialog.title.setAlignment(Align.center);
         }
     }
 
@@ -466,10 +471,12 @@ public class UI implements ApplicationListener, Loadable{
     }
 
     public void showInfoText(String titleText, String text){
+        Dialog dialog =
         new Dialog(titleText){{
             cont.margin(15).add(text).width(400f).wrap().left().get().setAlignment(Align.left, Align.left);
             buttons.addButton("$ok", this::hide).size(110, 50).pad(4);
         }}.show();
+        dialog.title.setAlignment(Align.center);
     }
 
     public void showSmall(String titleText, String text){
