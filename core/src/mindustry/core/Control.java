@@ -253,7 +253,7 @@ public class Control implements ApplicationListener, Loadable{
 
     @Override
     public void loadAsync(){
-        Draw.scl = 1f / Core.atlas.find("scale_marker").getWidth();
+        Draw.scl = Debug.TEMP ? Draw.scl : 1f / Core.atlas.find("scale_marker").getWidth();
 
         Core.input.setCatch(KeyCode.BACK, true);
 
@@ -429,7 +429,7 @@ public class Control implements ApplicationListener, Loadable{
         platform.updateRPC();
 
         //play tutorial on stop
-        if(!settings.getBool("playedtutorial", false)){
+        if( !Debug.NOTE2 && !settings.getBool("playedtutorial", false)){
             Core.app.post(() -> Core.app.post(this::playTutorial));
         }
 
