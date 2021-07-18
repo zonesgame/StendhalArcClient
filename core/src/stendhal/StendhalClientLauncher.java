@@ -233,7 +233,7 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
                 }
 //                mods.eachClass(Mod::init);
                 finished = true;
-                Events.fire(new ClientLoadEvent());
+//                Events.fire(new ClientLoadEvent());
                 // zones add begon
                 {
 //                    Events.fire(new EventType.ClearCacheEvent());
@@ -260,11 +260,11 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
             }
         }else{
             Core.graphics.clear(Color.white);
-            Draw.reset();
+//            Draw.reset();
 
             super.update();
 
-            Draw.flush();
+//            Draw.flush();
 //            {
 //                Fi file = Core.files.internal("D:\\Downloads\\OneDrive\\桌面\\aa.jpg");
 //                Texture t = new Texture(file);
