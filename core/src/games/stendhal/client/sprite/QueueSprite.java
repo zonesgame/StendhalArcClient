@@ -121,4 +121,9 @@ public class QueueSprite implements Sprite {
     public boolean isConstant() {
         return true;
     }
+
+
+    public Sprite[] getImages() {
+        return image;
+    }
 }
