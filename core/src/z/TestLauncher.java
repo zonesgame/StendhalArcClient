@@ -8,9 +8,11 @@ import arc.assets.AssetDescriptor;
 import arc.assets.AssetManager;
 import arc.assets.Loadable;
 import arc.graphics.Color;
+import arc.graphics.Pixmap;
 import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.PixmapRegion;
 import arc.graphics.g2d.SpriteBatch;
 import arc.graphics.g2d.TextureAtlas;
 import arc.graphics.g2d.TextureRegion;
@@ -165,24 +167,36 @@ public class TestLauncher extends ApplicationCore {
         Draw.proj().setOrtho(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
 
         if (true) {
-            TextureRegion region = new TextureRegion(new Texture("C:\\Users\\zones\\Desktop\\409-1.png"));
+            TextureRegion region1 = new TextureRegion(new Texture("D:\\Downloads\\OneDrive\\桌面\\temp.png"));
+            TextureRegion region;
+            {
+                Pixmap pixmap = new Pixmap(region1.getWidth() - 200, region1.getHeight() - 200);
+                pixmap.draw(new PixmapRegion(region1.getTexture().getTextureData().getPixmap(),
+                        100, 100, region1.getWidth() - 200, region1.getHeight() - 200));
+                pixmap.draw(new PixmapRegion(region1.getTexture().getTextureData().getPixmap(),
+                        200, 200, region1.getWidth() - 200, region1.getHeight() - 200));
+                region = new TextureRegion(new Texture(pixmap));
+//                pixmap.dispose();
+            }
             float x = 200;
             float y = 200;
+            float width = region.getWidth() * 0.5f;
+            float height = region.getHeight() * 0.5f;
 
 //            Draw.shader(diablo);
 //            diablo.setPalette(null);
 //            if (true) diablo.setBlendMode(BlendMode.SOLID,  new Color(0, 0, 0, 0.50f));
             Draw.color(new Color(0, 0, 0, 0.50f));
 
-            Draw.shadowSG(region, x, y, region.getWidth(), region.getHeight());
-            Draw.shadowSG(region, x + 200, y + 200, region.getWidth(), region.getHeight());
+            Draw.shadowSG(region, x, y, width, height);
+            Draw.shadowSG(region, x + 200, y + 200, width, height);
 
             Draw.color();
 //            if (true) diablo.resetBlendMode();
             Draw.shader();
             Draw.flush();
 
-            Draw.rectGdx(region, x, y, region.getWidth(), region.getHeight());
+            Draw.rectGdx(region, x, y, width, height);
 
             Draw.reset();
             Draw.flush();
