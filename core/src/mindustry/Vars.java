@@ -154,9 +154,9 @@ public class Vars implements Loadable{
     /** if true, UI is not drawn */
     public static boolean disableUI;
     /** if true, game is set up in mobile mode, even on desktop. used for debugging */
-    public static boolean testMobile = true;
+    public static boolean testMobile = false;
     /** whether the game is running on a mobile device */
-    public static boolean mobile = true;
+    public static boolean mobile = false;
     /** whether the game is running on an iOS device */
     public static boolean ios;
     /** whether the game is running on an Android device */
