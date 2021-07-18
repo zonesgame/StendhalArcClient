@@ -32,4 +32,26 @@ public class Strs {
     public static final String str26 = "弹药 : {0}";
     public static final String str27 = "Max";
     public static final String str28 = "脚本文件";
+
+    public static final String str29 = "服务器地址";
+    public static final String str30 = "服务器端口";
+    public static final String str31 = "用户名";
+    public static final String str32 = "密码";
+    public static final String str33 = "登录服务器";
+    public static final String str34 = "保存密码";
+    public static final String str35 = "Choose Character";
+    public static final String str36 = "New Character";
+    public static final String str37 = "";
+    public static final String str38 = "";
+    public static final String str39 = "";
+    public static final String str40 = "";
+    public static final String str41 = "";
+    public static final String str42 = "";
+    public static final String str43 = "";
+    public static final String str44 = "";
+    public static final String str45 = "";
+    public static final String str46 = "";
+    public static final String str47 = "";
+    public static final String str48 = "";
+    public static final String str49 = "";
 }
