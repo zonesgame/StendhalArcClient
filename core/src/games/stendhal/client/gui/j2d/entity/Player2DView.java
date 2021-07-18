@@ -41,7 +41,7 @@ import temp.java.awt.Graphics;
  *
  * @param <T> player type
  */
-class Player2DView<T extends Player> extends RPEntity2DView<T> {
+public class Player2DView<T extends Player> extends RPEntity2DView<T> {
     /**
      * The logger.
      */
@@ -49,7 +49,7 @@ class Player2DView<T extends Player> extends RPEntity2DView<T> {
     /**
      * Color used for players who have been zombified.
      */
-    private static final Color ZOMBIE_COLOR = new Color(0x083000ff);
+    public static final Color ZOMBIE_COLOR = new Color(0x083000ff);
 
     /**
      * Sprite representing away.
