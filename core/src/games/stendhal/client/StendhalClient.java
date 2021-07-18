@@ -53,6 +53,7 @@ import marauroa.common.game.RPObject;
 import marauroa.common.net.InvalidVersionException;
 import marauroa.common.net.message.MessageS2CPerception;
 import marauroa.common.net.message.TransferContent;
+import mindustry.Vars;
 import temp.Debug;
 
 /**
@@ -437,6 +438,7 @@ public class StendhalClient extends ClientFramework {
         // show character dialog
         if (Debug.TEMP)
             ;
+        Vars.ui.characterDialog.show(characters);
 //        SwingUtilities.invokeLater(new Runnable() {
 //            @Override
 //            public void run() {
