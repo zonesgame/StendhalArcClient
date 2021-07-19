@@ -16,6 +16,14 @@ import static z.debug.ZDebug.enable_editorIso;
  */
 public class Assets {
 
+    public static void debugInitStendhal(TextureAtlas atlas) {
+        TextureRegion tempRegion = loadRegion("stendhal/gui/StendhalIcon.png");
+        atlas.addRegion("StendhalIcon", tempRegion);
+
+        tempRegion = loadRegion("stendhal/gui/StendhalSplash.jpg");
+        atlas.addRegion("StendhalSplash", tempRegion);
+    }
+
     public static void debugInitRegions(TextureAtlas atlas) {
         TextureRegion tempRegion = loadRegion("debug/node1/rally.png");
         atlas.addRegion("rally", tempRegion);
