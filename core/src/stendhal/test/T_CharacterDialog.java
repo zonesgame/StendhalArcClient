@@ -156,7 +156,9 @@ public class T_CharacterDialog extends FloatingDialog {
 //                border.setScaling(Scaling.fit);
 //                image.replaceImage(border);
 
-//                image.clicked(() -> dialog.show(map));
+                image.clicked(() -> {       // event process
+                    chooseCharacter(name);
+                });
 
                     characterGroup.add(image).pad(10);
                 } else {
@@ -285,7 +287,9 @@ public class T_CharacterDialog extends FloatingDialog {
     private void chooseCharacter(final String character) {
         try {
             StendhalClient.get().chooseCharacter(character);
-            stendhal.setDoLogin();
+            Events.fire(new EventType.ClientConnectOverEvent());
+//            stendhal.setDoLogin();
+            this.hide();
         } catch (TimeoutException e) {
             Log.err( e);
 //            handleError("Your connection timed out, please login again.", "Choose Character");
