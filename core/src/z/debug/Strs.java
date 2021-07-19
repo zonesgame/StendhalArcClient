@@ -1,9 +1,19 @@
 package z.debug;
 
+import arc.Core;
+
 /**
  *
  */
 public class Strs {
+    public static String get(String key, Object... objects) {
+        return Core.bundle.formatValue(key, objects);
+    }
+
+    public static String get(String key) {
+        return key;
+    }
+
     public static final String str1 = "移动";
     public static final String str2 = "升级";
     public static final String str3 = "[GREEN]升级中...[]";
@@ -41,12 +51,12 @@ public class Strs {
     public static final String str34 = "保存密码";
     public static final String str35 = "Choose Character";
     public static final String str36 = "New Character";
-    public static final String str37 = "";
-    public static final String str38 = "";
-    public static final String str39 = "";
-    public static final String str40 = "";
-    public static final String str41 = "";
-    public static final String str42 = "";
+    public static final String str37 = "Login to {0}";
+    public static final String str38 = "Create an account";
+    public static final String str39 = "Help";
+    public static final String str40 = "Credits";
+    public static final String str41 = "Quit";
+    public static final String str42 = "[ROYAL]Android zones[] - source code [SKY]https://github.com/zonesgame/StendhalArcClient.git[]";
     public static final String str43 = "";
     public static final String str44 = "";
     public static final String str45 = "";
