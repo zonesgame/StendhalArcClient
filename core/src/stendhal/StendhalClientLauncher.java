@@ -75,6 +75,7 @@ import static arc.Core.atlas;
 import static arc.Core.batch;
 import static arc.Core.bundle;
 import static arc.Core.graphics;
+import static mindustry.Vars.atlasS;
 import static mindustry.Vars.content;
 import static mindustry.Vars.control;
 import static mindustry.Vars.logic;
@@ -135,19 +136,20 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 
         Fonts.loadDefaultFont();
 
-        assets.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class)).loaded = t -> {
-            atlas = (TextureAtlas)t;
-            Fonts.mergeFontAtlas(atlas);
-            {   // zones add function
-//                Assets.debugInitRegions(atlas);
-            }
-        };
         {
             Vars.atlasS = TextureAtlas.blankAtlas();
             assets.load("stendhal/pack/tileset.c3", Pack.class);
             assets.load("stendhal/pack/sprites.c3", Pack.class);
 //            PackLoader.getInstance().loadAsync(Core.files.internal("stendhal/pack/tileset.c3"));
         }
+        assets.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class)).loaded = t -> {
+            atlas = (TextureAtlas)t;
+            Fonts.mergeFontAtlas(atlas);
+            {   // zones add function
+//                Assets.debugInitRegions(atlas);
+                Assets.debugInitStendhal(atlasS);
+            }
+        };
 
 //        assets.loadRun("maps", Map.class, () -> maps.loadPreviews());
 
