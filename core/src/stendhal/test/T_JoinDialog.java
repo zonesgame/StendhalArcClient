@@ -47,10 +47,34 @@ import static z.utils.FinalCons.SETTING_KEYS.savePassword;
 
 public class T_JoinDialog extends FloatingDialog {
 
+    private Array<Profile> profiles = new Array<>();
     private Profile profile;
 
-    private void init() {
-        profile = Profile.decode(settings.getString(lastLogin, ""));
+    private Table remote = new Table();
+    private Table groupParent = new Table();
+
+    @SuppressWarnings("unchecked")
+    private void loadServers(){
+        Array<String> serializeServers = Core.settings.getObject("server-list", Array.class, Array::new);
+        if (serializeServers.size > 0) {
+            for (String s : serializeServers) {
+                profiles.add(Profile.decode(s));
+            }
+            profile = profiles.first();
+            System.out.println("1111111111   " + profiles.size);
+        }
+        else if (Debug.NOTE2) {
+            System.out.println("222222222222222222");
+            profile = Profile.decode(settings.getString(lastLogin, ""));
+            profiles.add(profile);
+            for (int i = 10; --i > 0; ) {
+                Profile p = Profile.decode(profile.encode());
+                p.setHost(p.getHost() + i);
+                profiles.add(p);
+            }
+        }
+
+
 //
 //        profile.setHost((serverField.getText()).trim());
 //
@@ -71,15 +95,11 @@ public class T_JoinDialog extends FloatingDialog {
 //        profile.setPassword(new String(passwordField.getPassword()));
     }
 
-    private void saveLogin() {
-        settings.save();
-    }
-
     // end-------------------------------
 
     public T_JoinDialog(){
         super("$joingame");
-        init();
+        loadServers();
 
         if(!steam) buttons.add().width(60f);
         buttons.add().growX().width(-1);
@@ -115,14 +135,21 @@ public class T_JoinDialog extends FloatingDialog {
 
         if (true) {
             cont.clear();
+            groupParent.clear();
 
-            Table groupParent = new Table();
-            groupParent.setFillParent(true);
+            if (true) {
+                remote.clear();
+                section("test1", remote);
+            }
 
             // 拖动框添加
             ScrollPane pane = new ScrollPane(groupParent);
             pane.setFadeScrollBars(true);
-            pane.setScrollingDisabled(false, false);
+            pane.setScrollingDisabled(true, false);
+
+            {
+                setupRemote();
+            }
 
             // 服务器地址
             groupParent.table(t -> {
@@ -184,7 +211,8 @@ public class T_JoinDialog extends FloatingDialog {
 //            buttons.defaults().size(210f, 64f);
 //            buttons.addImageTextButton("$back", Icon.left, this::hide).size(210f, 64f);
 
-            cont.add(pane);
+//            cont.add(pane);
+            cont.add(pane).width(w + 38).pad(0);
             cont.row();
             return;
         }
@@ -328,6 +356,120 @@ public class T_JoinDialog extends FloatingDialog {
 //            handleError("Your IP is banned.",
 //                    "IP Banned");
         }
+    }
+
+    void section(String label, Table servers){
+        Table hosts = groupParent;
+
+        Collapser coll = new Collapser(servers, Core.settings.getBool("collapsed-" + label, false));
+        coll.setDuration(0.1f);
+
+        hosts.table(name -> {
+            name.add(label).pad(10).growX().left().color(Pal.accent);
+            name.addImageButton(Icon.downOpen, Styles.emptyi, () -> {
+                coll.toggle(false);
+                Core.settings.putSave("collapsed-" + label, coll.isCollapsed());
+            }).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).size(40f).right().padRight(10f);
+        }).growX();
+        hosts.row();
+        hosts.addImage().growX().pad(5).padLeft(10).padRight(10).height(3).color(Pal.accent);
+        hosts.row();
+        hosts.add(coll).width(targetWidth());
+        hosts.row();
+    }
+
+    void setupRemote(){
+        Array<Profile> servers = profiles;
+        remote.clear();
+
+        for(Profile server : servers){
+            //why are java lambdas this bad
+            TextButton[] buttons = {null};
+
+            TextButton button = buttons[0] = remote.addButton("[accent]" + server.getHost(), Styles.cleart, () -> {
+                if(!buttons[0].childrenPressed()){
+//                    if(server.lastHost != null){
+//                        safeConnect(server.ip, server.port, server.lastHost.version);
+//                    }else{
+//                        connect(server.ip, server.port);
+//                    }
+                }
+            }).width(targetWidth()).pad(4f).get();
+
+            button.getLabel().setWrap(true);
+
+            Table inner = new Table();
+            button.clearChildren();
+            button.add(inner).growX();
+
+            inner.add(button.getLabel()).growX();
+
+            inner.addImageButton(Icon.upOpen, Styles.emptyi, () -> {
+                moveRemote(server, -1);
+
+            }).margin(3f).padTop(6f).top().right();
+
+            inner.addImageButton(Icon.downOpen, Styles.emptyi, () -> {
+                moveRemote(server, +1);
+
+            }).margin(3f).padTop(6f).top().right();
+
+//            inner.addImageButton(Icon.refresh, Styles.emptyi, () -> {
+////                refreshServer(server);
+//            }).margin(3f).padTop(6f).top().right();
+//
+//            inner.addImageButton(Icon.pencil, Styles.emptyi, () -> {
+////                renaming = server;
+////                add.show();
+//            }).margin(3f).padTop(6f).top().right();
+
+            inner.addImageButton(Icon.trash, Styles.emptyi, () -> {
+                ui.showConfirm("$confirm", "$server.delete", () -> {
+                    servers.remove(server, true);
+                    saveServers();
+                    setupRemote();
+//                    refreshRemote();
+                });
+            }).margin(3f).pad(6).top().right();
+
+            button.row();
+
+//            server.content = button.table(t -> {}).grow().get();
+
+            remote.row();
+        }
+    }
+
+    void moveRemote(Profile server, int sign){
+        Array<Profile> servers = profiles;
+        int index = servers.indexOf(server);
+
+        if(index + sign < 0) return;
+        if(index + sign > servers.size - 1) return;
+
+        servers.remove(index);
+        servers.insert(index + sign, server);
+
+        saveServers();
+        setupRemote();
+        for(Profile other : servers){
+//            if(other.lastHost != null){
+//                setupServer(other, other.lastHost);
+//            }else{
+//                refreshServer(other);
+//            }
+        }
+    }
+
+    private void saveServers(){
+        Array<String> serializeServers = new Array<>();
+        for (Profile p : profiles) {
+            serializeServers.add(p.encode());
+        }
+        Core.settings.putObject("server-list", serializeServers);
+        Core.settings.save();
+        Array<String> aa = Core.settings.getObject("server-list", Array.class, Array::new);
+        System.out.println(aa.size);
     }
 
 
