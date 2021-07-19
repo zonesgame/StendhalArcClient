@@ -10,6 +10,7 @@ import arc.scene.event.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import arc.struct.Array;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.core.*;
@@ -17,15 +18,26 @@ import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
+import mindustry.ui.dialogs.FloatingDialog;
 import mindustry.ui.fragments.Fragment;
 import temp.Debug;
+import z.debug.Strs;
 
 import static mindustry.Vars.*;
+import static z.debug.Strs.str37;
+import static z.debug.Strs.str38;
+import static z.debug.Strs.str39;
+import static z.debug.Strs.str40;
+import static z.debug.Strs.str41;
+import static z.debug.Strs.str42;
 
 public class T_MenuFragment extends Fragment {
     private Table container, submenu;
     private Button currentMenu;
     private MenuRenderer renderer;
+
+    // credits file data
+    private Array<String> contributors = new Array<>();
 
     public T_MenuFragment(){
         Events.on(DisposeEvent.class, event -> {
@@ -36,6 +48,10 @@ public class T_MenuFragment extends Fragment {
 
     @Override
     public void build(Group parent){
+        {   // 外部文件加载
+            contributors = Array.with(Core.files.internal("stendhal/gui/credits.txt").readString("UTF-8").split("\n"));
+        }
+
         if ( !Debug.NOTE2)
             renderer = new MenuRenderer();
 
@@ -45,6 +61,32 @@ public class T_MenuFragment extends Fragment {
         parent.addChild(group);
 
         parent = group;
+
+        {   // render back
+            String versionText = "[#ffffffba]" + ((Version.build == -1) ? "[#fc8140aa]custom build" : (Version.type.equals("official") ? Version.modifier : Version.type) + " build " + Version.build + (Version.revision == 0 ? "" : "." + Version.revision));
+
+            parent.fill((x, y, w, h) -> {
+                TextureRegion logo = atlasS.find("StendhalSplash");
+                float logoscl = Scl.scl(1);
+                float logow = Math.min(logo.getWidth() * logoscl, Core.graphics.getWidth() - Scl.scl(20));
+                float logoh = logow * (float)logo.getHeight() / logo.getWidth();
+
+                float fx = (int)(Core.graphics.getWidth() / 2f);
+                float fy = (int)(Core.graphics.getHeight() - 6 - logoh) + logoh / 2 - (Core.graphics.isPortrait() ? Scl.scl(30f) : 0f);
+                {
+                    logow = Core.graphics.getWidth();
+                    logoh = Core.graphics.getHeight();
+                    fx = logow / 2;
+                    fy = logoh / 2;
+                }
+
+                Draw.color();
+                Draw.rect(logo, fx, fy, logow, logoh);
+
+                Fonts.def.setColor(Color.white);
+                Fonts.def.draw(versionText, fx, fy - logoh/2f, Align.center);
+            }).touchable(Touchable.disabled);
+        }
 
         if ( !Debug.NOTE2)
             parent.fill((x, y, w, h) -> renderer.render());
@@ -62,7 +104,10 @@ public class T_MenuFragment extends Fragment {
         });
 
         //info icon
-        if(mobile){
+        if (Debug.NOTE2) {
+
+        }
+        else if(mobile){
             parent.fill(c -> c.bottom().left().addButton("", Styles.infot, ui.about::show).size(84, 45));
             parent.fill(c -> c.bottom().right().addButton("", Styles.discordt, ui.discord::show).size(84, 45));
         }else if(becontrol.active()){
@@ -79,23 +124,6 @@ public class T_MenuFragment extends Fragment {
             }));
         }
 
-        String versionText = "[#ffffffba]" + ((Version.build == -1) ? "[#fc8140aa]custom build" : (Version.type.equals("official") ? Version.modifier : Version.type) + " build " + Version.build + (Version.revision == 0 ? "" : "." + Version.revision));
-
-        parent.fill((x, y, w, h) -> {
-            TextureRegion logo = Core.atlas.find("logo");
-            float logoscl = Scl.scl(1);
-            float logow = Math.min(logo.getWidth() * logoscl, Core.graphics.getWidth() - Scl.scl(20));
-            float logoh = logow * (float)logo.getHeight() / logo.getWidth();
-
-            float fx = (int)(Core.graphics.getWidth() / 2f);
-            float fy = (int)(Core.graphics.getHeight() - 6 - logoh) + logoh / 2 - (Core.graphics.isPortrait() ? Scl.scl(30f) : 0f);
-
-            Draw.color();
-            Draw.rect(logo, fx, fy, logow, logoh);
-
-            Fonts.def.setColor(Color.white);
-            Fonts.def.draw(versionText, fx, fy - logoh/2f, Align.center);
-        }).touchable(Touchable.disabled);
     }
 
     private void buildMobile(){
@@ -171,23 +199,26 @@ public class T_MenuFragment extends Fragment {
 
             {
                 buttons(t,
-                        new Buttoni("$play", null, ui.joinDialog::show),
-                        new Buttoni("$editor", null, ui.accountDialog::show),
-//                        new Buttoni("$settings", null, ui.settings::show),
-//                        new Buttoni("$about.button", null, ui.about::show),
-//                        new Buttoni("$quit", null, Core.app::exit)
+                        new Buttoni(Strs.get(str37, Core.settings.getAppName()), null, ui.joinDialog::show),
+                        new Buttoni(Strs.get(str38), null, ui.accountDialog::show),
+                        new Buttoni(Strs.get(str39), null, ()->{
+                            if(!Core.net.openURI(stendhalURL)){
+                                ui.showErrorMessage("$linkfail");
+                                Core.app.setClipboardText(stendhalURL);
+                            }
+                        }),
+                        new Buttoni(Strs.get(str40), null, this::showCredits),
+                        new Buttoni(Strs.get(str41), null, Core.app::exit)
 
 //                        new Buttoni("$play", Icon.play, ui.joinDialog::show),
 //                        new Buttoni("$editor", Icon.terrain, ui.accountDialog::show),
-                        new Buttoni("$settings", Icon.settings, () -> {
-                            Vars.ui.showInfoText("AAAAAAA", "CCCC");
-                        }),
-                        new Buttoni("$about.button", Icon.info, ui.about::show),
-                        new Buttoni("$quit", Icon.exit, () -> {
+//                        new Buttoni("$settings", Icon.settings, ui.settings::show),
+//                        new Buttoni("$about.button", Icon.info, ui.about::show),
+//                        new Buttoni("$quit", Icon.exit, () -> {
 //                            Core.settings.clear();
 //                            Core.settings.save();
-                            Core.app.exit();
-                        })
+//                            Core.app.exit();
+//                        })
                 );
             }
 //            buttons(t,
@@ -298,6 +329,39 @@ public class T_MenuFragment extends Fragment {
             out[0].update(() -> out[0].setChecked(currentMenu == out[0]));
             t.row();
         }
+    }
+
+
+    public void showCredits(){
+        FloatingDialog dialog = new FloatingDialog("$credits");
+        dialog.addCloseButton();
+        {
+            Label label = dialog.cont.add(Strs.get(str42)).fillX().wrap().get();
+            label.setAlignment(Align.center);
+           label.clicked(()->{
+               if(!Core.net.openURI(githubURL)){
+                   ui.showErrorMessage("$linkfail");
+               }
+           });
+        }
+        dialog.cont.row();
+        if(!contributors.isEmpty()){
+            dialog.cont.addImage().color(Pal.accent).fillX().height(3f).pad(3f);
+            dialog.cont.row();
+            dialog.cont.add("$contributors");
+            dialog.cont.row();
+            dialog.cont.pane(new Table(){{
+                int i = 0;
+                left();
+                for(String c : contributors){
+                    add("[lightgray]" + c).left().pad(3).padLeft(6).padRight(6);
+                    if(++i % 1 == 0){
+                        row();
+                    }
+                }
+            }});
+        }
+        dialog.show();
     }
 
     private class Buttoni{
