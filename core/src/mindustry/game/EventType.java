@@ -131,6 +131,11 @@ public class EventType{
 
     }
 
+    /** 客户端成功连接事件*/
+    public static class ClientConnectOverEvent{
+
+    }
+
     /** 服务器加载事件*/
     public static class ServerLoadEvent{
 
