@@ -17,6 +17,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import arc.Core;
+import arc.util.async.Threads;
 import arc.z.util.ZonesAnnotate;
 import marauroa.common.Logger;
 
@@ -53,7 +54,7 @@ public class GameLoop {
     private volatile boolean running;
 
     @ZonesAnnotate.ZAdd
-    private boolean isthread = false;
+    private boolean isthread = true;
 
     /**
      * Create a new GameLoop.
@@ -101,11 +102,13 @@ public class GameLoop {
 
     @ZonesAnnotate.ZAdd
     public void runNoThread() {
+        if (isthread) return;
         loop();
         // gameLoop runs until the client quit
         for (Runnable cleanup : cleanupTasks) {
-            Core.app.post(cleanup);
-//            cleanup.run();
+//            Core.app.post(cleanup);
+//            Core.app.post(Threads.thread(cleanup));
+            cleanup.run();
         }
     }
 
