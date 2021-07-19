@@ -73,21 +73,6 @@ public class T_InputApplication implements ApplicationListener {
 
     @Override
     public void update() {
-        run();
-    }
-
-    @Override
-    public void dispose() {
-    }
-
-    private void initClient() {
-        userContext = new UserContext();
-        perceptionDispatch = new PerceptionDispatcher();
-        final StendhalClient client = new StendhalClient(userContext, perceptionDispatch);
-    }
-
-    boolean initOver = false;
-    public void run() {
         if ( !gamerun) return;
 
 //        client.loop(0);
@@ -104,12 +89,24 @@ public class T_InputApplication implements ApplicationListener {
 //        Draw.proj().setOrtho(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
 
 
-//        if (render == null) {
-//            render = new T_GameScreen(client);
-//        }
-//        render.draw();
+        if (render == null) {
+            render = new T_GameScreen(StendhalClient.get());
+        }
+        render.draw();
 
         Draw.flush();
     }
+
+    @Override
+    public void dispose() {
+    }
+
+    private void initClient() {
+        userContext = new UserContext();
+        perceptionDispatch = new PerceptionDispatcher();
+        final StendhalClient client = new StendhalClient(userContext, perceptionDispatch);
+    }
+
+    boolean initOver = false;
 
 }
