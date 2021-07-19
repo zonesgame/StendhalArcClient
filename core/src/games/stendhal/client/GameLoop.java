@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import arc.Core;
+import arc.z.util.ZonesAnnotate;
 import marauroa.common.Logger;
 
 /**
@@ -33,7 +35,7 @@ public class GameLoop {
      */
     private final Thread loopThread;
     /**
-     * Main game loop content. Run at every cycle.
+     * 游戏内容更新<p/>Main game loop content. Run at every cycle.
      */
     private PersistentTask persistentTask;
     /**
@@ -49,6 +51,9 @@ public class GameLoop {
      * <code>false</code>, when it should continue to the cleanup tasks.
      */
     private volatile boolean running;
+
+    @ZonesAnnotate.ZAdd
+    private boolean isthread = false;
 
     /**
      * Create a new GameLoop.
@@ -90,8 +95,20 @@ public class GameLoop {
      */
     public void start() {
         running = true;
-        loopThread.start();
+        if ( isthread)
+            loopThread.start();
     }
+
+    @ZonesAnnotate.ZAdd
+    public void runNoThread() {
+        loop();
+        // gameLoop runs until the client quit
+        for (Runnable cleanup : cleanupTasks) {
+            Core.app.post(cleanup);
+//            cleanup.run();
+        }
+    }
+
 
     /**
      * Call at client quit. Tells the game loop to continue to the cleanup
@@ -141,7 +158,7 @@ public class GameLoop {
         long refreshTime = System.currentTimeMillis();
         long lastFpsTime = refreshTime;
 
-        while (running) {
+        do {       // default while
             try {
                 fps++;
                 final long now = System.currentTimeMillis();
@@ -187,7 +204,7 @@ public class GameLoop {
             } catch (RuntimeException e) {
                 logger.error(e, e);
             }
-        }
+        } while (running && isthread);
     }
 
     /**
