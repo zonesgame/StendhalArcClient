@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 
+import arc.z.util.ZonesAnnotate;
 import games.stendhal.client.ClientSingletonRepository;
 import games.stendhal.client.GameLoop;
 import games.stendhal.client.GameObjects;
@@ -67,7 +68,7 @@ public class j2DClient implements UserInterface {
 
 	private User lastuser;
 	public final PositionChangeMulticaster positionChangeListener = new PositionChangeMulticaster();			// default private
-	private /*final*/ J2DClientGUI gui;
+	private /*final*/ J2DClientGUI gui;		// default J2DClientGUI
 	/**
 	 * The stendhal client.
 	 */
@@ -205,6 +206,11 @@ public class j2DClient implements UserInterface {
 		loop.start();
 	}
 
+//	@ZonesAnnotate.ZAdd
+//	public void update() {
+//		GameLoop.get().runNoThread();
+//	}
+
 	/**
 	 * Called at quit.
 	 */
@@ -242,7 +248,9 @@ public class j2DClient implements UserInterface {
 		}
 
 		// Shows a offline icon if the connection is broken
+		if (gui != null)
 		gui.setOffline(!client.getConnectionState());
+		if (gui != null)
 		gui.beforePainting();
 
 		logger.debug("Move objects");
@@ -253,15 +261,18 @@ public class j2DClient implements UserInterface {
 		// check if the player object has changed.
 		// Note: this is an exact object reference check
 		if ((user != null) && (user != lastuser)) {
+			if (gui != null)
 			gui.updateUser(user);
 			lastuser = user;
 		}
 
+		if (gui != null)
 		gui.triggerPainting();
 
 		logger.debug("Query network");
 
 		client.loop(0);
+		if (gui != null)
 		gui.afterPainting();
 	}
 
@@ -418,12 +429,13 @@ public class j2DClient implements UserInterface {
 	public final SoundSystemFacade getSoundSystemFacade() {
 		if (soundSystemFacade == null) {
 			try {
-				if ((DataLoader.getResource("data/sound/xylophone-1.ogg") != null)
-						|| (DataLoader.getResource("data/music/the_old_tavern.ogg") != null)) {
-					soundSystemFacade = new games.stendhal.client.sound.sound.SoundSystemFacadeImpl();
-				} else {
-					soundSystemFacade = new NoSoundFacade();
-				}
+				soundSystemFacade = new NoSoundFacade();
+//				if ((DataLoader.getResource("data/sound/xylophone-1.ogg") != null)
+//						|| (DataLoader.getResource("data/music/the_old_tavern.ogg") != null)) {
+//					soundSystemFacade = true ? new NoSoundFacade() : new games.stendhal.client.sound.sound.SoundSystemFacadeImpl();
+//				} else {
+//					soundSystemFacade = new NoSoundFacade();
+//				}
 			} catch (RuntimeException e) {
 				soundSystemFacade = new NoSoundFacade();
 				logger.error(e, e);
