@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JFrame;
+
 import arc.ApplicationListener;
 import arc.Core;
 import arc.Events;
@@ -17,6 +19,7 @@ import arc.math.geom.Vec2;
 import arc.util.Log;
 import games.stendhal.client.CStatusSender;
 import games.stendhal.client.ClientSingletonRepository;
+import games.stendhal.client.GameLoop;
 import games.stendhal.client.PerceptionDispatcher;
 import games.stendhal.client.StendhalClient;
 import games.stendhal.client.UserContext;
@@ -55,10 +58,11 @@ public class T_InputApplication implements ApplicationListener {
     public void init() {
         initClient();
 
-        Events.on(EventType.ClientLoadEvent.class, e -> {
-            CStatusSender.send();
+        Events.on(EventType.ClientConnectOverEvent.class, e -> {
+//            CStatusSender.send();
             this.gamerun = true;
             j2DClient locclient = new j2DClient(StendhalClient.get(), userContext, null);
+            locclient.startGameLoop();
             perceptionDispatch.register(locclient.getPerceptionListener());
             // 清楚玩家移动状态, 如果先前是移动状态
             if (true) {
@@ -84,10 +88,11 @@ public class T_InputApplication implements ApplicationListener {
 
     boolean initOver = false;
     public void run() {
-        if ( !initOver) return;
+        if ( !gamerun) return;
 
 //        client.loop(0);
 //        clientManager.loop(0);
+        GameLoop.get().runNoThread();
 
         float zoom = 1f;
         camera.resize(Core.graphics.getWidth() * zoom, Core.graphics.getHeight() * zoom);
