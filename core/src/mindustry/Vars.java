@@ -89,7 +89,11 @@ public class Vars implements Loadable{
     /** global charset, since Android doesn't support the Charsets class */
     public static final Charset charset = Charset.forName("UTF-8");
     /** main application name, capitalized */
-    public static final String appName = "Mindustry";
+    public static final String appName = "Stendhal";
+    /***/
+    public static final String stendhalURL = "https://stendhalgame.org/wiki/Stendhal_Manual";
+    /***/
+    public static final String githubURL = "https://github.com/zonesgame/StendhalArcClient.git";
     /** URL for itch.io donations. */
     public static final String donationURL = "https://anuke.itch.io/mindustry/purchase";
     /** URL for discord invite. */
