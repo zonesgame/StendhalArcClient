@@ -10,6 +10,7 @@ import arc.graphics.Pixmap;
 import arc.graphics.Texture;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.scene.event.Touchable;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
@@ -51,6 +52,7 @@ import static arc.Core.settings;
 import static games.stendhal.client.gui.j2d.entity.Player2DView.ZOMBIE_COLOR;
 import static mindustry.Vars.ui;
 import static z.debug.Strs.str33;
+import static z.debug.Strs.str35;
 import static z.debug.Strs.str36;
 import static z.utils.FinalCons.PreFix.pfCharaName;
 import static z.utils.FinalCons.SETTING_KEYS.lastLogin;
@@ -62,7 +64,7 @@ public class T_CharacterDialog extends FloatingDialog {
     private java.util.Map<String, RPObject> characters;
 
     public T_CharacterDialog(){
-        super(Strs.str35);
+        super(Strs.get(str35));
         addCloseButton();
         shown(this::setup);
         onResize(this::setup);
@@ -157,7 +159,11 @@ public class T_CharacterDialog extends FloatingDialog {
 //                image.replaceImage(border);
 
                 image.clicked(() -> {       // event process
-                    chooseCharacter(name);
+                    T_CharacterDialog.this.touchable(Touchable.disabled);
+                    Core.app.post(()->{
+                        chooseCharacter(name);
+//                        T_CharacterDialog.this.touchable(Touchable.enabled);
+                    });
                 });
 
                     characterGroup.add(image).pad(10);
@@ -213,6 +219,8 @@ public class T_CharacterDialog extends FloatingDialog {
     @ZonesAnnotate.ZAdd
     public void show(java.util.Map<String, RPObject> characters) {
         this.characters = characters;
+        // 更新登录记录
+        ui.joinDialog.recordLogionHistory();
         show();
     }
 
@@ -289,7 +297,7 @@ public class T_CharacterDialog extends FloatingDialog {
             StendhalClient.get().chooseCharacter(character);
             Events.fire(new EventType.ClientConnectOverEvent());
 //            stendhal.setDoLogin();
-            this.hide();
+            T_CharacterDialog.this.hide();
         } catch (TimeoutException e) {
             Log.err( e);
 //            handleError("Your connection timed out, please login again.", "Choose Character");
