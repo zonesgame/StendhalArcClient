@@ -13,7 +13,9 @@ import arc.util.*;
 import arc.util.async.Threads;
 import arc.util.serialization.*;
 import games.stendhal.client.StendhalClient;
+import games.stendhal.client.actions.MoveContinuousAction;
 import games.stendhal.client.gui.ProgressBar;
+import games.stendhal.client.gui.j2DClient;
 import games.stendhal.client.gui.login.LoginDialog;
 import games.stendhal.client.gui.login.Profile;
 import marauroa.client.BannedAddressException;
@@ -25,6 +27,7 @@ import marauroa.common.net.message.MessageS2CLoginNACK;
 import mindustry.*;
 import mindustry.annotations.Annotations.*;
 import mindustry.core.*;
+import mindustry.game.EventType;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.net.*;
@@ -33,73 +36,92 @@ import mindustry.ui.*;
 import mindustry.ui.dialogs.FloatingDialog;
 import mindustry.ui.dialogs.PaletteDialog;
 import temp.Debug;
+import z.debug.Strs;
+import z.utils.Tools;
 
 import static arc.Core.settings;
 import static mindustry.Vars.*;
+
 import static z.debug.Strs.str29;
 import static z.debug.Strs.str30;
 import static z.debug.Strs.str31;
 import static z.debug.Strs.str32;
 import static z.debug.Strs.str33;
 import static z.debug.Strs.str34;
+import static z.debug.Strs.str43;
+import static z.debug.Strs.str49;
 import static z.utils.FinalCons.SETTING_KEYS.lastLogin;
 import static z.utils.FinalCons.SETTING_KEYS.savePassword;
+import static z.utils.FinalCons.SETTING_KEYS.saveProfile;
+import static z.utils.FinalCons.SETTING_KEYS.serverList;
 
 public class T_JoinDialog extends FloatingDialog {
 
     private Array<Profile> profiles = new Array<>();
-    private Profile profile;
+    private Profile fieldProfile;
 
     private Table remote = new Table();
     private Table groupParent = new Table();
 
+    private Label listname;
+    private TextField servername;
+    private TextField serverport;
+    private TextField username;
+    private TextField password;
+
     @SuppressWarnings("unchecked")
     private void loadServers(){
-        Array<String> serializeServers = Core.settings.getObject("server-list", Array.class, Array::new);
-        if (serializeServers.size > 0) {
+        Array<String> serializeServers = Core.settings.getObject(serverList, Array.class, Array::new);
+        if (true && serializeServers.size > 0) {
             for (String s : serializeServers) {
                 profiles.add(Profile.decode(s));
             }
-            profile = profiles.first();
-            System.out.println("1111111111   " + profiles.size);
+            fieldProfile = Profile.decode(profiles.first().encode());
         }
         else if (Debug.NOTE2) {
-            System.out.println("222222222222222222");
-            profile = Profile.decode(settings.getString(lastLogin, ""));
-            profiles.add(profile);
+            profiles.add(new Profile("stendhalgame.org", 32160, "zonesa", "a123456"));
             for (int i = 10; --i > 0; ) {
-                Profile p = Profile.decode(profile.encode());
+                Profile p = Profile.decode(profiles.first().encode());
                 p.setHost(p.getHost() + i);
                 profiles.add(p);
             }
+            fieldProfile = Profile.decode(profiles.first().encode());
+        }
+    }
+
+    /** 更新保存登录历史激励*/
+    public void recordLogionHistory() {
+        if (  !settings.getBool(saveProfile)) return;
+
+        Profile savefile = Profile.decode(fieldProfile.encode());
+        for (Profile p : profiles) {
+            if (p.toString().equals(savefile.toString()) && !savefile.getUser().equals("")) {
+                if ( !settings.getBool(savePassword)) {
+                    p.setPassword("");
+                }
+                else if (p.getPassword().equals("")) {
+                    p.setPassword(savefile.getPassword());
+                }
+
+                selectAccount(p);
+                return;
+            }
         }
 
-
-//
-//        profile.setHost((serverField.getText()).trim());
-//
-//        try {
-//            profile.setPort(Integer.parseInt(serverPortField.getText().trim()));
-//
-//            // Support for saving port number. Only save when input is a number
-//            // intensifly@gmx.com
-//
-//        } catch (final NumberFormatException ex) {
-//            JOptionPane.showMessageDialog(this,
-//                    "That is not a valid port number. Please try again.",
-//                    "Invalid port", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//
-//        profile.setUser(usernameField.getText().trim());
-//        profile.setPassword(new String(passwordField.getPassword()));
+        if ( !settings.getBool(savePassword)) {
+            savefile.setPassword("");
+        }
+        profiles.add(savefile);
+//        saveServers();
+        selectAccount(savefile);
     }
 
     // end-------------------------------
 
     public T_JoinDialog(){
-        super("$joingame");
+        super(Strs.get(str49));
         loadServers();
+//        recordLogionHistory();
 
         if(!steam) buttons.add().width(60f);
         buttons.add().growX().width(-1);
@@ -126,10 +148,6 @@ public class T_JoinDialog extends FloatingDialog {
         });
     }
 
-    private String name1 = "NAME1";
-    private String name2 = "NAME2";
-    private String name3 = "NAME3";
-
     void setup(){
         float w = targetWidth();
 
@@ -139,7 +157,7 @@ public class T_JoinDialog extends FloatingDialog {
 
             if (true) {
                 remote.clear();
-                section("test1", remote);
+                section( fieldProfile.toString(), remote);
             }
 
             // 拖动框添加
@@ -153,57 +171,86 @@ public class T_JoinDialog extends FloatingDialog {
 
             // 服务器地址
             groupParent.table(t -> {
-                t.add(str29).padRight(10);        // 添加table
-                t.addField(profile.getHost(), text -> {      // 添加输入框
+                t.add(Strs.get(str29)).padRight(10);        // 添加table
+                servername = t.addField(fieldProfile.getHost(), text -> {      // 添加输入框
                     if(Debug.NOTE2)
                         ;
-                    profile.setHost(text);
-                }).grow().pad(8).get().setMaxLength(maxNameLength);
+                    fieldProfile.setHost(text);
+                }).grow().pad(8).get();
+                servername.setMaxLength(maxNameLength);
             }).width(w).height(70f).pad(4);
             groupParent.row();
 
             // 服务器端口
             groupParent.table(t -> {
-                t.add(str30).padRight(10);
-                t.addField(String.valueOf(profile.getPort()), text -> {
+                t.add(Strs.get(str30)).padRight(10);
+                serverport = t.addField(String.valueOf(fieldProfile.getPort()), text -> {
                     if (Debug.NOTE2)
                         ;
-                    profile.setPort(Integer.parseInt(text));
-                }).grow().pad(8).get().setMaxLength(maxNameLength);
+                    if ( Tools.portCheck(text)) {
+                        fieldProfile.setPort(Tools.getNumber(text, fieldProfile.getPort()));
+                    } else {
+                        Core.app.post(()->{
+                            this.serverport.setText(String.valueOf(fieldProfile.getPort()));
+                        });
+                        ui.showInfoText("Invalid port", "That is not a valid port number. Please try again(1024~49151).");
+                    }
+//                    try {
+//                        fieldProfile.setPort(Integer.parseInt(text));
+//                    } catch (NumberFormatException e) {
+//                        ui.showInfoText("Invalid port", "That is not a valid port number. Please try again.");
+//                    }
+                }).grow().pad(8).get();
+                serverport.setMaxLength(maxNameLength);
             }).width(w).height(70f).pad(4);
             groupParent.row();
 
             // 账户名
             groupParent.table(t -> {
-                t.add(str31).padRight(10);
-                t.addField(profile.getUser(), text -> {
+                t.add(Strs.get(str31)).padRight(10);
+                username = t.addField(fieldProfile.getUser(), text -> {
                     if (Debug.NOTE2)
                         ;
-                    profile.setUser(text);
-                }).grow().pad(8).get().setMaxLength(maxNameLength);
+                    fieldProfile.setUser(text);
+                }).grow().pad(8).get();
+                username.setMaxLength(maxNameLength);
             }).width(w).height(70f).pad(4);
             groupParent.row();
 
             // 密码
             groupParent.table(t -> {
-                t.add(str32).padRight(10);
-                t.addField(profile.getPassword(), text -> {
+                t.add(Strs.get(str32)).padRight(10);
+                password = t.addField(fieldProfile.getPassword(), text -> {
                     if (Debug.NOTE2)
                         ;
-                    profile.setPassword(text);
-                }).grow().pad(8).get().setMaxLength(maxNameLength);
+                    fieldProfile.setPassword(text);
+                }).grow().pad(8).get();
+                password.setMaxLength(maxNameLength);
+                password.setPasswordMode(true);
+                password.setPasswordCharacter('*');
             }).width(w).height(70f).pad(4);
             groupParent.row();
 
             // 选择框添加
-            CheckBox box = new CheckBox(str34);
-            box.update(() -> box.setChecked(settings.getBool(savePassword)));
-            box.changed(() -> {
-                settings.put(savePassword, box.isChecked());
+            CheckBox boxprofile = new CheckBox(Strs.get(str43));         // save profile
+            boxprofile.update(() -> boxprofile.setChecked(settings.getBool(saveProfile, true)));
+            boxprofile.changed(() -> {
+                settings.put(saveProfile, boxprofile.isChecked());
                 settings.save();
             });
-            box.left();
-            groupParent.add(box).left().padTop(12f);
+            boxprofile.left();
+            groupParent.add(boxprofile).left().padTop(12f);
+            groupParent.row();
+
+            // 选择框添加
+            CheckBox boxpassword = new CheckBox(Strs.get(str34));         // save password
+            boxpassword.update(() -> boxpassword.setChecked(settings.getBool(savePassword, true)));
+            boxpassword.changed(() -> {
+                settings.put(savePassword, boxpassword.isChecked());
+                settings.save();
+            });
+            boxpassword.left();
+            groupParent.add(boxpassword).left().padTop(12f);
             groupParent.row();
 
             // 添加事件按钮
@@ -224,22 +271,29 @@ public class T_JoinDialog extends FloatingDialog {
         super.addCloseButton();
 //        buttons.defaults().size(210f, 64f);
 //        buttons.addImageTextButton("$back", Icon.left, this::hide).size(210f, 64f);
-        buttons.addImageTextButton(str33, Icon.left, () -> {
-            Profile savefile = Profile.decode(profile.encode());
-            if ( !settings.getBool(savePassword)) {
-                savefile.setPassword("");
-            }
-            settings.put(lastLogin, savefile.encode());
-            settings.save();
-
-            ui.loadfrag.show();      // Core.app.post(ui.loadfrag::show);       // ui.loadfrag.show();
+        buttons.addImageTextButton(Strs.get(str33), Icon.left, () -> {
+//            ui.loadfrag.show();      // Core.app.post(ui.loadfrag::show);       // ui.loadfrag.show();
 //            Core.app.post(() -> connect(profile));
-            Time.run(1f, () -> {
-//                connect(profile);
-                Threads.thread(() -> connect(profile));
-//                connectThread(profile);
-//                ui.loadfrag.hide();
-            });
+//            Core.app.post(Threads.thread(()->{
+//                ui.loadfrag.show();;
+//                connect(fieldProfile);
+//            }));
+//            Time.runTask(0,  Threads.thread(()->{
+//                ui.loadfrag.show();;
+//                connect(fieldProfile);
+//            }));
+            Threads.thread(()->{
+                        ui.loadfrag.show();;
+                        connect(fieldProfile);
+                    });
+
+//            Time.run(0.2f, () -> {
+////                connect(profile);
+//                Core.app.post(()->connect(fieldProfile));
+////                Threads.thread(() -> connect(fieldProfile));
+////                connectThread(profile);
+////                ui.loadfrag.hide();
+//            });
 //            Core.app.post(() ->connect(profile));
         }).size(210f, 64f);
 
@@ -331,7 +385,7 @@ public class T_JoinDialog extends FloatingDialog {
 //                }
 //            });
 //            Time.runTask(0, () -> ui.load.hide());
-            ui.loadfrag.hide();
+//            ui.loadfrag.hide();
 
         } catch (final InvalidVersionException e) {
             ui.showConfirm("Invalid version", "You are running an incompatible version of Stendhal. Please update", ()->{});
@@ -355,7 +409,21 @@ public class T_JoinDialog extends FloatingDialog {
             ui.showInfoText( "IP Banned", "Your IP is banned.");
 //            handleError("Your IP is banned.",
 //                    "IP Banned");
+        } finally {
+            ui.loadfrag.hide();
         }
+    }
+
+    private void selectAccount(Profile profile) {
+        int indexof = profiles.indexOf(profile);
+        fieldProfile = Profile.decode(profile.encode());
+        moveRemote(profile, -indexof);
+        // ui update
+        listname.setText( profile.toString());
+        servername.setText(profile.getHost());
+        serverport.setText(String.valueOf(profile.getPort()));
+        username.setText(profile.getUser());
+        password.setText(profile.getPassword());
     }
 
     void section(String label, Table servers){
@@ -365,7 +433,7 @@ public class T_JoinDialog extends FloatingDialog {
         coll.setDuration(0.1f);
 
         hosts.table(name -> {
-            name.add(label).pad(10).growX().left().color(Pal.accent);
+            listname = name.add(label).pad(10).growX().left().color(Pal.accent).get();
             name.addImageButton(Icon.downOpen, Styles.emptyi, () -> {
                 coll.toggle(false);
                 Core.settings.putSave("collapsed-" + label, coll.isCollapsed());
@@ -386,8 +454,9 @@ public class T_JoinDialog extends FloatingDialog {
             //why are java lambdas this bad
             TextButton[] buttons = {null};
 
-            TextButton button = buttons[0] = remote.addButton("[accent]" + server.getHost(), Styles.cleart, () -> {
+            TextButton button = buttons[0] = remote.addButton("[accent]" + server.toString(), Styles.cleart, () -> {
                 if(!buttons[0].childrenPressed()){
+                    selectAccount(server);
 //                    if(server.lastHost != null){
 //                        safeConnect(server.ip, server.port, server.lastHost.version);
 //                    }else{
@@ -466,10 +535,8 @@ public class T_JoinDialog extends FloatingDialog {
         for (Profile p : profiles) {
             serializeServers.add(p.encode());
         }
-        Core.settings.putObject("server-list", serializeServers);
+        Core.settings.putObject(serverList, serializeServers);
         Core.settings.save();
-        Array<String> aa = Core.settings.getObject("server-list", Array.class, Array::new);
-        System.out.println(aa.size);
     }
 
 
