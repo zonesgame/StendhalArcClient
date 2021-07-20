@@ -3,7 +3,7 @@ package z.debug;
 import arc.Core;
 
 /**
- *
+ *  temp class
  */
 public class Strs {
     public static String get(String key, Object... objects) {
@@ -43,12 +43,16 @@ public class Strs {
     public static final String str27 = "Max";
     public static final String str28 = "脚本文件";
 
-    public static final String str29 = "服务器地址";
-    public static final String str30 = "服务器端口";
-    public static final String str31 = "用户名";
-    public static final String str32 = "密码";
-    public static final String str33 = "登录服务器";
-    public static final String str34 = "保存密码";
+
+    public static final String str48 = "Account profiles\t";
+    public static final String str49 = "Login to Server";
+    public static final String str29 = "Server name";
+    public static final String str30 = "Server port";
+    public static final String str31 = "Type your username";
+    public static final String str32 = "Type your password";
+    public static final String str33 = "Login to Server";
+    public static final String str43 = "Save login profile locally";
+    public static final String str34 = "Save password";
     public static final String str35 = "Choose Character";
     public static final String str36 = "New Character";
     public static final String str37 = "Login to {0}";
@@ -57,11 +61,32 @@ public class Strs {
     public static final String str40 = "Credits";
     public static final String str41 = "Quit";
     public static final String str42 = "[ROYAL]Android zones[] - source code [SKY]https://github.com/zonesgame/StendhalArcClient.git[]";
-    public static final String str43 = "";
-    public static final String str44 = "";
-    public static final String str45 = "";
-    public static final String str46 = "";
-    public static final String str47 = "";
-    public static final String str48 = "";
-    public static final String str49 = "";
+
+    public static final String str44 = "Create New Account";
+    public static final String str45 = "Create Account";
+    public static final String str46 = "Server name";
+    public static final String str47 = "Server port";
+    public static final String str50 = "Choose a username";
+    public static final String str51 = "Choose a password";
+    public static final String str52 = "Retype password";
+    public static final String str53 = "E-mail address (optional)";
+    public static final String str54 = "Show password";
+    public static final String str55 = "On login information which identifies your computer on the internet will be logged to prevent abuse (like many attempts to guess a password in order to hack an account or creation of many accounts to cause trouble). Furthermore all events and actions that happen within the game-world (like solving quests, attacking monsters) are logged. This information is used to analyse bugs and in rare cases for abuse handling.";
+    public static final String str56 = "";
+    public static final String str57 = "";
+    public static final String str58 = "";
+    public static final String str59 = "";
+    public static final String str60 = "";
+    public static final String str61 = "";
+    public static final String str62 = "";
+    public static final String str63 = "";
+    public static final String str64 = "";
+    public static final String str65 = "";
+    public static final String str66 = "";
+    public static final String str67 = "";
+    public static final String str68 = "";
+    public static final String str69 = "";
+    public static final String str70 = "";
+//    public static final String str6 = "";
+//    public static final String str6 = "";
 }
