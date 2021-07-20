@@ -12,6 +12,8 @@
  ***************************************************************************/
 package games.stendhal.client.gui.login;
 
+import arc.z.util.ZonesAnnotate;
+
 /**
  * User login profile.
  */
@@ -288,6 +290,27 @@ public class Profile {
     public int hashCode() {
         return getHost().hashCode() ^ getUser().hashCode();
     }
+
+//    @ZonesAnnotate.ZAdd
+//    public String showInfo() {
+//        StringBuilder sbuf;
+//
+//        sbuf = new StringBuilder();
+//        sbuf.append(getUser());
+////        if (getCharacter() != null) {
+////            sbuf.append("/");
+////            sbuf.append(getCharacter());
+////        }
+//        sbuf.append('@');
+//        sbuf.append(getHost());
+//
+//        if (getPort() != DEFAULT_SERVER_PORT) {
+//            sbuf.append(':');
+//            sbuf.append(getPort());
+//        }
+//
+//        return sbuf.toString();
+//    }
 
     /**
      * Get the label string. This label is used for the profile selection list.
