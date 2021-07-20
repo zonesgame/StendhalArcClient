@@ -35,6 +35,9 @@ public class FinalCons {
     public static interface SETTING_KEYS {
         public final String lastLogin = "LASTLOGIN";
         public final String savePassword = "SAVEPASSWORD";
+        public final String saveProfile = "SVAVELOGIONPROFILE";
+        public final String showPassword = "SHOWPASSWORD";
+        public final String serverList = "SERVERLIST";
     }
 
     public static interface PreFix {
