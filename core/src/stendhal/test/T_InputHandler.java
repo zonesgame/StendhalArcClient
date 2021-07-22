@@ -15,6 +15,7 @@ import games.stendhal.client.StendhalClient;
 import games.stendhal.client.Zone;
 import games.stendhal.common.Direction;
 import marauroa.common.game.RPAction;
+import mindustry.input.Binding;
 import mindustry.input.InputHandler;
 import temp.java.awt.Point;
 import temp.java.awt.geom.Point2D;
