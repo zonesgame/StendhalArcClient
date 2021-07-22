@@ -24,6 +24,7 @@ import arc.util.Time;
 import arc.util.io.DefaultSerializers;
 import arc.util.serialization.JsonReader;
 import arc.util.serialization.XmlReader;
+import games.stendhal.client.listener.PositionChangeMulticaster;
 import mindustry.ai.BlockIndexer;
 import mindustry.ai.Pathfinder;
 import mindustry.ai.WaveSpawner;
@@ -64,6 +65,7 @@ import mindustry.net.BeControl;
 import mindustry.net.Net;
 import mindustry.world.blocks.defense.ForceProjector.ShieldEntity;
 import stendhal.test.T_ClientApplication;
+import stendhal.test.T_GameScreen;
 import temp.Debug;
 import z.ai.units.StrategySystem;
 import z.entities.type.base.BlockUnit;
@@ -486,6 +488,9 @@ public class Vars implements Loadable{
 
 
     public static T_ClientApplication clientScence;
+    public static T_GameScreen gameScreen;
+
+    public static final PositionChangeMulticaster positionChangeMulticaster = new PositionChangeMulticaster();
     // develop temp date end
 
     /** Stendhal纹理管理器*/
