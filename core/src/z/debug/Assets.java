@@ -22,6 +22,9 @@ public class Assets {
 
         tempRegion = loadRegion("stendhal/gui/StendhalSplash.jpg");
         atlas.addRegion("StendhalSplash", tempRegion);
+
+        tempRegion = loadRegion("stendhal/gui/offline.png");
+        atlas.addRegion("data/gui/offline.png", tempRegion);
     }
 
     public static void debugInitRegions(TextureAtlas atlas) {
