@@ -46,6 +46,7 @@ import marauroa.client.net.IPerceptionListener;
 import marauroa.common.Logger;
 import marauroa.common.game.RPObject;
 import marauroa.common.net.InvalidVersionException;
+import stendhal.test.ArcClientGUI;
 
 /** The main class that create the screen and starts the arianne client. */
 public class j2DClient implements UserInterface {
@@ -67,8 +68,8 @@ public class j2DClient implements UserInterface {
 /*	private final NotificationChannelManager channelManager = new NotificationChannelManager();*/
 
 	private User lastuser;
-	public final PositionChangeMulticaster positionChangeListener = new PositionChangeMulticaster();			// default private
-	private /*final*/ J2DClientGUI gui;		// default J2DClientGUI
+//	public final PositionChangeMulticaster positionChangeListener = new PositionChangeMulticaster();			// default private
+	private /*final*/ ArcClientGUI gui;		// default J2DClientGUI
 	/**
 	 * The stendhal client.
 	 */
@@ -126,7 +127,7 @@ public class j2DClient implements UserInterface {
 	/**
 	 * A constructor for JUnit tests.
 	 */
-	public j2DClient(J2DClientGUI gui) {
+	public j2DClient(ArcClientGUI gui) {
 		setDefault(this);
 		this.gui = gui;
 	}
@@ -153,11 +154,13 @@ public class j2DClient implements UserInterface {
 		 */
 		SlashActionRepository.register();
 
-/*		gui = new SwingClientGUI(client, userContext, channelManager, splash);
+		gui = new ArcClientGUI();
 
 		for (PositionChangeListener listener : gui.getPositionChangeListeners()) {
-			positionChangeListener.add(listener);
-		}*/
+			if (temp.Debug.NOTE1)
+				;
+//			positionChangeListener.add(listener);
+		}
 
 		// Display a hint if this is a debug client
 		if (Debug.PRE_RELEASE_VERSION != null) {
@@ -165,7 +168,9 @@ public class j2DClient implements UserInterface {
 		}
 
 		checkAndComplainAboutJavaImplementation();
-		positionChangeListener.add(getSoundSystemFacade());
+		if (temp.Debug.NOTE1)
+			;
+//		positionChangeListener.add(getSoundSystemFacade());
 	} // constructor
 
 
@@ -403,9 +408,9 @@ public class j2DClient implements UserInterface {
 	 * @param y
 	 *            The user's Y coordinate.
 	 */
-	public void setPosition(final double x, final double y) {
-		positionChangeListener.positionChanged(x, y);
-	}
+//	public void setPosition(final double x, final double y) {
+//		positionChangeListener.positionChanged(x, y);
+//	}
 
 	/**
 	 * PerceptionListener for the game window.
