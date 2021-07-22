@@ -16,6 +16,7 @@ import arc.graphics.g2d.PixmapRegion;
 import arc.graphics.g2d.SpriteBatch;
 import arc.graphics.g2d.TextureAtlas;
 import arc.graphics.g2d.TextureRegion;
+import arc.input.InputProcessor;
 import arc.input.KeyCode;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Scl;
@@ -88,6 +89,22 @@ public class TestLauncher extends ApplicationCore {
         };
 
         Shaders.init();
+        {
+            Core.input.getInputProcessors().clear();
+            Core.input.addProcessor(new InputProcessor() {
+                @Override
+                public boolean keyDown(KeyCode keycode) {
+                    System.out.println("Keydown: " + keycode);
+                    return true;
+                }
+
+                @Override
+                public boolean keyTyped(char character) {
+                    System.out.println("Keytype: " + character);
+                    return false;
+                }
+            });
+        }
     }
 
     @Override
