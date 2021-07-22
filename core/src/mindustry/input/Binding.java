@@ -87,6 +87,12 @@ public enum Binding implements KeyBind{
     /** unit移动或攻击事件*/
     unit_action(KeyCode.MOUSE_LEFT),
     // zones add end
+
+    // stendhal begon
+    s_ctrl(KeyCode.CONTROLLER_L_TRIGGER),
+    s_shift(KeyCode.SHIFT_LEFT),
+    // stendhal end
+
     ;
 
     private final KeybindValue defaultValue;
