@@ -351,7 +351,7 @@ public class Zone {
      * @return zone width, or 0 if the zone is not ready enough to return the
      * real width
      */
-    double getWidth() {
+    public double getWidth() {
         if (!isValid) {
             return 0.0;
         }
@@ -364,7 +364,7 @@ public class Zone {
      * @return zone height, or 0 if the zone is not ready enough to return the
      * real height
      */
-    double getHeight() {
+    public double getHeight() {
         if (!isValid) {
             return 0.0;
         }
