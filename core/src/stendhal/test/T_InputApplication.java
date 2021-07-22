@@ -42,16 +42,19 @@ import marauroa.common.game.RPAction;
 import marauroa.common.game.RPObject;
 import marauroa.common.net.message.MessageS2CPerception;
 import marauroa.common.net.message.TransferContent;
+import mindustry.Vars;
+import mindustry.core.GameState;
 import mindustry.game.EventType;
 
 import static arc.Core.camera;
+import static mindustry.Vars.state;
 
 public class T_InputApplication implements ApplicationListener {
 
     private /*final*/ PerceptionDispatcher perceptionDispatch;
     private /*final*/ UserContext userContext;
 
-    T_GameScreen render;
+    T_GameScreen2 render;
     boolean gamerun = false;
 
     @Override
@@ -60,6 +63,9 @@ public class T_InputApplication implements ApplicationListener {
 
         Events.on(EventType.ClientConnectOverEvent.class, e -> {
 //            CStatusSender.send();
+            Vars.state.set(GameState.State.playing);
+            render = new T_GameScreen2(StendhalClient.get());
+            render.onResized();
             this.gamerun = true;
             j2DClient locclient = new j2DClient(StendhalClient.get(), userContext, null);
             locclient.startGameLoop();
@@ -68,37 +74,52 @@ public class T_InputApplication implements ApplicationListener {
             if (true) {
                 Core.app.post(()->new MoveContinuousAction().sendAction(true, false));
             }
+            Core.input.getInputProcessors().clear();
+            Core.input.addProcessor(new T_InputHandler());
+            System.out.println(Core.input.getInputProcessors().size);
         });
+//        Core.input.addProcessor(new T_InputHandler());
     }
 
     @Override
     public void update() {
+        float zoom = 1f;
+        camera.resize(Core.graphics.getWidth() * zoom, Core.graphics.getHeight() * zoom);
+
         if ( !gamerun) return;
 
 //        client.loop(0);
 //        clientManager.loop(0);
         GameLoop.get().runNoThread();
 
-        float zoom = 1f;
-        camera.resize(Core.graphics.getWidth() * zoom, Core.graphics.getHeight() * zoom);
+//        float zoom = 2f;
+//        camera.resize(Core.graphics.getWidth() * zoom, Core.graphics.getHeight() * zoom);
 
+        camera.update();
         Core.graphics.clear(Color.white);
-//        Draw.proj(Core.camera.projection());
+        Draw.proj(Core.camera.projection());
         Draw.reset();
         Draw.proj(camera.projection());
 //        Draw.proj().setOrtho(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
 
 
         if (render == null) {
-            render = new T_GameScreen(StendhalClient.get());
+//            render = new T_GameScreen(StendhalClient.get());
+//            Vars.gameScreen = render;
         }
-        render.draw();
+        render.paintComponent(null);
 
         Draw.flush();
     }
 
     @Override
     public void dispose() {
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        if (render != null)
+            render.onResized();
     }
 
     private void initClient() {
