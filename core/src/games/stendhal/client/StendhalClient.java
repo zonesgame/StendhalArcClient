@@ -29,6 +29,8 @@ import java.util.concurrent.locks.ReentrantLock;
 //import javax.swing.JOptionPane;
 //import javax.swing.SwingUtilities;
 
+import arc.Core;
+import arc.Events;
 import arc.KeyBinds;
 import arc.input.KeyCode;
 import games.stendhal.client.entity.User;
@@ -54,6 +56,7 @@ import marauroa.common.net.InvalidVersionException;
 import marauroa.common.net.message.MessageS2CPerception;
 import marauroa.common.net.message.TransferContent;
 import mindustry.Vars;
+import mindustry.game.EventType;
 import temp.Debug;
 
 /**
@@ -411,6 +414,7 @@ public class StendhalClient extends ClientFramework {
                     logger.error(result.getResult().getText());
                     if (Debug.TEMP)
                         ;
+                    Vars.ui.showInfoText("", result.getResult().getText());
 //                    JOptionPane.showMessageDialog(splashScreen, result.getResult().getText());
                 }
             } catch (final Exception e) {
@@ -423,7 +427,8 @@ public class StendhalClient extends ClientFramework {
         if ((character != null) && (characters.containsKey(character))) {
             try {
                 chooseCharacter(character);
-                stendhal.setDoLogin();
+                Events.fire(new EventType.ClientConnectOverEvent());
+//                stendhal.setDoLogin();
                 if (Debug.TEMP)
                     ;
 //                if (splashScreen != null) {
@@ -820,6 +825,7 @@ public class StendhalClient extends ClientFramework {
         if ((message != null) && (message.trim().length() > 0)) {
             if (Debug.TEMP)
                 ;
+            Vars.ui.showInfoText("Version Check", message);
 //            JOptionPane.showMessageDialog(splashScreen,
 //                    new JLabel(message), "Version Check",
 //                    JOptionPane.WARNING_MESSAGE);
