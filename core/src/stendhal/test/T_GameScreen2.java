@@ -155,6 +155,7 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
 
     transient Graphics2D graphics = new Graphics2D();
     transient Rectangle clip = new Rectangle();
+    transient Rectangle clipFrustum = new Rectangle();
 
     /**
      * Create a game screen.
@@ -204,6 +205,7 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
          */
 //        setIgnoreRepaint(true);
         client.getGameObjects().addGameObjectListener(this);
+        client.addZoneChangeListener(this);
         Vars.positionChangeMulticaster.add(this);
     }
 
@@ -332,8 +334,15 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
         viewManager.removeEntity(entity);
     }
 
+    private boolean threadSleep = false;
+    private int threadSleepCompensate;
+    private final int threadSleepStep = 3;
     /**Update the view position to center the target position.*/
     private void adjustView() {
+        if ( !threadSleep) {      // zones add
+            if (++threadSleepCompensate % threadSleepStep != 0)
+                return;
+        }
         /* Already centered?*/
         if ((dvx == 0) && (dvy == 0)) {
             return;
@@ -477,13 +486,16 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
 //        }
 //        Rectangle clip = graphics.getClipBounds();
         {
-//            adjustView();
-            float x = svx  + sw / 2;
-            float y = svy  + sh / 2;
+            nextFrame();
+            float camx = svx  + sw / 2;
+            float camy = svy  + sh / 2;
 //            float camx = x * SIZE_UNIT_PIXELS;
 //            float camy = (float) ((gameLayers.getHeight() - y - 1) * SIZE_UNIT_PIXELS);
 //            camera.position.set(camx, camy);
-            camera.position.set(x, y);
+//            y = wh * SIZE_UNIT_PIXELS - y;
+            camera.position.set(camx, (wh * SIZE_UNIT_PIXELS - camy));
+            clip.setRect(camx - camera.width/2, camy - camera.height/2, camera.width, camera.height);
+            clipFrustum.setRect(camera.position.x - camera.width/2, camera.position.y - camera.height/2, camera.width, camera.height);
 //            camera.update();
 
 
@@ -493,7 +505,7 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
 //            camera.update();
 //            System.out.println(gameLayers.getHeight() + " X " + wh + " X " + this.getViewHeight());
         }
-        clip.setRect(camera.position.x - camera.width/2, camera.position.y - camera.height/2, camera.width, camera.height);
+//        clip.setRect(camera.position.x - camera.width/2, camera.position.y - camera.height/2, camera.width, camera.height);
         boolean fullRedraw = (clip.width == sw && clip.height == sh);
 //        boolean fullRedraw = true;
 
@@ -551,7 +563,7 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
         int startTileY = Math.max(0, (int) getViewY());
 
 //        Rectangle clip = g.getClipBounds();
-        clip.setRect(camera.position.x - camera.width/2, camera.position.y - camera.height/2, camera.width, camera.height);
+//        clip.setRect(camera.position.x - camera.width/2, camera.position.y - camera.height/2, camera.width, camera.height);
         startTileX = Math.max(startTileX, clip.x / IGameScreen.SIZE_UNIT_PIXELS);
         startTileY = Math.max(startTileY, clip.y / IGameScreen.SIZE_UNIT_PIXELS);
         {
@@ -564,7 +576,7 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
         layerWidth = Math.min(layerWidth, clip.width / IGameScreen.SIZE_UNIT_PIXELS) + 2;
         layerHeight = Math.min(layerHeight, clip.height / IGameScreen.SIZE_UNIT_PIXELS) + 2;
         {
-            startTileY = Math.max(0, (int)gameLayers.getHeight() - startTileY - layerHeight);
+//            startTileY = Math.max(0, (int)gameLayers.getHeight() - startTileY - layerHeight);
 //            startTileX = startTileY = 0;
 //            layerWidth = layerHeight = Integer.MAX_VALUE;
 //            System.out.println(startTileX + " x " + startTileY + "  -  " + layerWidth + " x " + layerHeight + "  --  " +
@@ -572,7 +584,7 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
 //            System.out.println(getViewX() + "  " + getViewY() + "  " + getViewWidth() + "  " + getViewHeight());
         }
 
-        viewManager.prepareViews(clip, fullRedraw);
+        viewManager.prepareViews(clipFrustum, fullRedraw);
 
         final String set = gameLayers.getAreaName();
         gameLayers.drawLayers(g, set, "floor_bundle", startTileX,
