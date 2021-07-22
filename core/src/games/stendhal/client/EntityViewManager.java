@@ -106,7 +106,7 @@ public class EntityViewManager {
      * @return entity view, or <code>null</code> if no entity was found at the
      * location
      */
-    EntityView<IEntity> getEntityViewAt(final double x, final double y,
+    public EntityView<IEntity> getEntityViewAt(final double x, final double y,
                                         final int sx, final int sy) {
         // Try the physical entity areas first
         EntityView<IEntity> view = getOccupyingEntityViewAt(x, y, false);
@@ -127,7 +127,7 @@ public class EntityViewManager {
      * @param sy pixel y coordinate
      * @return moveable entity view, or <code>null</code> if none was found
      */
-    EntityView<IEntity> getMovableEntityViewAt(final double x, final double y,
+    public EntityView<IEntity> getMovableEntityViewAt(final double x, final double y,
                                                final int sx, final int sy) {
         // Try the physical entity areas first
         EntityView<IEntity> view = getOccupyingEntityViewAt(x, y, true);
