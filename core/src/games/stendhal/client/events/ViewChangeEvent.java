@@ -14,7 +14,10 @@ package games.stendhal.client.events;
 import javax.swing.SwingUtilities;
 
 //import games.stendhal.client.GameScreen;
+import arc.Core;
 import games.stendhal.client.entity.Entity;
+import mindustry.Vars;
+import stendhal.test.T_GameScreen2;
 import temp.Debug;
 
 /**
@@ -28,6 +31,9 @@ class ViewChangeEvent extends Event<Entity> {
 
         if (Debug.TEMP)
         	;
+//        Core.app.post(() -> Vars.gameScreen.positionChanged(x, y));
+        Core.app.post(() -> T_GameScreen2.get().positionChanged(x, y));
+
 //        SwingUtilities.invokeLater(new Runnable() {
 //            @Override
 //            public void run() {
