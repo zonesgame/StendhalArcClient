@@ -277,7 +277,7 @@ public class DebugFloorRenderer implements Disposable{
         if ( Core.input.keyRelease(KeyCode.F4)) {
             offset[0] += 1;
         }
-        System.out.println(offset[0] + "    " + offset[1]);
+//        System.out.println(offset[0] + "    " + offset[1]);
     }
     // zones add end
 }
