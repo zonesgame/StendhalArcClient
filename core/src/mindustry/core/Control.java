@@ -11,6 +11,7 @@ import arc.Events;
 import arc.assets.Loadable;
 import arc.audio.Sound;
 import arc.graphics.g2d.Draw;
+import arc.input.GestureDetector;
 import arc.input.KeyCode;
 import arc.math.geom.Geometry;
 import arc.scene.ui.Dialog;
@@ -25,6 +26,7 @@ import mindustry.entities.Effects;
 import mindustry.entities.type.BaseUnit;
 import mindustry.entities.type.Player;
 import mindustry.entities.type.TileEntity;
+import mindustry.game.EventType;
 import mindustry.game.EventType.BlockBuildEndEvent;
 import mindustry.game.EventType.BlockDestroyEvent;
 import mindustry.game.EventType.ClientLoadEvent;
@@ -58,6 +60,7 @@ import mindustry.ui.dialogs.FloatingDialog;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.storage.CoreBlock;
+import stendhal.test.T_InputHandler;
 import temp.Debug;
 import z.debug.ZDebug;
 
@@ -292,6 +295,15 @@ public class Control implements ApplicationListener, Loadable{
 
         if ( !Debug.NOTE1)
             Events.on(ClientLoadEvent.class, e -> input.add());
+        if ( Debug.NOTE2) {
+            Events.on(EventType.ClientConnectOverEvent.class,
+                    e -> {
+//                        Core.input.getInputProcessors().remove(i -> i instanceof InputHandler || (i instanceof GestureDetector && ((GestureDetector)i).getListener() instanceof InputHandler));
+//                        Core.input.addProcessor( new GestureDetector(20, 0.5f, 0.3f, 0.15f, this));
+//                        Core.input.addProcessor(new T_InputHandler());
+//                        System.out.println("2222222222");
+                    });
+        }
     }
 
     public void setInput(InputHandler newInput){
@@ -506,7 +518,7 @@ public class Control implements ApplicationListener, Loadable{
             settings.save();
         }
 
-        if(!state.is(State.menu)){
+        if( !Debug.NOTE2 && !state.is(State.menu)){
             input.update();
 
             if(world.isZone()){
