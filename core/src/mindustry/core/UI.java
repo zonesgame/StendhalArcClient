@@ -4,6 +4,7 @@ import arc.*;
 import arc.Graphics.*;
 import arc.Input.*;
 import arc.assets.*;
+import arc.files.Fi;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -85,6 +86,10 @@ public class UI implements ApplicationListener, Loadable{
     public SettingInfoDialog settingComp;
     // zones add end
 
+    /** stendhal光标*/
+    public ObjectMap<String, Cursor> stendhalCursors = new ObjectMap<>();
+    private Cursor curCursor = Cursor.SystemCursor.arrow;
+
     public T_JoinDialog joinDialog;
     public T_CreateAccountDialog accountDialog;
     public T_CharacterDialog characterDialog;
@@ -134,6 +139,16 @@ public class UI implements ApplicationListener, Loadable{
 
         drillCursor = Core.graphics.newCursor("drill");
         unloadCursor = Core.graphics.newCursor("unload");
+        {
+            Fi root = Core.files.internal("cursors/stendhal/");
+            for (Fi handle : root.list()) {
+                if (handle.extension().equals("png")) {
+                    stendhalCursors.put(handle.nameWithoutExtension(),
+                            Core.graphics.newCursor("stendhal/" + handle.nameWithoutExtension()));
+                }
+            }
+            curCursor = stendhalCursors.get("normal");
+        }
     }
 
     @Override
@@ -159,6 +174,10 @@ public class UI implements ApplicationListener, Loadable{
         if(state.rules.tutorial){
             control.tutorial.draw();
             Draw.flush();
+        }
+
+        if (Debug.NOTE2) {
+            tempInputupdate();
         }
     }
 
@@ -553,6 +572,12 @@ public class UI implements ApplicationListener, Loadable{
             return Strings.fixed(number / 1000f, 1) + "[gray]" + Core.bundle.get("unit.thousands") + "[]";
         }else{
             return number + "";
+        }
+    }
+
+    private void tempInputupdate() {
+        if(!Core.scene.hasMouse()){
+            Core.graphics.cursor(curCursor);
         }
     }
 }
