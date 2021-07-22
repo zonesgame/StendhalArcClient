@@ -18,6 +18,7 @@ import games.stendhal.client.entity.ActionType;
 import games.stendhal.client.entity.IEntity;
 import games.stendhal.client.entity.User;
 import games.stendhal.client.gui.j2DClient;
+import mindustry.Vars;
 import temp.Debug;
 
 /**
@@ -35,6 +36,7 @@ class User2DView<T extends User> extends Player2DView<T> {
 			if (Debug.NOTE1)
 				;
 //			j2DClient.get().setPosition(entity.getX(), entity.getY());
+			Vars.positionChangeMulticaster.positionChanged(entity.getX(), entity.getY());
 		}
 	}
 	//
@@ -102,7 +104,8 @@ class User2DView<T extends User> extends Player2DView<T> {
 		super.entityChanged(property);
 
 		if (property == IEntity.PROP_POSITION) {
-			j2DClient.get().setPosition(entity.getX(), entity.getY());
+//			j2DClient.get().setPosition(entity.getX(), entity.getY());
+			Vars.positionChangeMulticaster.positionChanged(entity.getX(), entity.getY());
 		}
 	}
 
