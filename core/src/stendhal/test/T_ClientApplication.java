@@ -329,12 +329,12 @@ public class T_ClientApplication implements ApplicationListener {
         j2DClient locclient = new j2DClient(client, userContext, null);
         perceptionDispatch.register(locclient.getPerceptionListener());
 
-        j2DClient.get().positionChangeListener.add(new PositionChangeListener() {
-            @Override
-            public void positionChanged(double x, double y) {
-                camera.position.lerpDelta(new Vec2((float)x * 32f, (float)((StendhalClient.get().getStaticGameLayers().getHeight() - y - 1) * 32f)), 0.8f);
-            }
-        });
+//        j2DClient.get().positionChangeListener.add(new PositionChangeListener() {
+//            @Override
+//            public void positionChanged(double x, double y) {
+//                camera.position.lerpDelta(new Vec2((float)x * 32f, (float)((StendhalClient.get().getStaticGameLayers().getHeight() - y - 1) * 32f)), 0.8f);
+//            }
+//        });
 
         Core.input.addProcessor(new T_InputHandler());
 
