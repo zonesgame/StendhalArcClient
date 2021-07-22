@@ -25,6 +25,23 @@ public class Assets {
 
         tempRegion = loadRegion("stendhal/gui/offline.png");
         atlas.addRegion("data/gui/offline.png", tempRegion);
+
+        // cursor begon
+//        String path = "data/sprites/cursor/";
+//        loadFoled(path, atlas, Texture.TextureFilter.Linear);
+        // cursor end
+    }
+
+    private static void loadFoled(String foled, TextureAtlas atlas, Texture.TextureFilter filter) {
+        Fi root = Core.files.internal(foled);
+        for (Fi handle : root.list()) {
+            String atlasKey = handle.nameWithoutExtension();
+            TextureRegion region = loadRegion(handle.path());
+            if (filter != null) {
+                region.getTexture().setFilter(filter);
+            }
+            atlas.addRegion(atlasKey, region);
+        }
     }
 
     public static void debugInitRegions(TextureAtlas atlas) {
