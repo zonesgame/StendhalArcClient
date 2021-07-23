@@ -904,6 +904,24 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
     }
 
     /**
+     * @param y 笛卡尔坐标系统
+     * */
+    @ZonesAnnotate.ZAdd
+    public Point2D convertScreenViewToWorldDescartes(final int x, final int y) {
+        Vec2 pos = Vec2.TEMP.set(Core.input.mouseWorld(x, y));
+        Point2D tilePos = new Point2D.Double(pos.x / 32f, pos.y / 32f);
+        tilePos.setLocation(tilePos.getX(), gameLayers.getHeight() - tilePos.getY() );
+        return tilePos;
+
+//        double wy = ((y / scale) + getScreenViewY());
+//        System.out.println(wy);
+//        wy = (StendhalClient.get().getStaticGameLayers().getHeight() * SIZE_UNIT_PIXELS * scale - wy);
+//        System.out.println(wy + "        ___________");
+//        return new Point.Double(((x / scale) + getScreenViewX()) / SIZE_UNIT_PIXELS,
+//                wy / SIZE_UNIT_PIXELS);
+    }
+
+    /**
      * Get the view X screen coordinate.
      * @return The X coordinate of the left side.
      */
