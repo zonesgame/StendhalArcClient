@@ -15,6 +15,7 @@ import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
+import arc.input.InputProcessor;
 import arc.math.geom.Vec2;
 import arc.util.Log;
 import games.stendhal.client.CStatusSender;
@@ -55,7 +56,7 @@ public class T_InputApplication implements ApplicationListener {
     private /*final*/ UserContext userContext;
 
     T_GameScreen2 render;
-    boolean gamerun = false;
+    public static boolean gamerun = false;
 
     @Override
     public void init() {
@@ -63,7 +64,7 @@ public class T_InputApplication implements ApplicationListener {
 
         Events.on(EventType.ClientConnectOverEvent.class, e -> {
 //            CStatusSender.send();
-            Vars.state.set(GameState.State.playing);
+            state.set(GameState.State.playing);
             render = new T_GameScreen2(StendhalClient.get());
             render.onResized();
             this.gamerun = true;
@@ -74,9 +75,13 @@ public class T_InputApplication implements ApplicationListener {
             if (true) {
                 Core.app.post(()->new MoveContinuousAction().sendAction(true, false));
             }
-            Core.input.getInputProcessors().clear();
-            Core.input.addProcessor(new T_InputHandler());
-            System.out.println(Core.input.getInputProcessors().size);
+
+//            Core.input.getInputProcessors().clear();
+            Vars.inputStendhal = new KeyInputprocess().add();
+//            System.out.println(Core.input.getInputProcessors().size);
+//            for (InputProcessor processor : Core.input.getInputProcessors()) {
+//                System.out.println(processor.getClass().getName());
+//            }
         });
 //        Core.input.addProcessor(new T_InputHandler());
     }
