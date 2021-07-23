@@ -113,8 +113,7 @@ public class ActionConfigFragment extends Fragment {
 //        Table menu = table;
         menu.clearChildren();
         {
-            menu.addImage(atlasS.find("StendhalSplash")).size(Core.graphics.getWidth(), Core.graphics.getHeight());
-            ui.characterDialog.show();
+//            menu.addImage(atlasS.find("StendhalSplash")).size(Core.graphics.getWidth(), Core.graphics.getHeight());
         }
 
         TextButton.TextButtonStyle style = Styles.cleart;
@@ -125,6 +124,8 @@ public class ActionConfigFragment extends Fragment {
             menu.addButton(Strs.get(cmd), style, () -> doAction.get(cmd, entityView));
             menu.row();
         }
+
+        menu.setPosition(200, 200);
 
 //        menu.addButton("$settings.graphics", style, () -> {});
 //        menu.row();
