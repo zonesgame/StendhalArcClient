@@ -38,6 +38,7 @@ import marauroa.common.game.CharacterResult;
 import marauroa.common.game.RPObject;
 import marauroa.common.net.InvalidVersionException;
 import mindustry.*;
+import mindustry.core.GameState;
 import mindustry.entities.bullet.BulletType;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -50,6 +51,7 @@ import z.debug.Strs;
 
 import static arc.Core.settings;
 import static games.stendhal.client.gui.j2d.entity.Player2DView.ZOMBIE_COLOR;
+import static mindustry.Vars.state;
 import static mindustry.Vars.ui;
 import static z.debug.Strs.str33;
 import static z.debug.Strs.str35;
@@ -323,4 +325,12 @@ public class T_CharacterDialog extends FloatingDialog {
         }
     }
 
+    @Override
+    public void hide() {
+        super.hide();
+//        if ( !state.is(GameState.State.menu)){
+//            ui.joinDialog.hide();
+//            ui.accountDialog.hide();
+//        }
+    }
 }
