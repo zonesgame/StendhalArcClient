@@ -26,11 +26,6 @@ import static mindustry.Vars.ui;
 public class T_InputHandler  implements InputProcessor, GestureDetector.GestureListener {
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, KeyCode button) {
-        return false;
-    }
-
-    @Override
     public boolean touchUp(int screenX, int screenY, int pointer, KeyCode button) {
 //        Vec2 pos = Vec2.TEMP.set(Core.input.mouseWorld(screenX, screenY));
 //        Vec2 pos2 = Vec2.TEMP2.set(Core.input.mouseScreen(screenX, screenY));
@@ -90,5 +85,41 @@ public class T_InputHandler  implements InputProcessor, GestureDetector.GestureL
         }
         return null;
     }
+
+
+
+    // temp begon
+    public void update() {
+       
+    }
+
+    @Override
+    public boolean keyDown(KeyCode keycode) {
+        System.out.println("KeyDown...............");
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, KeyCode button) {
+//        super.
+        System.out.println("TouchDown............k");
+        return false;
+    }
+
+    protected GestureDetector detector;
+
+    public void add(){
+        Core.input.getInputProcessors().remove(i -> i instanceof InputHandler || (i instanceof GestureDetector && ((GestureDetector)i).getListener() instanceof InputHandler));
+        Core.input.addProcessor(detector = new GestureDetector(20, 0.5f, 0.3f, 0.15f, this));
+        Core.input.addProcessor(this);
+    }
+
+    public void remove(){
+        Core.input.removeProcessor(this);
+        if(detector != null){
+            Core.input.removeProcessor(detector);
+        }
+    }
+    // temp end
 
 }
