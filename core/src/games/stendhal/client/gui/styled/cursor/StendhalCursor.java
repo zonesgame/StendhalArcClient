@@ -11,6 +11,7 @@
  ***************************************************************************/
 package games.stendhal.client.gui.styled.cursor;
 
+import arc.z.util.ZonesAnnotate;
 import temp.java.awt.Point;
 
 /**
@@ -41,6 +42,9 @@ public enum StendhalCursor {
 	private String imageName;
 	private Point hotSpot;
 
+	@ZonesAnnotate.ZAdd
+	public String arcKey;
+
 	/**
 	 * creates a StendhalCursor enum entry
 	 *
@@ -50,6 +54,7 @@ public enum StendhalCursor {
 	private StendhalCursor(String imageName, Point hotSpot) {
 		this.imageName = imageName;
 		this.hotSpot = hotSpot;
+		this.arcKey = imageName.substring(0, imageName.indexOf('.'));
 	}
 
 	/**
