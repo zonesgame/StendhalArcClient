@@ -52,6 +52,7 @@ import mindustry.ui.IntFormat;
 import mindustry.ui.Minimap;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.FloatingDialog;
+import temp.Debug;
 import z.ui.fragments.GroupFragment;
 
 import static mindustry.Vars.content;
@@ -91,6 +92,12 @@ public class HudFragment extends Fragment{
 
     /** 游戏界面构建*/
     public void build(Group parent){
+        if (Debug.NOTE2) {
+            parent.fill(cont -> {
+                cont.setName("overlaymarker");
+            });
+            return;
+        }
 
         //menu at top left
         parent.fill(cont -> {
