@@ -90,20 +90,24 @@ public class TestLauncher extends ApplicationCore {
 
         Shaders.init();
         {
-            Core.input.getInputProcessors().clear();
-            Core.input.addProcessor(new InputProcessor() {
-                @Override
-                public boolean keyDown(KeyCode keycode) {
-                    System.out.println("Keydown: " + keycode);
-                    return true;
-                }
-
-                @Override
-                public boolean keyTyped(char character) {
-                    System.out.println("Keytype: " + character);
-                    return false;
-                }
-            });
+            System.out.println(Core.input.getInputProcessors().size);
+            for (InputProcessor processor : Core.input.getInputProcessors()) {
+                System.out.println(processor.getClass().getName());
+            }
+//            Core.input.getInputProcessors().clear();
+//            Core.input.addProcessor(new InputProcessor() {
+//                @Override
+//                public boolean keyDown(KeyCode keycode) {
+//                    System.out.println("Keydown: " + keycode);
+//                    return true;
+//                }
+//
+//                @Override
+//                public boolean keyTyped(char character) {
+//                    System.out.println("Keytype: " + character);
+//                    return false;
+//                }
+//            });
         }
     }
 
@@ -130,6 +134,21 @@ public class TestLauncher extends ApplicationCore {
 
     @Override
     public void update(){
+        {
+            if ( Core.input.keyDown(KeyCode.Q)) {
+                System.out.println("QQQQQQQQQQ");
+            }
+            if (Core.input.justTouched()) {
+                System.out.println("Touch");
+            }
+            if (Core.input.keyTap(KeyCode.E)) {
+                System.out.println("EEEEEEEE");
+            }
+            if (Core.input.getKeyboard().isKeyTapped( KeyCode.W)) {
+                System.out.println("Touch down event...................");
+            }
+        }
+
         if(!finished){
 
             if(assets.update(1000 / loadingFPS)){
