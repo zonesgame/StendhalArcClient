@@ -156,6 +156,16 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
         Musics.load();
         Sounds.load();
 
+        if (true) {
+            add(new T_InputApplication());
+//            netClient.temp_connect();
+//            try {
+//                textClient.main(null);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+        }
+
 //        assets.loadRun("contentcreate", Content.class, () -> {
 //            content.createBaseContent();
 //            content.loadColors();
@@ -186,17 +196,6 @@ public abstract class StendhalClientLauncher extends ApplicationCore implements 
 //        if(systemTroops == null) systemTroops = new TroopsSystem();
 //        if (systemStrategy == null) systemStrategy = new StrategySystem();
         // zones add end
-
-
-        if (true) {
-            add(new T_InputApplication());
-//            netClient.temp_connect();
-//            try {
-//                textClient.main(null);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-        }
 
         Core.camera = new Camera();
         Shaders.init();
