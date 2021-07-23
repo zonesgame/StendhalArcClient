@@ -1,5 +1,8 @@
 package stendhal.test;
 
+import arc.Core;
+import arc.input.GestureDetector;
+import arc.math.geom.Vec2;
 import temp.java.awt.geom.Point2D;
 
 import arc.input.InputProcessor;
@@ -9,10 +12,12 @@ import games.stendhal.common.Direction;
 import marauroa.common.game.RPAction;
 import temp.Debug;
 
+import static games.stendhal.client.IGameScreen.SIZE_UNIT_PIXELS;
+
 /**
  *  移动端和PC通用处理事件
  * */
-public interface BaseInput extends InputProcessor {
+public interface BaseInput extends InputProcessor/*, GestureDetector.GestureListener*/ {
 
     /**
      * Send a move to command to the server.
@@ -67,5 +72,29 @@ public interface BaseInput extends InputProcessor {
         }
         return null;
     }
+
+    /** 鼠标X轴位置*/
+    default float getMouseX(){
+        return Core.input.mouseX();
+    }
+
+    /** 鼠标Y轴位置*/
+    default float getMouseY(){
+        return Core.input.mouseY();
+    }
+
+    /** 鼠标Y轴笛卡尔坐标*/
+//    default double getMouseYDescartes() {
+////        Vec2 pos = Vec2.TEMP.set(Core.input.mouseWorld(screenX, screenY));
+////        Point2D tilePos = new Point2D.Double(pos.x / 32f, pos.y / 32f);
+//////        System.out.println((int)tilePos.getX() + "   X    " + (int)tilePos.getY());
+////        tilePos.setLocation(tilePos.getX(), StendhalClient.get().getStaticGameLayers().getHeight() - tilePos.getY() );
+//        return (StendhalClient.get().getStaticGameLayers().getHeight() * SIZE_UNIT_PIXELS - getMouseY());
+//    }
+
+    default void update() {
+    }
+
+
 
 }
