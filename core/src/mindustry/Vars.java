@@ -64,8 +64,10 @@ import mindustry.mod.Mods;
 import mindustry.net.BeControl;
 import mindustry.net.Net;
 import mindustry.world.blocks.defense.ForceProjector.ShieldEntity;
+import stendhal.test.BaseInput;
 import stendhal.test.T_ClientApplication;
 import stendhal.test.T_GameScreen;
+import stendhal.test.T_InputHandler;
 import temp.Debug;
 import z.ai.units.StrategySystem;
 import z.entities.type.base.BlockUnit;
@@ -489,6 +491,7 @@ public class Vars implements Loadable{
 
     public static T_ClientApplication clientScence;
     public static T_GameScreen gameScreen;
+    public static BaseInput inputStendhal;
 
     public static final PositionChangeMulticaster positionChangeMulticaster = new PositionChangeMulticaster();
     // develop temp date end
