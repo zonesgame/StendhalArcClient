@@ -21,6 +21,7 @@ import arc.scene.ui.Tooltip.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.core.GameState.*;
 import mindustry.editor.*;
 import mindustry.game.EventType.*;
@@ -31,6 +32,7 @@ import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.*;
 import stendhal.test.T_CharacterDialog;
 import stendhal.test.T_CreateAccountDialog;
+import stendhal.test.T_InputApplication;
 import stendhal.test.T_JoinDialog;
 import stendhal.test.T_MenuFragment;
 import temp.Debug;
@@ -159,6 +161,7 @@ public class UI implements ApplicationListener, Loadable{
     @Override
     public void update(){
         if(disableUI || Core.scene == null) return;
+//        System.out.println(state.getState().name() +"   _____________   " + menuGroup.isVisible());
 
         Core.scene.act();
         Core.scene.draw();
@@ -178,6 +181,7 @@ public class UI implements ApplicationListener, Loadable{
 
         if (Debug.NOTE2) {
             tempInputupdate();
+            Draw.flush();
         }
     }
 
@@ -240,13 +244,16 @@ public class UI implements ApplicationListener, Loadable{
             accountDialog = new T_CreateAccountDialog();
             characterDialog = new T_CharacterDialog();
             menuFrag = new T_MenuFragment();
+
+            accountDialog.visible(() -> state.is(State.menu));
+            characterDialog.visible(() -> state.is(State.menu));
+            joinDialog.visible(() -> state.is(State.menu));
         }
 
         Core.scene.add(menuGroup);
         Core.scene.add(hudGroup);
 
-        if ( !Debug.NOTE2)
-            hudfrag.build(hudGroup);
+        hudfrag.build(hudGroup);
         menufrag.build(menuGroup);
         if ( !Debug.NOTE2)
             chatfrag.container().build(hudGroup);
@@ -578,6 +585,10 @@ public class UI implements ApplicationListener, Loadable{
     private void tempInputupdate() {
         if(!Core.scene.hasMouse()){
             Core.graphics.cursor(curCursor);
+        }
+
+        if (inputStendhal != null && T_InputApplication.gamerun) {
+            inputStendhal.update();
         }
     }
 }
