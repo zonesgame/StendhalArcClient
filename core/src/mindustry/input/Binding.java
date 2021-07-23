@@ -91,6 +91,8 @@ public enum Binding implements KeyBind{
     // stendhal begon
     s_ctrl(KeyCode.CONTROLLER_L_TRIGGER),
     s_shift(KeyCode.SHIFT_LEFT),
+    s_mouse_left(KeyCode.MOUSE_LEFT),
+    s_mouse_right(KeyCode.MOUSE_RIGHT),
     // stendhal end
 
     ;
