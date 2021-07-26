@@ -32,6 +32,7 @@ import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.*;
 import stendhal.test.T_CharacterDialog;
 import stendhal.test.T_CreateAccountDialog;
+import stendhal.test.T_HudFragment;
 import stendhal.test.T_InputApplication;
 import stendhal.test.T_JoinDialog;
 import stendhal.test.T_MenuFragment;
@@ -96,6 +97,7 @@ public class UI implements ApplicationListener, Loadable{
     public T_CreateAccountDialog accountDialog;
     public T_CharacterDialog characterDialog;
     public T_MenuFragment menuFrag;
+    public T_HudFragment hudFrag;
 
     public UI(){
         Fonts.loadFonts();
@@ -244,10 +246,13 @@ public class UI implements ApplicationListener, Loadable{
             accountDialog = new T_CreateAccountDialog();
             characterDialog = new T_CharacterDialog();
             menuFrag = new T_MenuFragment();
+            hudFrag = new T_HudFragment();
 
             accountDialog.visible(() -> state.is(State.menu));
             characterDialog.visible(() -> state.is(State.menu));
             joinDialog.visible(() -> state.is(State.menu));
+
+            hudFrag.build(hudGroup);
         }
 
         Core.scene.add(menuGroup);
