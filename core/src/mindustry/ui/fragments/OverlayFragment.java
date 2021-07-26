@@ -42,8 +42,8 @@ public class OverlayFragment{
     public final ActionConfigFragment actions;
 
     @ZonesAnnotate.ZAdd
-    public void lookAction(String[] actions) {
-
+    public boolean isshow() {
+        return actions.isvisible();
     }
     // stendhal end
 }
