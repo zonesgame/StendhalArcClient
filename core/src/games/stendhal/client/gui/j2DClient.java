@@ -350,14 +350,14 @@ public class j2DClient implements UserInterface {
 			final boolean isTalking) {
 		if (temp.Debug.TEMP)
 			;
-//		gui.addGameScreenText(x, y, text, type, isTalking);
+		gui.addGameScreenText(x, y, text, type, isTalking);
 	}
 
 	@Override
 	public void addAchievementBox(String title, String description, String category) {
 		if (temp.Debug.TEMP)
 			;
-//		gui.addAchievementBox(title, description, category);
+		gui.addAchievementBox(title, description, category);
 	}
 
 	/**
