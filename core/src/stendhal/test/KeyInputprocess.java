@@ -74,7 +74,7 @@ public class KeyInputprocess implements BaseInput {
             } else if (!doubleClick) {
                 return view.onHarmlessAction();
             }
-        } else if (Core.scene.hasMouse() && !Core.input.keyDown(Binding.s_ctrl)) {            // windowWasActiveOnMousePressed && !isCtrlDown()
+        } else if ( !Core.scene.hasMouse() && !Core.input.keyDown(Binding.s_ctrl)) {            // windowWasActiveOnMousePressed && !isCtrlDown()
             if (!doubleClick) {
                 createAndSendMoveToAction(location, false);
                 // let it pass "unhandled", so that the possible double click
