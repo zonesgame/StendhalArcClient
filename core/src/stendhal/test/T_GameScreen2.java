@@ -13,6 +13,7 @@
 package stendhal.test;
 
 import arc.Core;
+import arc.math.geom.Rect;
 import arc.math.geom.Vec2;
 import arc.z.util.ZonesAnnotate;
 import games.stendhal.client.EntityViewManager;
@@ -156,6 +157,8 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
     transient Graphics2D graphics = new Graphics2D();
     transient Rectangle clip = new Rectangle();
     transient Rectangle clipFrustum = new Rectangle();
+//    public transient int mapOffsetPixX;
+//    public transient int mapOffsetPixY;
 
     /**
      * Create a game screen.
@@ -581,6 +584,7 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
 //            layerWidth = layerHeight = Integer.MAX_VALUE;
 //            System.out.println(startTileX + " x " + startTileY + "  -  " + layerWidth + " x " + layerHeight + "  --  " +
 //                    wh + "  " + getViewHeight() + "  " + gameLayers.getHeight());
+//            System.out.println("2     " + sw + " X " + sh + "    --     " + getViewWidth() + " X " + getViewHeight());
 //            System.out.println(getViewX() + "  " + getViewY() + "  " + getViewWidth() + "  " + getViewHeight());
         }
 
@@ -700,6 +704,10 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
         wh = (int) height;
         calculateView(x, y);
         center();
+        {
+//            mapOffsetPixX = ww * SIZE_UNIT_PIXELS < sw ? (sw - ww * SIZE_UNIT_PIXELS) : 0;
+//            mapOffsetPixY = wh * SIZE_UNIT_PIXELS < sh ? (sh - wh * SIZE_UNIT_PIXELS) : 0;
+        }
     }
 
     @Override
@@ -921,6 +929,23 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
 //                wy / SIZE_UNIT_PIXELS);
     }
 
+    @ZonesAnnotate.ZAdd
+    public void worldtoStage(Rectangle rect) {
+//        System.out.println(camera.position.x + "   " + camera.position.y + "   X    " + camera.width + "  " + camera.height + "    " + mapOffsetPixX + "  " + mapOffsetPixY);
+//        rect.translate(0, mapOffsetPixY);
+        rect.x = (int) (rect.x - (camera.position.x - camera.width / 2f));
+        rect.y = (int) (rect.y - (camera.position.y - camera.height / 2f));
+//        System.out.println(rect.x + "  X  " + rect.y);
+//        rect.x = ;
+//        rect.y = ;
+//        return Vec2.TEMP2.set(mapOffsetPixX, mapOffsetPixY);
+    }
+
+//    @ZonesAnnotate.ZAdd
+//    public double flipY(double y) {
+//        return flipY(y, false);
+//    }
+
     /**
      * Get the view X screen coordinate.
      * @return The X coordinate of the left side.
@@ -1039,7 +1064,9 @@ public final class T_GameScreen2 implements IGameScreen, DropTarget,
 
     @Override
     public void onZoneChangeCompleted(final Zone zone) {
-        Core.app.post(() -> setMaxWorldSize(zone.getWidth(), zone.getHeight()));
+        Core.app.post(() -> {
+            setMaxWorldSize(zone.getWidth(), zone.getHeight());
+        });
 //        SwingUtilities.invokeLater(() -> setMaxWorldSize(zone.getWidth(), zone.getHeight()));
     }
 
