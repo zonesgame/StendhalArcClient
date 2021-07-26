@@ -22,12 +22,15 @@ import games.stendhal.client.StendhalClient;
 import games.stendhal.client.entity.User;
 import games.stendhal.client.gui.J2DClientGUI;
 import games.stendhal.client.gui.OutfitColor;
+import games.stendhal.client.gui.UserInterface;
+import games.stendhal.client.gui.chatlog.EventLine;
 import games.stendhal.client.listener.PositionChangeListener;
+import games.stendhal.client.sound.facade.SoundSystemFacade;
 import games.stendhal.common.NotificationType;
 import marauroa.common.game.RPObject;
 import temp.Debug;
 
-public class ArcClientGUI {
+public class ArcClientGUI implements UserInterface {
 
     private boolean offline;
     private User user;
@@ -90,4 +93,24 @@ public class ArcClientGUI {
     public JFrame getFrame() { return null; }
     public void switchToSpellState(RPObject spell) { }
 
+
+    @Override
+    public void addEventLine(EventLine line) {
+
+    }
+
+    @Override
+    public void addGameScreenText(double x, double y, String text, NotificationType type, boolean isTalking) {
+
+    }
+
+    @Override
+    public void addAchievementBox(String title, String description, String category) {
+
+    }
+
+    @Override
+    public SoundSystemFacade getSoundSystemFacade() {
+        return null;
+    }
 }
