@@ -175,47 +175,46 @@ public enum NotificationType {
     /**
      * dark blue
      */
-    public static final Color COLOR_GROUP = new Color(00, 00, 160);
+    public static final Color COLOR_GROUP = new Color(00, 00, 160 / 255f, 1f);
 
     /**
      * muted purple
      */
-    public static final Color COLOR_EMOTE = new Color(99, 61, 139);
+    public static final Color COLOR_EMOTE = new Color(99 / 255f, 61 / 255f, 139 / 255f, 1f);
 
     public static final Color COLOR_PRIVMSG = Color.darkGray;
 
     /**
      * dark green
      */
-    public static final Color COLOR_RESPONSE = new Color(0x006400);
+    public static final Color COLOR_RESPONSE = new Color(0x006400ff);
 
     /**
      * dark brown
      */
-    public static final Color COLOR_SCENE_SETTING = new Color(0x572002);
+    public static final Color COLOR_SCENE_SETTING = new Color(0x572002ff);
 
     public static final Color COLOR_SIGNIFICANT_NEGATIVE = Color.pink;
 
     /**
      * bright turquoise blue
      */
-    public static final Color COLOR_SIGNIFICANT_POSITIVE = new Color(65,
-            105, 225);
+    public static final Color COLOR_SIGNIFICANT_POSITIVE = new Color(65 / 255f, 105 / 255f, 225 / 255f, 1f);
 
     /**
      * purple
      */
-    public static final Color COLOR_TUTORIAL = new Color(172, 0, 172);
+    public static final Color COLOR_TUTORIAL = new Color(172 / 255f, 0, 172 / 255f, 1);
 
     /**
      * strong bright orange
      */
-    public static final Color COLOR_SUPPORT = new Color(0xff7200);
+    public static final Color COLOR_SUPPORT = new Color(0xff7200ff);
 
     /**
      * dark red
      */
-    public static final Color COLOR_WARNING = new Color(0xa00000);
+    public static final Color COLOR_WARNING = new Color(0xa00000ff);
 
     // TODO: review thinking here of using constants.
     // these are tied to the ones in client.KTextEdit.gui.initStylesForTextPane
