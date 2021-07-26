@@ -1,5 +1,7 @@
 package temp.java.awt;
 
+import arc.math.geom.Rect;
+import arc.z.util.ZonesAnnotate;
 import temp.java.awt.geom.Rectangle2D;
 
 /**
@@ -93,6 +95,8 @@ import temp.java.awt.geom.Rectangle2D;
 public class Rectangle extends Rectangle2D
         implements Shape, java.io.Serializable
 {
+    public static final Rectangle tmp = new Rectangle();
+    public static final Rectangle tmp2 = new Rectangle();
 
     /**
      * The X coordinate of the upper-left corner of the <code>Rectangle</code>.
@@ -1153,6 +1157,15 @@ public class Rectangle extends Rectangle2D
         Rectangle2D dest = new Double();
         Rectangle2D.union(this, r, dest);
         return dest;
+    }
+
+    @ZonesAnnotate.ZAdd
+    public Rectangle scale(double scale) {
+        this.x *= scale;
+        this.y *= scale;
+        this.width *= scale;
+        this.height *= scale;
+        return this;
     }
 
     /**
