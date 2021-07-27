@@ -12,31 +12,32 @@
  ***************************************************************************/
 package games.stendhal.client.gui.map;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import arc.graphics.Color;
+import temp.java.awt.Graphics;
 
 import games.stendhal.client.entity.DomesticAnimal;
 import games.stendhal.client.entity.User;
+import temp.java.awt.geom.Rectangle2D;
 
-class DomesticAnimalMapObject extends MovingMapObject {
-	private static final Color COLOR_DOMESTIC_ANIMAL = new Color(255, 150, 0);
+public class DomesticAnimalMapObject extends MovingMapObject {
+	private static final Color COLOR_DOMESTIC_ANIMAL = new Color(255 / 255f, 150 / 255f, 0, 1f);
 
 	private DomesticAnimal domesticanimal;
-	private Color drawColor;
+//	private Color drawColor;
 
-	DomesticAnimalMapObject(final DomesticAnimal domesticanimal) {
+	public DomesticAnimalMapObject(final DomesticAnimal domesticanimal) {
 		super(domesticanimal);
 		this.domesticanimal = domesticanimal;
-		drawColor = COLOR_DOMESTIC_ANIMAL;
+		curColor = COLOR_DOMESTIC_ANIMAL;
 	}
 
 	@Override
-	void draw(final Graphics g, final int scale) {
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale) {
 		// we check this here rather than in the MapPanel so that any changes to the user are refreshed (e.g. disowning pet)
 		User user = User.get();
 		if ((user != null) && ((user.hasPet() && user.getPetID() == domesticanimal.getObjectID())
 				|| (user.hasSheep() && user.getSheepID() == domesticanimal.getObjectID()))) {
-			draw(g, scale, drawColor);
+			draw(g, drawRect, actorx, actory, scale, curColor);
 		}
 	}
 }
