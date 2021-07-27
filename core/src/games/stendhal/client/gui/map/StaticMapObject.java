@@ -12,14 +12,24 @@
  ***************************************************************************/
 package games.stendhal.client.gui.map;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import arc.graphics.Color;
+import temp.java.awt.Graphics;
 
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 import games.stendhal.client.entity.IEntity;
+import mindustry.gen.Tex;
+import temp.java.awt.geom.Rectangle2D;
 
 abstract class StaticMapObject extends MapObject {
+
+//	protected Color curColor = null;
+	protected TextureRegion region;
+
 	StaticMapObject(final IEntity entity) {
 		super(entity);
+//		this.curColor = Color.white;
+		this.region = Tex.whiteui.getRegion();
 	}
 
 	/**
@@ -30,18 +40,23 @@ abstract class StaticMapObject extends MapObject {
 	 * @param color Drawing Color
 	 * @param outline Outline color, or <code>null</code> if no outline
 	 */
-	void draw(final Graphics g, final int scale, final Color color, final Color outline) {
-		final int rx = worldToCanvas(x, scale);
-		final int ry = worldToCanvas(y, scale);
-		final int rwidth = width * scale;
-		final int rheight = height * scale;
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale, final Color color, final Color outline) {
+		if ( !drawRect.contains(x, y, width, height)) return;
 
-		g.setColor(color);
-		g.fillRect(rx, ry, rwidth, rheight);
+		final float rx = worldToCanvas(x, scale);
+		final float ry = worldToCanvas(y, scale);
+		final float rwidth = width * scale;
+		final float rheight = height * scale;
+
+		final float dx = actorx + rx;
+		final float dy = actory + (float) ((drawRect.getHeight() + drawRect.getY()) * scale) - (ry + rheight);
 
 		if (outline != null) {
-			g.setColor(outline);
-			g.drawRect(rx, ry, rwidth - 1, rheight - 1);
+			Draw.color(outline);
+			Draw.rect(region, dx, dy, rwidth - 1, rheight - 1);
 		}
+
+		Draw.color(color);
+		Draw.rect(region, dx, dy, rwidth, rheight);
 	}
 }
