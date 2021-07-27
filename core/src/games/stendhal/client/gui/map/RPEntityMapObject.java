@@ -12,33 +12,34 @@
  ***************************************************************************/
 package games.stendhal.client.gui.map;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import arc.graphics.Color;
+import temp.java.awt.Graphics;
 
 import games.stendhal.client.entity.DomesticAnimal;
 import games.stendhal.client.entity.IEntity;
 import games.stendhal.client.entity.NPC;
+import temp.java.awt.geom.Rectangle2D;
 
-class RPEntityMapObject extends MovingMapObject {
-	private static final Color COLOR_DOMESTIC_ANIMAL = new Color(255, 150, 0);
-	private static final Color COLOR_CREATURE = Color.YELLOW;
-	private static final Color COLOR_NPC = new Color(0, 150, 0);
+public class RPEntityMapObject extends MovingMapObject {
+	private static final Color COLOR_DOMESTIC_ANIMAL = new Color(255 / 255f, 150 / 255f, 0, 1f);
+	private static final Color COLOR_CREATURE = Color.yellow;
+	private static final Color COLOR_NPC = new Color(0, 150 / 255f, 0, 1);
 
-	protected Color drawColor;
+//	protected Color drawColor;
 
-	RPEntityMapObject(final IEntity entity) {
+	public RPEntityMapObject(final IEntity entity) {
 		super(entity);
 		if (entity instanceof NPC) {
-			drawColor = COLOR_NPC;
+			curColor = COLOR_NPC;
 		} else if (entity instanceof DomesticAnimal) {
-			drawColor = COLOR_DOMESTIC_ANIMAL;
+			curColor = COLOR_DOMESTIC_ANIMAL;
 		} else {
-			drawColor = COLOR_CREATURE;
+			curColor = COLOR_CREATURE;
 		}
 	}
 
 	@Override
-	void draw(final Graphics g, final int scale) {
-		draw(g, scale, drawColor);
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale) {
+		draw(g, drawRect, actorx, actory, scale, curColor);
 	}
 }
