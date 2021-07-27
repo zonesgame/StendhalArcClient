@@ -68,7 +68,7 @@ public class T_InputApplication implements ApplicationListener {
             render = new T_GameScreen2(StendhalClient.get());
             render.onResized();
             this.gamerun = true;
-            j2DClient locclient = new j2DClient(StendhalClient.get(), userContext, null);
+            j2DClient locclient = j2DClient.get().init(StendhalClient.get(), userContext, null);
             locclient.startGameLoop();
             perceptionDispatch.register(locclient.getPerceptionListener());
             // 清楚玩家移动状态, 如果先前是移动状态
