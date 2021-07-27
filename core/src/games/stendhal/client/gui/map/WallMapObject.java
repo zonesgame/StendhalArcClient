@@ -11,28 +11,31 @@
  ***************************************************************************/
 package games.stendhal.client.gui.map;
 
-import java.awt.Graphics;
+import temp.java.awt.Graphics;
 
+import arc.graphics.Color;
 import games.stendhal.client.entity.IEntity;
+import temp.java.awt.geom.Rectangle2D;
 
 /**
  * representation of a wall entity on the map
  *
  * @author hendrik
  */
-class WallMapObject extends StaticMapObject {
+public class WallMapObject extends StaticMapObject {
+	private static final Color COLOR_BLOCKED = new Color(1.0f, 0.0f, 0.0f, 1f);
 
 	/**
 	 * a wall map object
 	 *
 	 * @param entity Entity
 	 */
-	WallMapObject(final IEntity entity) {
+	public WallMapObject(final IEntity entity) {
 		super(entity);
 	}
 
 	@Override
-	public void draw(final Graphics g, final int scale) {
-		draw(g, scale, MapPanel.COLOR_BLOCKED, null);
+	public void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale) {
+		draw(g, drawRect, actorx, actory, scale, COLOR_BLOCKED, null);
 	}
 }
