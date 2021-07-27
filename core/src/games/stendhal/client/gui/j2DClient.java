@@ -65,7 +65,7 @@ public class j2DClient implements UserInterface {
 
 
 	/** Chat channels. */
-/*	private final NotificationChannelManager channelManager = new NotificationChannelManager();*/
+	public final NotificationChannelManager channelManager = new NotificationChannelManager();
 
 	private User lastuser;
 //	public final PositionChangeMulticaster positionChangeListener = new PositionChangeMulticaster();			// default private
@@ -123,6 +123,42 @@ public class j2DClient implements UserInterface {
 			}
 		}
 	};
+
+	@ZonesAnnotate.ZAdd
+	public j2DClient() {
+		setDefault(this);
+//		this.gui = gui;
+	}
+
+	@ZonesAnnotate.ZAdd
+	public j2DClient init(final StendhalClient client, final UserContext userContext, JFrame splash) {
+		this.client = client;
+		/*
+		 * Register the slash actions in the client side command line parser.
+		 * This needs to be at least before getting the actions to
+		 * ChatCompletionHelper.
+		 */
+		SlashActionRepository.register();
+
+		gui = new ArcClientGUI();
+
+		for (PositionChangeListener listener : gui.getPositionChangeListeners()) {
+			if (temp.Debug.NOTE1)
+				;
+//			positionChangeListener.add(listener);
+		}
+
+		// Display a hint if this is a debug client
+		if (Debug.PRE_RELEASE_VERSION != null) {
+			addEventLine(new HeaderLessEventLine("This is a pre release test client: " + Debug.VERSION + " - " + Debug.PRE_RELEASE_VERSION, NotificationType.CLIENT));
+		}
+
+		checkAndComplainAboutJavaImplementation();
+		if (temp.Debug.NOTE1)
+			;
+//		positionChangeListener.add(getSoundSystemFacade());
+		return this;
+	}
 
 	/**
 	 * A constructor for JUnit tests.
@@ -342,7 +378,7 @@ public class j2DClient implements UserInterface {
 
 	@Override
 	public void addEventLine(final EventLine line) {
-		/*channelManager.addEventLine(line);*/
+		channelManager.addEventLine(line);
 	}
 
 	@Override
