@@ -38,6 +38,7 @@ public class FinalCons {
         public final String saveProfile = "SVAVELOGIONPROFILE";
         public final String showPassword = "SHOWPASSWORD";
         public final String serverList = "SERVERLIST";
+        public final String minimapMove = "MINIMAPMOVE";
     }
 
     public static interface PreFix {
