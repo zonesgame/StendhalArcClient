@@ -12,39 +12,37 @@
  ***************************************************************************/
 package games.stendhal.client.gui.map;
 
-import java.awt.Graphics;
+import temp.java.awt.Graphics;
 
 import games.stendhal.client.entity.IEntity;
+import temp.java.awt.geom.Rectangle2D;
 
-abstract class MapObject {
-	protected double x;
-	protected double y;
-	protected int width;
-	protected int height;
+public abstract class MapObject {
+    protected float x;
+    protected float y;
+    protected float width;
+    protected float height;
 
-	MapObject(final IEntity entity) {
-		x = entity.getX();
-		y = entity.getY();
-		width = (int) entity.getWidth();
-		height = (int) entity.getHeight();
-	}
+    MapObject(final IEntity entity) {
+        x = (float) entity.getX();
+        y = (float) entity.getY();
+        width = (int) entity.getWidth();
+        height = (int) entity.getHeight();
+    }
 
-	/**
-	 * Draw the entity
-	 *
-	 * @param g Graphics context
-	 * @param scale Scaling factor
-	 */
-	abstract void draw(Graphics g, int scale);
+    /**Draw the entity
+     * @param g     Graphics context
+     * @param scale Scaling factor
+     */
+    abstract void draw(Graphics g, Rectangle2D drawRect, float actorx, float actory, float scale);
 
-	/**
-	 * Scale a world coordinate to canvas coordinates
-	 *
-	 * @param crd World coordinate
-	 * @param scale Scaling factor
-	 * @return corresponding canvas coordinate
-	 */
-	int worldToCanvas(final double crd, final int scale) {
-		return (int) (crd * scale);
-	}
+    /**
+     * Scale a world coordinate to canvas coordinates
+     * @param crd   World coordinate
+     * @param scale Scaling factor
+     * @return corresponding canvas coordinate
+     */
+    float worldToCanvas(final float crd, final float scale) {
+        return /*(int)*/ (crd * scale);
+    }
 }
