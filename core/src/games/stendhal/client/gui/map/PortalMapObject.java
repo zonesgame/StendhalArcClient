@@ -12,18 +12,19 @@
  ***************************************************************************/
 package games.stendhal.client.gui.map;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import arc.graphics.Color;
+import temp.java.awt.Graphics;
 
 import games.stendhal.client.entity.IEntity;
+import temp.java.awt.geom.Rectangle2D;
 
-class PortalMapObject extends StaticMapObject {
-	PortalMapObject(final IEntity entity) {
+public class PortalMapObject extends StaticMapObject {
+	public PortalMapObject(final IEntity entity) {
 		super(entity);
 	}
 
 	@Override
-	void draw(final Graphics g, final int scale) {
-		draw(g, scale, Color.WHITE, Color.BLACK);
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale) {
+		draw(g, drawRect, actorx, actory, scale, Color.white, Color.black);
 	}
 }
