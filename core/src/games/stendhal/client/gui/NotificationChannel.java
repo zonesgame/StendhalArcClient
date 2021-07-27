@@ -22,7 +22,7 @@ import marauroa.common.Logger;
 /**
  * A chat log container that allows filtering by event type.
  */
-class NotificationChannel {
+public class NotificationChannel {
 	private static final Logger logger = Logger.getLogger(NotificationChannel.class);
 
 	/** Name of the channel. */
@@ -45,7 +45,7 @@ class NotificationChannel {
 	 * @param defaultTypes default value of the saved notification type list
 	 * 	(white- or blacklist depending on the value of <code>showUnknown</code>)
 	 */
-	NotificationChannel(String channelName, KTextEdit channel,
+	public NotificationChannel(String channelName, KTextEdit channel,
 			boolean blackList, String defaultTypes) {
 		name = channelName;
 		this.channel = channel;
@@ -91,7 +91,7 @@ class NotificationChannel {
 	 * @param allow if <code>true</code> then messages of the type are
 	 * 	displayed, otherwise not
 	 */
-	final void setTypeFiltering(NotificationType type, boolean allow) {
+	public final void setTypeFiltering(NotificationType type, boolean allow) {
 		if (allow) {
 			eventTypes.add(type);
 		} else {
@@ -120,5 +120,12 @@ class NotificationChannel {
 	 */
 	void clear() {
 		channel.clear();
+	}
+
+	/**
+	 *  zones add
+	 * */
+	public KTextEdit getChannel() {
+		return channel;
 	}
 }
