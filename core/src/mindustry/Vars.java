@@ -24,6 +24,7 @@ import arc.util.Time;
 import arc.util.io.DefaultSerializers;
 import arc.util.serialization.JsonReader;
 import arc.util.serialization.XmlReader;
+import games.stendhal.client.gui.j2DClient;
 import games.stendhal.client.listener.PositionChangeMulticaster;
 import mindustry.ai.BlockIndexer;
 import mindustry.ai.Pathfinder;
@@ -255,6 +256,9 @@ public class Vars implements Loadable{
 //        }
         loadSettings();
         init();
+        if (Debug.NOTE2) {
+            new j2DClient();
+        }
     }
 
     public static void init(){
