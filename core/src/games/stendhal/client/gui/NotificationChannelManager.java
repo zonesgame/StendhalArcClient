@@ -21,7 +21,7 @@ import games.stendhal.common.NotificationType;
 /**
  * Container for NotificationChannels.
  */
-class NotificationChannelManager {
+public class NotificationChannelManager {
 	/** All available channels. */
 	private final List<NotificationChannel> channels = new ArrayList<NotificationChannel>();
 	/** Channel listeners. */
@@ -34,7 +34,7 @@ class NotificationChannelManager {
 	 *
 	 * @param channel
 	 */
-	void addChannel(NotificationChannel channel) {
+	public void addChannel(NotificationChannel channel) {
 		channels.add(channel);
 	}
 
@@ -83,7 +83,7 @@ class NotificationChannelManager {
 	 *
 	 * @return visible channel
 	 */
-	NotificationChannel getVisibleChannel() {
+	public NotificationChannel getVisibleChannel() {
 		return visibleChannel;
 	}
 
@@ -92,7 +92,7 @@ class NotificationChannelManager {
 	 *
 	 * @param channel
 	 */
-	void setVisibleChannel(NotificationChannel channel) {
+	public void setVisibleChannel(NotificationChannel channel) {
 		visibleChannel = channel;
 	}
 
