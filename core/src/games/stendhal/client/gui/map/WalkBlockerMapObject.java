@@ -12,23 +12,22 @@
  ***************************************************************************/
 package games.stendhal.client.gui.map;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import arc.graphics.Color;
+import temp.java.awt.Graphics;
 
 import games.stendhal.client.entity.IEntity;
+import temp.java.awt.geom.Rectangle2D;
 
-class WalkBlockerMapObject extends StaticMapObject {
-	/**
-	 * The colour of walk blockers (dark pink) .
-	 */
-    private static final Color COLOR = new Color(209, 144, 224);
+public class WalkBlockerMapObject extends StaticMapObject {
+	/**The colour of walk blockers (dark pink) .*/
+    private static final Color COLOR = new Color(209 / 255f, 144 / 255f, 224 / 255f, 1f);
 
-	WalkBlockerMapObject(final IEntity entity) {
+	public WalkBlockerMapObject(final IEntity entity) {
 		super(entity);
 	}
 
 	@Override
-	public void draw(final Graphics g, final int scale) {
-		draw(g, scale, COLOR, null);
+	public void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale) {
+		draw(g, drawRect, actorx, actory, scale, COLOR, null);
 	}
 }
