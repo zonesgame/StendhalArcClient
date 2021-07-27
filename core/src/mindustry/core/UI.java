@@ -31,11 +31,13 @@ import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 import mindustry.ui.fragments.*;
 import stendhal.test.T_CharacterDialog;
+import stendhal.test.T_ChatFragment;
 import stendhal.test.T_CreateAccountDialog;
 import stendhal.test.T_HudFragment;
 import stendhal.test.T_InputApplication;
 import stendhal.test.T_JoinDialog;
 import stendhal.test.T_MenuFragment;
+import stendhal.test.T_MinimapFragment;
 import temp.Debug;
 import z.ui.dialogs.SettingInfoDialog;
 
@@ -97,7 +99,10 @@ public class UI implements ApplicationListener, Loadable{
     public T_CreateAccountDialog accountDialog;
     public T_CharacterDialog characterDialog;
     public T_MenuFragment menuFrag;
+
     public T_HudFragment hudFrag;
+    public T_ChatFragment chatFrag;
+    public T_MinimapFragment miniFrag;
 
     public UI(){
         Fonts.loadFonts();
@@ -247,12 +252,12 @@ public class UI implements ApplicationListener, Loadable{
             characterDialog = new T_CharacterDialog();
             menuFrag = new T_MenuFragment();
             hudFrag = new T_HudFragment();
+            chatFrag = new T_ChatFragment();
+            miniFrag = new T_MinimapFragment();
 
             accountDialog.visible(() -> state.is(State.menu));
             characterDialog.visible(() -> state.is(State.menu));
             joinDialog.visible(() -> state.is(State.menu));
-
-            hudFrag.build(hudGroup);
         }
 
         Core.scene.add(menuGroup);
@@ -271,6 +276,10 @@ public class UI implements ApplicationListener, Loadable{
 
         {
             menuFrag.build(menuGroup);
+
+            hudFrag.build(hudGroup);
+            miniFrag.build(hudGroup);
+            chatFrag.build(hudGroup);
         }
     }
 
