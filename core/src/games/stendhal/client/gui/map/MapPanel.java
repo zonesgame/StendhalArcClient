@@ -12,7 +12,6 @@
  ***************************************************************************/
 package games.stendhal.client.gui.map;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
@@ -21,35 +20,42 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import arc.Core;
+import arc.Settings;
+import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.Texture;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
+import arc.input.KeyCode;
+import arc.scene.Element;
+import arc.scene.event.ClickListener;
+import arc.scene.event.InputEvent;
+import arc.util.Disposable;
 import games.stendhal.client.StendhalClient;
+import games.stendhal.client.entity.IEntity;
 import games.stendhal.common.CollisionDetection;
 import marauroa.common.game.RPAction;
+import temp.java.awt.Rectangle;
+import temp.java.awt.geom.Rectangle2D;
+import z.utils.FinalCons;
 
-class MapPanel extends JComponent {
-	/**
-	 * serial version uid
-	 */
+public class MapPanel extends Element implements Disposable {
+	/**serial version uid*/
 	private static final long serialVersionUID = -6471592733173102868L;
 
-	/**
-	 * The color of the background (palest grey).
-	 */
-	private static final Color COLOR_BACKGROUND = new Color(0.8f, 0.8f, 0.8f);
-	/**
-	 * The color of blocked areas (red).
-	 */
-	public static final Color COLOR_BLOCKED = new Color(1.0f, 0.0f, 0.0f);
-	/**
-	 * The color of protected areas (palest green).
-	 */
-	private static final Color COLOR_PROTECTION = new Color(202, 230, 202);
-	/**
-	 * The color of other players (white).
-	 */
+	/**The color of the background (palest grey).*/
+	private static final Color COLOR_BACKGROUND = new Color(0.8f, 0.8f, 0.8f, 1f);
+	/**The color of blocked areas (red).*/
+	public static final Color COLOR_BLOCKED = new Color(1.0f, 0.0f, 0.0f, 1f);
+	/**The color of protected areas (palest green).*/
+	private static final Color COLOR_PROTECTION = new Color(202 / 255f, 230 / 255f, 202 / 255f, 1f);
+	/**The color of other players (white).*/
 
 	/** width of the minimap. */
 	private static final int MAP_WIDTH = 128;
@@ -58,160 +64,122 @@ class MapPanel extends JComponent {
 	/** Minimum scale of the map; the minimum size of one tile in pixels */
 	private static final int MINIMUM_SCALE = 2;
 
-	private final StendhalClient client;
-	private final MapPanelController controller;
+//	private final StendhalClient client;
+//	private final MapPanelController controller;
 
-	/**
-	 * The player X coordinate.
-	 */
+	/**The player X coordinate.*/
 	private double playerX;
-	/**
-	 * The player Y coordinate.
-	 */
+	/**The player Y coordinate.*/
 	private double playerY;
 	/** X offset of the background image */
 	private int xOffset;
 	/** Y offset of the background image */
 	private int yOffset;
 
-	/**
-	 * Maximum width of visible part of the map image. This should be accessed
-	 * only in the event dispatch thread.
-	 */
+	/**Maximum width of visible part of the map image. This should be accessed only in the event dispatch thread.*/
 	private int width;
-	/**
-	 * Maximum height of visible part of the map image. This should be accessed
-	 * only in the event dispatch thread.
-	 */
+	/**Maximum height of visible part of the map image. This should be accessed only in the event dispatch thread.*/
 	private int height;
-	/**
-	 * Scaling of the map image. Amount of pixels used for each map tile in each
-	 * dimension. This should be accessed only in the event dispatch thread.
-	 */
-	private int scale;
+	/**Scaling of the map image. Amount of pixels used for each map tile in each dimension. This should be accessed only in the event dispatch thread.*/
+	private float scale;		// default int
 
-	/**
-	 * Map background. This should be accessed only in the event dispatch
-	 * thread.
-	 */
-	private Image mapImage;
+	final Map<IEntity, MapObject> mapObjects;
+	final Rectangle2D drawRect = new Rectangle.Double();
 
-	/**
-	 * Create a new MapPanel.
-	 *
-	 * @param controller
-	 * @param client
-	 */
-	MapPanel(final MapPanelController controller, final StendhalClient client) {
-		this.client = client;
-		this.controller = controller;
+	/**Map background. This should be accessed only in the event dispatch thread.*/
+	private TextureRegion mapImage;
+	private Texture mapTexture;
+
+	public MapPanel(final Map<IEntity, MapObject> mapObjects) {
+		this.mapObjects = mapObjects;
+//		client = StendhalClient.get();
+
 		// black area outside the map
-		setBackground(Color.black);
-		updateSize(new Dimension(MAP_WIDTH, MAP_HEIGHT));
-		setOpaque(true);
+//		setBackground(Color.black);
+//		updateSize(new Dimension(MAP_WIDTH, MAP_HEIGHT));
+//		setOpaque(true);
 
 		// handle clicks for moving.
-		this.addMouseListener(new MouseAdapter() {
+		// 添加输入事件监听器
+		// 如果设置通过支持小地图移动
+		this.addListener(new ClickListener() {
 			@Override
-			public void mouseClicked(final MouseEvent e) {
-				movePlayer(e.getPoint(), e.getClickCount() > 1);
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, KeyCode button) {
+				if ( !Core.settings.getBool(FinalCons.SETTING_KEYS.minimapMove, false))   return false;
+
+				final int xpos = (int) x;
+				final int ypos = (int) (height - y);
+				movePlayer(xpos, ypos, false);
+//				return super.touchDown(event, x, y, pointer, button);
+				return true;
 			}
 		});
 	}
 
-	@Override
-	public void paintComponent(final Graphics g) {
-		// Set this first, so that any changes made during the drawing will
-		// flag the map changed
-		controller.setNeedsRefresh(false);
+//	/**Create a new MapPanel.
+//	 * @param controller
+//	 * @param client
+//	 */
+//	MapPanel(final MapPanelController controller, final StendhalClient client) {
+//		this.client = client;
+//		this.controller = controller;
+//		// black area outside the map
+//		setBackground(Color.black);
+//		updateSize(new Dimension(MAP_WIDTH, MAP_HEIGHT));
+//		setOpaque(true);
+//
+//		// handle clicks for moving.
+//		this.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(final MouseEvent e) {
+//				movePlayer(e.getPoint(), e.getClickCount() > 1);
+//			}
+//		});
+//	}
 
-		g.setColor(getBackground());
-		g.fillRect(0, 0, getWidth(), getHeight());
-		// The rest of the things should be drawn inside the actual map area
-		g.clipRect(0, 0, width, height);
-		// also choose the origin so that we can simply draw to the
-		// normal coordinates
-		g.translate(-xOffset, -yOffset);
-
-		drawMap(g);
-		drawEntities(g);
-
-		g.dispose();
-	}
-
-	/**
-	 * Draw the entities on the map.
-	 *
-	 * @param g The graphics context
-	 */
-	private void drawEntities(final Graphics g) {
-		for (final MapObject object : controller.mapObjects.values()) {
-			object.draw(g, scale);
+	public void draw(float x, float y) {
+		if (mapImage != null) {
+			drawMap( x, y);
+			drawEntities( x, y);
+			Draw.color();    // 恢复颜色设置
 		}
 	}
 
-	/**
-	 * Set the dimensions of the component. This must be called from the event
-	 * dispatch thread.
-	 *
-	 * @param dim the new dimensions
-	 */
-	private void updateSize(final Dimension dim) {
-		setMaximumSize(dim);
-		setMinimumSize(new Dimension(0, dim.height));
-		setPreferredSize(dim);
-		// the user may have hidden the component partly or entirely
-		setSize(getWidth(), dim.height);
-
-		controller.setNeedsRefresh(true);
-		revalidate();
+	/**Draw the entities on the map.*/
+	private void drawEntities(float actorx, float actory) {
+		for (final MapObject object : mapObjects.values()) {
+			object.draw(null, drawRect, actorx - xOffset, actory, scale);
+		}
 	}
 
-	/**
-	 * Draw the map background. This must be called from the event dispatch
-	 * thread.
-	 *
-	 * @param g The graphics context
+	/**Set the dimensions of the component. This must be called from the event dispatch thread.
+	 * @param sw the new dimensions
 	 */
-	private void drawMap(final Graphics g) {
-		g.drawImage(mapImage, 0, 0, null);
+	private void updateSize(final int sw, final int sh) {
+		width = sw;
+		height = sh;
+		this.setSize(sw, sh);
 	}
 
-	/**
-	 * The player's position changed.
-	 *
-	 * @param x
-	 *            The X coordinate (in world units).
-	 * @param y
-	 *            The Y coordinate (in world units).
+	/**Draw the map background. This must be called from the event dispatch thread.*/
+	private void drawMap(float actorx, float actory) {
+		Draw.color();
+		Draw.rectGdx(mapImage, actorx, actory);
+//		g.drawImage(mapImage, 0, 0, null);
+	}
+
+	/**The player's position changed.
+	 * @param x The X coordinate (in world units).
+	 * @param y The Y coordinate (in world units).
 	 */
-	void positionChanged(final double x, final double y) {
+	public void positionChanged(final double x, final double y) {
 		playerX = x;
 		playerY = y;
 
 		updateView();
 	}
 
-	@Override
-	public void paintImmediately(int x, int y, int w, int h) {
-		/*
-		 * Try to keep the view screen while the user is switching maps.
-		 *
-		 * NOTE: Relies on the repaint() requests to eventually come to
-		 * this, so if swing internals change some time in the future,
-		 * a new solution may be needed.
-		 */
-		if (StendhalClient.get().tryAcquireDrawingSemaphore()) {
-			try {
-				super.paintImmediately(x, y, w, h);
-			} finally {
-				StendhalClient.get().releaseDrawingSemaphore();
-			}
-		}
-	}
-
-	/**
-	 * Update the view pan. This should be done when the map size or player
+	/**Update the view pan. This should be done when the map size or player
 	 * position changes. This must be called from the event dispatch thread.
 	 */
 	private void updateView() {
@@ -222,8 +190,8 @@ class MapPanel extends JComponent {
 			return;
 		}
 
-		final int imageWidth = mapImage.getWidth(null);
-		final int imageHeight = mapImage.getHeight(null);
+		final int imageWidth = mapImage.getWidth();
+		final int imageHeight = mapImage.getHeight();
 
 		final int xpos = (int) ((playerX * scale) + 0.5) - width / 2;
 		final int ypos = (int) ((playerY * scale) + 0.5) - width / 2;
@@ -247,6 +215,12 @@ class MapPanel extends JComponent {
 				yOffset = ypos;
 			}
 		}
+
+		if (xOffset != 0 || yOffset != 0 || width != imageWidth || height != imageHeight) {
+			mapImage.set(xOffset, yOffset, width, height);
+		}
+
+		drawRect.setRect(xOffset / scale, yOffset / scale, width / scale, height / scale);
 	}
 
 	/**
@@ -258,7 +232,7 @@ class MapPanel extends JComponent {
 	 * @param pd
 	 *      	  The protection map.
 	 */
-	void update(final CollisionDetection cd, final CollisionDetection pd) {
+	public void update(final CollisionDetection cd, final CollisionDetection pd) {
 		// calculate the size and scale of the map
 		final int mapWidth = cd.getWidth();
 		final int mapHeight = cd.getHeight();
@@ -266,62 +240,82 @@ class MapPanel extends JComponent {
 		final int width = Math.min(MAP_WIDTH, mapWidth * scale);
 		final int height = Math.min(MAP_HEIGHT, mapHeight * scale);
 
-		// this.getGraphicsConfiguration is not thread safe
-		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-		// create the map image, and fill it with the wanted details
-		final Image newMapImage  = gc.createCompatibleImage(mapWidth * scale, mapHeight * scale);
-		final Graphics g = newMapImage.getGraphics();
-		g.setColor(COLOR_BACKGROUND);
-		g.fillRect(0, 0, mapWidth * scale, mapHeight * scale);
-
+		Pixmap pixmap = new Pixmap(mapWidth * scale, mapHeight * scale);
+		pixmap.setColor(COLOR_BACKGROUND);
+		pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
 		for (int x = 0; x < mapWidth; x++) {
 			for (int y = 0; y < mapHeight; y++) {
 				if (cd.collides(x, y)) {
-					g.setColor(COLOR_BLOCKED);
-					g.fillRect(x * scale, y * scale, scale, scale);
+					pixmap.setColor(COLOR_BLOCKED);
+					pixmap.fillRectangle(x * scale, y * scale, scale, scale);
 				} else if (pd != null && pd.collides(x, y)) {
 					// draw protection only if there is no collision to draw
-					g.setColor(COLOR_PROTECTION);
-					g.fillRect(x * scale, y * scale, scale, scale);
+					pixmap.setColor(COLOR_PROTECTION);        // COLOR_PROTECTION
+					pixmap.fillRectangle(x * scale, y * scale, scale, scale);
 				}
 			}
 		}
-		g.dispose();
+		if (mapTexture != null) {
+			mapTexture.dispose();
+		}
+		mapTexture = new Texture(pixmap);
+		mapTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		mapImage = new TextureRegion(mapTexture);
+		pixmap.dispose();
 
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				// Swap the image only after the new one is ready
-				mapImage = newMapImage;
-				// Update the other data
-				MapPanel.this.scale = scale;
-				MapPanel.this.width = width;
-				MapPanel.this.height = height;
-				updateSize(new Dimension(MAP_WIDTH, height));
-				updateView();
-			}
-		});
-		repaint();
+		updateSize(MAP_WIDTH, height);
+		this.scale = scale;
+//		this.setPosition(0, getStage().getHeight() - this.height);
+
+		updateView();
 	}
 
 	/**
 	 * Tell the player to move to point p
-	 *
-	 * @param p the point
-	 * @param doubleClick <code>true</code> if the movement was requested with
-	 * 	a double click, <code>false</code> otherwise
+	 * @param posx the point
+	 * @param doubleClick <code>true</code> if the movement was requested with a double click, <code>false</code> otherwise
 	 */
-	private void movePlayer(final Point p, boolean doubleClick) {
+	private void movePlayer(final int posx, final int posy, boolean doubleClick) {
 		// Ignore clicks to the title area
-		if (p.y <= height) {
+		if (true) {			// p.y <= height
 			final RPAction action = new RPAction();
 			action.put("type", "moveto");
-			action.put("x", (p.x + xOffset) / scale);
-			action.put("y", (p.y + yOffset) / scale);
+			action.put("x", (posx + xOffset) / scale);
+			action.put("y", (posy + yOffset) / scale);
 			if (doubleClick) {
 				action.put("double_click", "");
 			}
-			client.send(action);
+			StendhalClient.get().send(action);
 		}
+	}
+
+	/**
+	 *  Acto绘制方法
+	 * */
+	@Override
+	public void draw() {
+		draw( getX(), getY());
+	}
+
+	/**
+	 *  Actor 宽度
+	 * */
+	@Override
+	public float getWidth() {
+		return width;
+	}
+
+	/**
+	 *  Actor高度
+	 * */
+	@Override
+	public float getHeight() {
+		return height;
+	}
+
+	@Override
+	public void dispose() {
+		if (mapTexture != null)
+			mapTexture.dispose();
 	}
 }
