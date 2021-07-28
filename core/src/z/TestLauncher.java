@@ -159,6 +159,10 @@ public class TestLauncher extends ApplicationCore {
             drawLoading();
         }
 
+        if ( finished) {
+            testPixmap();
+        }
+
         int targetfps = Core.settings.getInt("fpscap", 120);
 
         if(targetfps > 0 && targetfps <= 240){
@@ -345,5 +349,23 @@ public class TestLauncher extends ApplicationCore {
 //            }
 //        }
         Draw.flush();
+    }
+
+    private Pixmap pixmap = null;
+    private TextureRegion region;
+    private void testPixmap() {
+        if (pixmap == null) {
+            pixmap = new Pixmap(300, 300);
+            pixmap.setColor(Color.blue);
+            pixmap.fill();
+            Texture texture = new Texture(pixmap);
+            texture.draw(pixmap, 0, 0);
+            region = new TextureRegion(texture);
+        } else {
+//            Draw.color();
+            Draw.rect(region, 300, 200);
+//            Draw.flush();
+        }
+
     }
 }
