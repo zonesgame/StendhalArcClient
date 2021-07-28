@@ -40,8 +40,8 @@ public class MovingMapObject extends MapObject implements EntityChangeListener<I
 	}
 
 	@Override
-	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, float actory, final float scale) {
-		draw(g, drawRect, actorx, actory, scale, curColor);
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, float actory, final float stageScale, final float addy, final float scale) {
+		draw(g, drawRect, actorx, actory, stageScale, addy, scale, curColor);
 	}
 
 	/**
@@ -50,19 +50,19 @@ public class MovingMapObject extends MapObject implements EntityChangeListener<I
 	 * @param scale Scaling factor
 	 * @param color Drawing color
 	 */
-	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale, final Color color) {
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float stageScale, final float addy, final float scale, final Color color) {
 		if ( !drawRect.contains(x, y, width, height)) return;
 
-		final float rx = worldToCanvas(x, scale);
-		final float ry = worldToCanvas(y, scale);
-		final float rwidth = width * scale;
-		final float rheight = height * scale;
+		final float rx = worldToCanvas(x, scale) * stageScale;
+		final float ry = worldToCanvas(y, scale) * stageScale;
+		final float rwidth = width * scale * stageScale;
+		final float rheight = height * scale * stageScale;
 
 		final float dx = actorx + rx;
-		final float dy = actory + (float) ((drawRect.getHeight() + drawRect.getY()) * scale) - (ry + rheight);
+		final float dy = actory + (float) ((drawRect.getHeight() + drawRect.getY()) * scale) * stageScale - (ry + rheight);
 
 		Draw.color(color);
-		Draw.rect(region, dx, dy, rwidth, rheight);
+		Draw.rectGdx(region, dx, dy - addy, rwidth, rheight);
 //		g.setColor(color);
 //		g.fillRect(rx, ry, rwidth, rheight);
 	}
