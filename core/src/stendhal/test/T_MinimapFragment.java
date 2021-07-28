@@ -12,13 +12,18 @@ import arc.input.*;
 import arc.math.*;
 import arc.scene.*;
 import arc.scene.event.*;
+import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.Dialog;
+import arc.scene.ui.Image;
+import arc.scene.ui.Label;
 import arc.scene.ui.layout.*;
 import arc.util.Align;
+import arc.util.Scaling;
 import arc.util.Time;
 import games.stendhal.client.GameObjects;
 import games.stendhal.client.StendhalClient;
 import games.stendhal.client.Zone;
+import games.stendhal.client.entity.Blood;
 import games.stendhal.client.entity.DomesticAnimal;
 import games.stendhal.client.entity.EntityChangeListener;
 import games.stendhal.client.entity.FlyOverArea;
@@ -43,12 +48,14 @@ import games.stendhal.client.gui.map.WallMapObject;
 import games.stendhal.client.listener.PositionChangeListener;
 import games.stendhal.common.CollisionDetection;
 import mindustry.Vars;
+import mindustry.game.EventType;
 import mindustry.gen.*;
 import mindustry.input.*;
 import mindustry.ui.*;
 import mindustry.ui.fragments.Fragment;
 
 import static mindustry.Vars.*;
+import static mindustry.ui.Styles.label1;
 
 public class T_MinimapFragment extends Fragment implements GameObjects.GameObjectListener, PositionChangeListener, StendhalClient.ZoneChangeListener {
     private boolean shown;
@@ -63,7 +70,9 @@ public class T_MinimapFragment extends Fragment implements GameObjects.GameObjec
     private MapPanel panel;
 
     private Table root;
-    Cell<Element> tt;
+    Cell<MapPanel> cellPanel;
+    Image img;
+    private Label zoneinfo;
 
     public void show() {
     }
@@ -76,13 +85,26 @@ public class T_MinimapFragment extends Fragment implements GameObjects.GameObjec
             positionChangeMulticaster.add(this);
         }
 
-        root = new Table() {
+        root = new Table(Tex.white9s1) {
             @Override
             public void draw() {
                 super.draw();
                 if (panel != null) {
-                    System.out.println(root.getX() + " " + root.getY() + "   X   " + panel.getX() + " " + panel.getY() + "   X   " + parent.getX() + " " + parent.getY() + "  X   " + panel.getWidth() + "   " + panel.getHeight());
-
+//                    System.out.println(root.getX() + " " + root.getY() + "   X   " + panel.getX() + " " + panel.getY() + "   X   " + parent.getX() + " " + parent.getY() + "  X   " + panel.getWidth() + "   " + panel.getHeight());
+//                    System.out.println(panel.getScaleX() + "  " + panel.getScaleY());
+//                    System.out.println(panel.getWidth() + "  " + panel.getHeight());
+                }
+                if (img != null) {
+//                    System.out.println(img.getX() + " " + img.getY() + " X " + img.getImageWidth() + " " + img.getImageHeight()
+//                    + " x " + img.getMinWidth() + " " + img.getMinHeight() + " X " + img.getPrefWidth() + " " + img.getPrefHeight() + " X "
+//                    + img.getMaxWidth() + " " + img.getMaxHeight());
+//                    System.out.println(img.getScaleX() + " " + img.getScaleY() + " x " + img.getX() + " " + img.getY() + " x " + img.getImageX() + " " + img.getImageY()
+//                    + "  X " + img.getImageWidth() + img.getImageY());
+//                    if (Core.input.justTouched()) {
+//                        ((TextureRegionDrawable)img.getDrawable()).getRegion().set(50, 50, 50, 100);
+//                        System.out.println("ssssssssssssssssssssssssssssss");
+//                    }
+//                    System.out.println(img.getX() + "  " + img.getY() + "  X  " + img.getWidth() + " " + img.getHeight());
                 }
             }
         };
@@ -92,99 +114,39 @@ public class T_MinimapFragment extends Fragment implements GameObjects.GameObjec
 //        root.margin(20).setFillParent(true);
 //        root.setFillParent(true);
 
-        root.margin(0).setFillParent(true);
+//        root.setFillParent(true);
+        root.setFillParent(true);
 //        root.fill().setFillParent(true);
 
+//        Pixmap pixmap = new Pixmap(200, 200);
+//        pixmap.setColor(Color.blue);
+//        pixmap.fill();
+//        Texture texture = new Texture(pixmap);
+//        pixmap.dispose();
 
+//        root.addImage(new TextureRegion(texture)).size(200).bottom().left().padTop(0).growX().growY().row();
+//        root.defaults().top().left();
+        {
+        }
+        Table table = root.table(Tex.white9s1).width(210).margin(8).top().left().expand().get();
 
         panel = new MapPanel(mapObjects);
-//        tt = root.add(panel).top().left().grow();
-        root.addImage(atlasS.find("StendhalSplash")).size(500, 200).pad(0).top().left().growY().growX().fillX().fillY().align(Align.center);
-        root.addImage(atlasS.find("StendhalSplash")).size(500, 200).pad(0).top().left().growY().growX().fillX().fillY().align(Align.center);
-        root.addImage(atlasS.find("StendhalSplash")).size(500, 200).pad(0).top().left().growY().growX().fillX().fillY().align(Align.center);
-        root.pack();
-//
-//        elem = parent.fill((x, y, w, h) -> {
-//            w = Core.graphics.getWidth();
-//            h = Core.graphics.getHeight();
-//            float size = baseSize * zoom * world.width();
-//
-//            Draw.color(Color.black);
-//            Fill.crect(x, y, w, h);
-//
-//            if(renderer.minimap.getTexture() != null){
-//                Draw.color();
-//                float ratio = (float)renderer.minimap.getTexture().getHeight() / renderer.minimap.getTexture().getWidth();
-//                TextureRegion reg = Draw.wrap(renderer.minimap.getTexture());
-//                Draw.rect(reg, w/2f + panx*zoom, h/2f + pany*zoom, size, size * ratio);
-//                renderer.minimap.drawEntities(w/2f + panx*zoom - size/2f, h/2f + pany*zoom - size/2f * ratio, size, size * ratio, zoom, true);
-//            }
-//
-//            Draw.reset();
-//        });
-//
-//        elem.visible(() -> shown);
-//        elem.update(() -> {
-//            elem.requestKeyboard();
-//            elem.requestScroll();
-//            elem.setFillParent(true);
-//            elem.setBounds(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight());
-//
-//            if(Core.input.keyTap(Binding.menu)){
-//                shown = false;
-//            }
-//        });
-//        elem.touchable(Touchable.enabled);
-//
-//        elem.addListener(new ElementGestureListener(){
-//
-//            @Override
-//            public void zoom(InputEvent event, float initialDistance, float distance){
-//                if(lastZoom < 0){
-//                    lastZoom = zoom;
-//                }
-//
-//                zoom = Mathf.clamp(distance / initialDistance * lastZoom, 0.25f, 10f);
-//            }
-//
-//            @Override
-//            public void pan(InputEvent event, float x, float y, float deltaX, float deltaY){
-//                panx += deltaX / zoom;
-//                pany += deltaY / zoom;
-//            }
-//
-//            @Override
-//            public void touchDown(InputEvent event, float x, float y, int pointer, KeyCode button){
-//                super.touchDown(event, x, y, pointer, button);
-//            }
-//
-//            @Override
-//            public void touchUp(InputEvent event, float x, float y, int pointer, KeyCode button){
-//                lastZoom = zoom;
-//            }
-//        });
-//
-//        elem.addListener(new InputListener(){
-//
-//            @Override
-//            public boolean scrolled(InputEvent event, float x, float y, float amountX, float amountY){
-//                zoom = Mathf.clamp(zoom - amountY / 10f * zoom, 0.25f, 10f);
-//                return true;
-//            }
-//        });
-//
-//        parent.fill(t -> {
-//            t.setFillParent(true);
-//            t.visible(() -> shown);
-//            t.update(() -> t.setBounds(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight()));
-//
-//            t.add("$minimap").style(Styles.outlineLabel).pad(10f);
-//            t.row();
-//            t.add().growY();
-//            t.row();
-//            t.addImageTextButton("$back", Icon.leftOpen, () -> shown = false).size(220f, 60f).pad(10f);
-//        });
+        cellPanel = table.add(panel).top().center().expand().size(200);
+
+        table.row();
+        zoneinfo = table.add("", label1).top().center().padTop(2).width(200).height(30).expand().get();
+        zoneinfo.setWrap(true);
+        zoneinfo.setAlignment(Align.center);
     }
+
+    private void onResize(Runnable run){
+        Events.on(EventType.ResizeEvent.class, event -> {
+            if(root.hasParent() && root.isVisible()){
+                run.run();
+            }
+        });
+    }
+
 
     public boolean shown(){
         return shown;
@@ -228,6 +190,17 @@ public class T_MinimapFragment extends Fragment implements GameObjects.GameObjec
                 object = new MovingMapObject(entity);
             }
         }
+        // zones add begon
+        else if (entity instanceof Blood) {  // 血迹
+        }
+        else if (User.isAdmin() || true) {
+            if (entity instanceof RPEntity) {
+                object = new RPEntityMapObject(entity);
+            } else {
+                object = new MovingMapObject(entity);
+            }
+        }
+        // zones add end
 
         if (object != null) {
             mapObjects.put(entity, object);
@@ -312,8 +285,13 @@ public class T_MinimapFragment extends Fragment implements GameObjects.GameObjec
      */
     private void update(final CollisionDetection cd, final CollisionDetection pd,
                         final String zone, final double dangerLevel) {
+        Core.app.post(() -> {
+            panel.update(cd, pd);
+            zoneinfo.setText(zone);
+        });
+
         // Panel will do the relevant part in EDT.
-        panel.update(cd, pd);
+//        panel.update(cd, pd);
 //        SwingUtilities.invokeLater(new Runnable() {
 //            @Override
 //            public void run() {
