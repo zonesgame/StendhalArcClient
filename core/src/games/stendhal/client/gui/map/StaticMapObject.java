@@ -40,23 +40,23 @@ abstract class StaticMapObject extends MapObject {
 	 * @param color Drawing Color
 	 * @param outline Outline color, or <code>null</code> if no outline
 	 */
-	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale, final Color color, final Color outline) {
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, float stageScale, float addy, final float scale, final Color color, final Color outline) {
 		if ( !drawRect.contains(x, y, width, height)) return;
 
-		final float rx = worldToCanvas(x, scale);
-		final float ry = worldToCanvas(y, scale);
-		final float rwidth = width * scale;
-		final float rheight = height * scale;
+		final float rx = worldToCanvas(x, scale) * stageScale;
+		final float ry = worldToCanvas(y, scale) * stageScale;
+		final float rwidth = width * scale * stageScale;
+		final float rheight = height * scale * stageScale;
 
 		final float dx = actorx + rx;
-		final float dy = actory + (float) ((drawRect.getHeight() + drawRect.getY()) * scale) - (ry + rheight);
+		final float dy = actory + (float) ((drawRect.getHeight() + drawRect.getY()) * scale) * stageScale - (ry + rheight);
 
 		if (outline != null) {
 			Draw.color(outline);
-			Draw.rect(region, dx, dy, rwidth - 1, rheight - 1);
+			Draw.rectGdx(region, dx, dy, rwidth - 1, rheight - 1);
 		}
 
 		Draw.color(color);
-		Draw.rect(region, dx, dy, rwidth, rheight);
+		Draw.rectGdx(region, dx, dy, rwidth, rheight);
 	}
 }
