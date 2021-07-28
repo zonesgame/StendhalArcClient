@@ -32,12 +32,12 @@ public class DomesticAnimalMapObject extends MovingMapObject {
 	}
 
 	@Override
-	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale) {
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, float stagescale, float addy, final float scale) {
 		// we check this here rather than in the MapPanel so that any changes to the user are refreshed (e.g. disowning pet)
 		User user = User.get();
 		if ((user != null) && ((user.hasPet() && user.getPetID() == domesticanimal.getObjectID())
 				|| (user.hasSheep() && user.getSheepID() == domesticanimal.getObjectID()))) {
-			draw(g, drawRect, actorx, actory, scale, curColor);
+			draw(g, drawRect, actorx, actory, stagescale, addy, scale, curColor);
 		}
 	}
 }
