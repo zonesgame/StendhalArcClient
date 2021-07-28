@@ -13,6 +13,8 @@
 package games.stendhal.client.gui.map;
 
 import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Lines;
 import temp.Debug;
 import temp.java.awt.Graphics;
 
@@ -56,9 +58,9 @@ public class PlayerMapObject extends RPEntityMapObject {
 	}
 
 	@Override
-	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale) {
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, float stagescale, float addy, final float scale) {
 		if ((curColor != COLOR_GHOST) || User.isAdmin()) {
-			super.draw(g, drawRect, actorx, actory, scale);
+			super.draw(g, drawRect, actorx, actory, stagescale, addy, scale);
 		}
 	}
 
@@ -83,21 +85,41 @@ public class PlayerMapObject extends RPEntityMapObject {
 	 * @param color The draw color
 	 */
 	@Override
-	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale,  final Color color) {
-		if (Debug.NOTE1) {
-			super.draw(g, drawRect, actorx, actory, scale, color);
-			return;
-		}
-		float mapX = worldToCanvas(x, scale);
-		float mapY = worldToCanvas(y, scale);
-		final float scale_2 = scale / 2;
-		final float size = scale_2 + 2;
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, float stagescale, float addy, final float scale,  final Color color) {
+		final float rx = worldToCanvas(x, scale) * stagescale;
+		final float ry = worldToCanvas(y, scale) * stagescale;
+		final float rwidth = width * scale * stagescale;
+		final float rheight = height * scale * stagescale;
 
-		mapX += scale_2;
-		mapY += scale_2;
+		float dx = actorx + rx;
+		float dy = actory + (float) ((drawRect.getHeight() + drawRect.getY()) * scale) * stagescale - (ry + rheight) - addy;
 
-//		g.setColor(color);
-//		g.drawLine(mapX - size, mapY, mapX + size, mapY);
-//		g.drawLine(mapX, mapY - size, mapX, mapY + size);
+		Draw.color(color);
+		Draw.rectGdx(region, dx, dy, rwidth, rheight);
+
+		dx += rwidth / 2f;
+		dy += rheight / 2f;
+
+		float minlen = Math.min(8, rwidth / 4f);
+
+		Draw.rect(region, dx, dy, rwidth * 3f, minlen);
+		Draw.rect(region, dx, dy, minlen, rheight * 3f);
+
+
+//		float mapX = worldToCanvas(x, scale);
+//		float mapY = worldToCanvas(y, scale);
+//
+//
+//		final float scale_2 = scale / 2;
+//		final float size = scale_2 + 2;
+//
+//		mapX += scale_2;
+//		mapY += scale_2;
+//
+//		Draw.color(color);
+//		Draw.rect(region, mapX - size, mapY, mapX + size, mapY);
+////		g.setColor(color);
+////		g.drawLine(mapX - size, mapY, mapX + size, mapY);
+////		g.drawLine(mapX, mapY - size, mapX, mapY + size);
 	}
 }
