@@ -34,7 +34,7 @@ public abstract class MapObject {
      * @param g     Graphics context
      * @param scale Scaling factor
      */
-    abstract void draw(Graphics g, Rectangle2D drawRect, float actorx, float actory, float scale);
+    abstract void draw(Graphics g, Rectangle2D drawRect, float dx, float dy, float stageScale, float addy, float scale);
 
     /**
      * Scale a world coordinate to canvas coordinates
