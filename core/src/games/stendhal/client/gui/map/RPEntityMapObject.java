@@ -39,7 +39,7 @@ public class RPEntityMapObject extends MovingMapObject {
 	}
 
 	@Override
-	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, final float scale) {
-		draw(g, drawRect, actorx, actory, scale, curColor);
+	void draw(final Graphics g, final Rectangle2D drawRect, final float actorx, final float actory, float stagescale, float addy, final float scale) {
+		draw(g, drawRect, actorx, actory, stagescale, addy, scale, curColor);
 	}
 }
