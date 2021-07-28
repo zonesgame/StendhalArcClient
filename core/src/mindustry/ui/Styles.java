@@ -71,7 +71,7 @@ public class Styles{
         label1 = new LabelStyle(){{
             font = Fonts.def;
             fontColor = Color.white;
-            this.background = Tex.label1;
+            this.background = white9s2;
         }};
         // zones add end
 
