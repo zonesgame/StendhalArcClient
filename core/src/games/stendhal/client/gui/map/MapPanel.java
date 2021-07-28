@@ -16,7 +16,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -36,16 +35,21 @@ import arc.input.KeyCode;
 import arc.scene.Element;
 import arc.scene.event.ClickListener;
 import arc.scene.event.InputEvent;
+import arc.scene.style.TextureRegionDrawable;
+import arc.scene.ui.Image;
+import arc.scene.ui.layout.Cell;
 import arc.util.Disposable;
 import games.stendhal.client.StendhalClient;
 import games.stendhal.client.entity.IEntity;
 import games.stendhal.common.CollisionDetection;
 import marauroa.common.game.RPAction;
+import mindustry.game.EventType;
+import mindustry.gen.Tex;
 import temp.java.awt.Rectangle;
 import temp.java.awt.geom.Rectangle2D;
 import z.utils.FinalCons;
 
-public class MapPanel extends Element implements Disposable {
+public class MapPanel extends Image implements Disposable {
 	/**serial version uid*/
 	private static final long serialVersionUID = -6471592733173102868L;
 
@@ -87,11 +91,15 @@ public class MapPanel extends Element implements Disposable {
 	final Rectangle2D drawRect = new Rectangle.Double();
 
 	/**Map background. This should be accessed only in the event dispatch thread.*/
-	private TextureRegion mapImage;
+	private TextureRegion mapRegion;
+	private TextureRegionDrawable mapDrawable = new TextureRegionDrawable();
 	private Texture mapTexture;
 
 	public MapPanel(final Map<IEntity, MapObject> mapObjects) {
+		super(Tex.white9s1);
+		this.setColor(Color.green);
 		this.mapObjects = mapObjects;
+//		this.cell = cellmap;
 //		client = StendhalClient.get();
 
 		// black area outside the map
@@ -116,55 +124,27 @@ public class MapPanel extends Element implements Disposable {
 		});
 	}
 
-//	/**Create a new MapPanel.
-//	 * @param controller
-//	 * @param client
-//	 */
-//	MapPanel(final MapPanelController controller, final StendhalClient client) {
-//		this.client = client;
-//		this.controller = controller;
-//		// black area outside the map
-//		setBackground(Color.black);
-//		updateSize(new Dimension(MAP_WIDTH, MAP_HEIGHT));
-//		setOpaque(true);
-//
-//		// handle clicks for moving.
-//		this.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(final MouseEvent e) {
-//				movePlayer(e.getPoint(), e.getClickCount() > 1);
-//			}
-//		});
-//	}
-
-	public void draw(float x, float y) {
-		if (mapImage != null) {
-			drawMap( x, y);
-			drawEntities( x, y);
-			Draw.color();    // 恢复颜色设置
-		}
-	}
-
 	/**Draw the entities on the map.*/
-	private void drawEntities(float actorx, float actory) {
+	private void drawEntities(float dx, float dy, float dw, float dh, float addy) {
+		final float stageScale = (dw / this.width);
 		for (final MapObject object : mapObjects.values()) {
-			object.draw(null, drawRect, actorx - xOffset, actory, scale);
+			object.draw(null, drawRect, dx - xOffset * stageScale, dy, stageScale,addy, scale);
 		}
 	}
 
 	/**Set the dimensions of the component. This must be called from the event dispatch thread.
 	 * @param sw the new dimensions
 	 */
-	private void updateSize(final int sw, final int sh) {
-		width = sw;
-		height = sh;
-		this.setSize(sw, sh);
-	}
+//	private void updateSize(final int sw, final int sh) {
+//		width = sw;
+//		height = sh;
+//		this.setSize(sw, sh);
+//	}
 
 	/**Draw the map background. This must be called from the event dispatch thread.*/
-	private void drawMap(float actorx, float actory) {
-		Draw.color();
-		Draw.rectGdx(mapImage, actorx, actory);
+	private void drawMap(float dx, float dy, float dw, float dh, float addy) {
+		mapDrawable.draw(dx, dy - addy, dw, dh + addy);
+//		Draw.rectGdx(mapImage, actorx, actory);
 //		g.drawImage(mapImage, 0, 0, null);
 	}
 
@@ -186,12 +166,12 @@ public class MapPanel extends Element implements Disposable {
 		xOffset = 0;
 		yOffset = 0;
 
-		if (mapImage == null) {
+		if (mapRegion == null) {
 			return;
 		}
 
-		final int imageWidth = mapImage.getWidth();
-		final int imageHeight = mapImage.getHeight();
+		final int imageWidth = mapTexture.getWidth();
+		final int imageHeight = mapTexture.getHeight();
 
 		final int xpos = (int) ((playerX * scale) + 0.5) - width / 2;
 		final int ypos = (int) ((playerY * scale) + 0.5) - width / 2;
@@ -217,20 +197,16 @@ public class MapPanel extends Element implements Disposable {
 		}
 
 		if (xOffset != 0 || yOffset != 0 || width != imageWidth || height != imageHeight) {
-			mapImage.set(xOffset, yOffset, width, height);
+			mapRegion.set(xOffset, yOffset, width, height);
 		}
 
 		drawRect.setRect(xOffset / scale, yOffset / scale, width / scale, height / scale);
 	}
 
 	/**
-	 * Update the map with new data. This method can be called outside the
-	 * event dispatch thread.
-	 *
-	 * @param cd
-	 *            The collision map.
-	 * @param pd
-	 *      	  The protection map.
+	 * Update the map with new data. This method can be called outside the event dispatch thread.
+	 * @param cd The collision map.
+	 * @param pd The protection map.
 	 */
 	public void update(final CollisionDetection cd, final CollisionDetection pd) {
 		// calculate the size and scale of the map
@@ -259,15 +235,24 @@ public class MapPanel extends Element implements Disposable {
 			mapTexture.dispose();
 		}
 		mapTexture = new Texture(pixmap);
-		mapTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-		mapImage = new TextureRegion(mapTexture);
+//		mapTexture.setFilter(Texture.TextureFilter.MipMap, Texture.TextureFilter.MipMap);
+		mapRegion = new TextureRegion(mapTexture);
+		mapDrawable.setRegion(mapRegion);
 		pixmap.dispose();
+//		this.setDrawable(mapImage);
 
-		updateSize(MAP_WIDTH, height);
+		{
+//			updateSize(MAP_WIDTH, height);
+			this.width = MAP_WIDTH;
+			this.height = height;
+		}
 		this.scale = scale;
 //		this.setPosition(0, getStage().getHeight() - this.height);
 
 		updateView();
+
+//		cell.size(width * 1.5f, height);
+//		this.fire(new EventType.ResizeEvent());
 	}
 
 	/**
@@ -294,24 +279,37 @@ public class MapPanel extends Element implements Disposable {
 	 * */
 	@Override
 	public void draw() {
-		draw( getX(), getY());
+		if (mapRegion != null) {
+			super.draw();
+
+			float dx = getImageX() + getX();
+			float dy = getImageY() + getY();
+			float dw = getImageWidth() * getScaleX();
+			float dh = getImageHeight() * getScaleY();
+			float addy = dh * (mapRegion.getHeight() / (float)mapRegion.getWidth() - 1);
+
+			Draw.color();
+			drawMap( dx, dy, dw, dh, addy);
+			drawEntities( dx, dy, dw, dh, addy);
+			Draw.color();    // 恢复颜色设置
+		}
 	}
 
-	/**
-	 *  Actor 宽度
-	 * */
-	@Override
-	public float getWidth() {
-		return width;
-	}
-
-	/**
-	 *  Actor高度
-	 * */
-	@Override
-	public float getHeight() {
-		return height;
-	}
+//	/**
+//	 *  Actor 宽度
+//	 * */
+//	@Override
+//	public float getWidth() {
+//		return width;
+//	}
+//
+//	/**
+//	 *  Actor高度
+//	 * */
+//	@Override
+//	public float getHeight() {
+//		return height;
+//	}
 
 	@Override
 	public void dispose() {
