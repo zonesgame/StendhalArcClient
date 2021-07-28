@@ -26,7 +26,7 @@ public class FlyOverAreaMapObject extends StaticMapObject {
 	}
 
 	@Override
-	void draw(Graphics g, Rectangle2D drawRect, float actorx, float actory, float scale) {
-		draw(g, drawRect, actorx, actory, scale, COLOR, null);
+	void draw(Graphics g, Rectangle2D drawRect, float actorx, float actory, float stagescale, float addy, float scale) {
+		draw(g, drawRect, actorx, actory, stagescale, addy, scale, COLOR, null);
 	}
 }
