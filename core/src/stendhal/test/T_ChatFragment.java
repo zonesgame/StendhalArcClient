@@ -39,6 +39,7 @@ public class T_ChatFragment extends Fragment{
     private NotificationChannelManager channelManager;
 
     private Table root;
+    private Table group;
 
     @Override
     public void build(Group parent) {
@@ -48,6 +49,8 @@ public class T_ChatFragment extends Fragment{
         root.setFillParent(true);
 //        langs.marginRight(24f).marginLeft(24f);
         parent.addChild(root);
+
+        group = root.table(Tex.white9s1).get();
 
         setSelectChannel(initChannel());
 
@@ -70,6 +73,8 @@ public class T_ChatFragment extends Fragment{
 //
 //        parent.addChild(pane);
 //        cont.add(pane);
+
+//        root.visible(false);
     }
 
 
@@ -122,7 +127,7 @@ public class T_ChatFragment extends Fragment{
     }
 
     private NotificationChannel setupPersonalChannel() {
-        KTextEdit edit = new KTextEdit("Personal", root);
+        KTextEdit edit = new KTextEdit("Personal", group);
         /*
          * Give it a different background color to make it different from the
          * main chat log.
@@ -141,7 +146,7 @@ public class T_ChatFragment extends Fragment{
     }
 
     private NotificationChannel setupMainChannel() {
-        KTextEdit edit = new KTextEdit("Main", root);
+        KTextEdit edit = new KTextEdit("Main", group);
         NotificationChannel channel = new NotificationChannel("Main", edit, true, "");
 
         // Follow settings changes for the main channel
