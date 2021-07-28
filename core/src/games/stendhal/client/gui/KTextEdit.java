@@ -132,13 +132,13 @@ public class KTextEdit {
         root.clearChildren();
         parent.add(root);
 
-        chatHistory = new Label("aaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        chatHistory = new Label("test");
         chatHistory.setWrap(true);
 //        chatHistory.setAlignment(Align.topLeft);
 
         pane = new ScrollPane(chatHistory);
-        pane.setFadeScrollBars(true);
-        pane.setScrollingDisabled(false, false);
+        pane.setFadeScrollBars(false);
+        pane.setScrollingDisabled(true, false);
 
 //        pane.setSize(200, 200);
 //        pane.setPosition(200, 100);
