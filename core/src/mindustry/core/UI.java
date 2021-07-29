@@ -278,8 +278,8 @@ public class UI implements ApplicationListener, Loadable{
             menuFrag.build(menuGroup);
 
             hudFrag.build(hudGroup);
-            miniFrag.build(hudGroup);
-            chatFrag.build(hudGroup);
+//            miniFrag.build(hudGroup);
+//            chatFrag.build(hudGroup);
         }
     }
 
