@@ -57,7 +57,7 @@ import mindustry.ui.fragments.Fragment;
 import static mindustry.Vars.*;
 import static mindustry.ui.Styles.label1;
 
-public class T_MinimapFragment extends Fragment implements GameObjects.GameObjectListener, PositionChangeListener, StendhalClient.ZoneChangeListener {
+public class T_MinimapFragment implements GameObjects.GameObjectListener, PositionChangeListener, StendhalClient.ZoneChangeListener {
     private boolean shown;
     private float panx, pany, zoom = 1f, lastZoom = -1;
     private float baseSize = Scl.scl(5f);
@@ -77,8 +77,7 @@ public class T_MinimapFragment extends Fragment implements GameObjects.GameObjec
     public void show() {
     }
 
-    @Override
-    public void build(Group parent){
+    public void build(Table parent){
         {
             StendhalClient.get().getGameObjects().addGameObjectListener(this);
             StendhalClient.get().addZoneChangeListener(this);
@@ -110,12 +109,12 @@ public class T_MinimapFragment extends Fragment implements GameObjects.GameObjec
         };
 //        root.setFillParent(true);
 //        root.fill().margin(50);
-        parent.addChild(root);
+//        parent.add(root);
 //        root.margin(20).setFillParent(true);
 //        root.setFillParent(true);
 
 //        root.setFillParent(true);
-        root.setFillParent(true);
+//        root.setFillParent(true);
 //        root.fill().setFillParent(true);
 
 //        Pixmap pixmap = new Pixmap(200, 200);
@@ -128,7 +127,8 @@ public class T_MinimapFragment extends Fragment implements GameObjects.GameObjec
 //        root.defaults().top().left();
         {
         }
-        Table table = root.table(Tex.white9s1).width(210).margin(8).top().left().expand().get();
+        Table table = parent.add(root)/*.width(210)*/.margin(4).top().left().get();
+//        Table table = root.table(Tex.white9s1).width(210).margin(8).top().left().expand().get();
 
         panel = new MapPanel(mapObjects);
         cellPanel = table.add(panel).top().center().expand().size(200);
