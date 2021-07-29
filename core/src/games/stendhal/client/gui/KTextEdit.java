@@ -65,6 +65,7 @@ import arc.graphics.Color;
 import arc.scene.Group;
 import arc.scene.ui.Label;
 import arc.scene.ui.ScrollPane;
+import arc.scene.ui.TextField;
 import arc.scene.ui.layout.Table;
 import arc.util.Align;
 import arc.util.io.Streams;
@@ -78,9 +79,19 @@ import games.stendhal.common.MathHelper;
 import games.stendhal.common.NotificationType;
 import marauroa.common.Logger;
 import mindustry.Vars;
+import mindustry.gen.Tex;
 import mindustry.graphics.Pal;
+import mindustry.ui.Styles;
 import mindustry.ui.dialogs.FloatingDialog;
 import stendhal.test.MessageArray;
+import temp.Debug;
+import z.debug.Strs;
+
+import static z.debug.Strs.str56;
+import static z.debug.Strs.str57;
+import static z.debug.Strs.str58;
+import static z.debug.Strs.str59;
+import static z.debug.Strs.str60;
 
 /**
  * Appendable text component to be used as the chat log.
@@ -116,66 +127,57 @@ public class KTextEdit {
     private boolean saveing = false;
     private MessageArray<String> messageArray = new MessageArray(true);
 
+//    private Table parent;
     private Table root;
     private ScrollPane pane;
     private Label chatHistory;
+    private TextField field;
 
     public void build(Table parent) {
-        root = new Table() {
+//        this.parent = parent;
+        root = new Table(Tex.white9s1) {
             @Override
-            public void act(float delta) {
-                super.act(delta);
-//                System.out.println(root.isVisible());
+            public void visible(boolean visible) {
+                super.visible(visible);
+                if ( !visible) {
+                    remove();
+                } else {
+                    parent.add(root)/*.width(540)*/.top().left();
+                }
             }
         };
-//        root.fill().left().top().margin(100);
-        root.clearChildren();
-        parent.add(root);
+        {
+            chatHistory = new Label("", Styles.label1);
+            chatHistory.setAlignment(Align.topLeft);
+            chatHistory.setWrap(true);
+            chatHistory.setFontScale(0.6f);
+            pane = root.pane(Styles.smallPane, chatHistory).width(500).height(200).get();
+            pane.setScrollingDisabled(true, false);
+            pane.setFadeScrollBars(true);
+            root.table(buttons -> {
+                buttons.defaults().size(40, 50);
+                buttons.addButton(Strs.get(str57), ()->{});
+                buttons.row();
+                buttons.addButton(Strs.get(str56), ()->{});
+                buttons.row();
+                buttons.addButton(Strs.get(str58), this::save);
+                buttons.row();
+                buttons.addButton(Strs.get(str59), this::clear);
+//                buttons.row();
+//                buttons.addButton(Strs.get(str60), ()->{}).height(40);
+//                buttons.row();
+            });
 
-        chatHistory = new Label("test");
-        chatHistory.setWrap(true);
-//        chatHistory.setAlignment(Align.topLeft);
+            root.row();
+            field = root.addField("", s -> {}).height(40).fillX().get();
+        }
 
-        pane = new ScrollPane(chatHistory);
-        pane.setFadeScrollBars(false);
-        pane.setScrollingDisabled(true, false);
-
-//        pane.setSize(200, 200);
-//        pane.setPosition(200, 100);
-//        root.addImage(Vars.atlasS.find("StendhalSplash")).size(999, 999);
-//        root.setFillParent(true);
-//        root.fill();
-
-        root.add(pane).width(300).height(200).top().left();
+//        root.visible(false);
     }
 
-    public void setVisible(Boolp visible) {
+    public void setVisible(boolean visible) {
         root.visible(visible);
     }
-
-//	public void show(Group parent){
-//		FloatingDialog dialog = new FloatingDialog("$credits");
-//		dialog.addCloseButton();
-//		dialog.cont.add("$credits.text").fillX().wrap().get().setAlignment(Align.center);
-//		dialog.cont.row();
-//		if(!contributors.isEmpty()){
-//			dialog.cont.addImage().color(Pal.accent).fillX().height(3f).pad(3f);
-//			dialog.cont.row();
-//			dialog.cont.add("$contributors");
-//			dialog.cont.row();
-//			dialog.cont.pane(new Table(){{
-//				int i = 0;
-//				left();
-//				for(String c : contributors){
-//					add("[lightgray]" + c).left().pad(3).padLeft(6).padRight(6);
-//					if(++i % 3 == 0){
-//						row();
-//					}
-//				}
-//			}});
-//		}
-//		dialog.show();
-//	}
 
 //	/** Listener for opening the popup menu when it's requested. */
 //	private final class TextPaneMouseListener extends MousePopupAdapter {
