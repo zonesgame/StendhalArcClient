@@ -33,26 +33,58 @@ import static arc.Core.*;
 import static mindustry.Vars.net;
 import static mindustry.Vars.*;
 
-public class T_ChatFragment extends Fragment{
+public class T_ChatFragment {
     private static final int PRIVATE_TAB_COLOR = 0xdcdcffff;
 
     private NotificationChannelManager channelManager;
 
     private Table root;
-    private Table group;
+//    private Table group;
 
-    @Override
-    public void build(Group parent) {
+    public void build(Table parent) {
         channelManager = j2DClient.get().channelManager;
-
-        root = new Table();
-        root.setFillParent(true);
-//        langs.marginRight(24f).marginLeft(24f);
-        parent.addChild(root);
-
-        group = root.table(Tex.white9s1).get();
-
+        root = parent.table().get();
         setSelectChannel(initChannel());
+
+//        root = new Table(Tex.white9s1);
+////        root.setFillParent(true);
+////        langs.marginRight(24f).marginLeft(24f);
+////        parent.addChild(root);
+//
+////        group = root.table(Tex.white9s1).get();
+//        {
+//            StringBuilder builder = new StringBuilder();
+//            for (int i =999; --i > 0; ) {
+//                builder.append(i + " ");
+//            }
+//            Label label = new Label(builder.toString(), Styles.label1);
+//            label.setAlignment(Align.topLeft);
+//            label.setWrap(true);
+//            label.setFontScale(0.6f);
+//            ScrollPane pane = root.pane(Styles.smallPane, label).width(500).height(240).get();
+//            pane.setScrollingDisabled(true, false);
+//            pane.setFadeScrollBars(true);
+//            root.table(buttons -> {
+//                buttons.defaults().size(40, 50);
+//                buttons.addButton("name1", ()->{});
+//                buttons.row();
+//                buttons.addButton("name2", ()->{});
+//                buttons.row();
+//                buttons.addButton("name3", ()->{});
+//                buttons.row();
+//                buttons.addButton("name4", ()->{});
+//                buttons.row();
+//                buttons.addButton("name5", ()->{}).height(40);
+////                buttons.row();
+//            });
+//        }
+//
+////        root.align(Align.topLeft).left().top();
+//        parent.add(root)/*.width(540)*/.top().left();
+
+//        setSelectChannel(initChannel());
+
+//        root.
 
 //        onResize(root, this::rebuild);
 //        shown(root, this::rebuild);
@@ -103,7 +135,7 @@ public class T_ChatFragment extends Fragment{
             return;
 
         if (channelManager.getVisibleChannel() != null) {
-            channelManager.getVisibleChannel().getChannel().setVisible(()->false);
+            channelManager.getVisibleChannel().getChannel().setVisible(false);
 //            TextButton channelButton = group.findActor(channelManager.getVisibleChannel().getName());
 //            if (channelButton != null) {
 //                channelButton.setProgrammaticChangeEvents(false);
@@ -112,7 +144,7 @@ public class T_ChatFragment extends Fragment{
 //            }
         }
         this.channelManager.setVisibleChannel(channel);         // not must
-        channel.getChannel().setVisible(()->true);
+        channel.getChannel().setVisible(true);
 
 //        TextField textField = group.findActor(script.FIELD);
 //        if (textField != null)
@@ -127,7 +159,7 @@ public class T_ChatFragment extends Fragment{
     }
 
     private NotificationChannel setupPersonalChannel() {
-        KTextEdit edit = new KTextEdit("Personal", group);
+        KTextEdit edit = new KTextEdit("Personal", root);
         /*
          * Give it a different background color to make it different from the
          * main chat log.
@@ -146,7 +178,7 @@ public class T_ChatFragment extends Fragment{
     }
 
     private NotificationChannel setupMainChannel() {
-        KTextEdit edit = new KTextEdit("Main", group);
+        KTextEdit edit = new KTextEdit("Main", root);
         NotificationChannel channel = new NotificationChannel("Main", edit, true, "");
 
         // Follow settings changes for the main channel
