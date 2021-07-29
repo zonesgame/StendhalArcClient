@@ -72,11 +72,11 @@ public class Strs {
     public static final String str53 = "E-mail address (optional)";
     public static final String str54 = "Show password";
     public static final String str55 = "On login information which identifies your computer on the internet will be logged to prevent abuse (like many attempts to guess a password in order to hack an account or creation of many accounts to cause trouble). Furthermore all events and actions that happen within the game-world (like solving quests, attacking monsters) are logged. This information is used to analyse bugs and in rare cases for abuse handling.";
-    public static final String str56 = "";
-    public static final String str57 = "";
-    public static final String str58 = "";
-    public static final String str59 = "";
-    public static final String str60 = "";
+    public static final String str56 = "Personal";
+    public static final String str57 = "Main";
+    public static final String str58 = "Save";
+    public static final String str59 = "Clear";
+    public static final String str60 = "Say";
     public static final String str61 = "";
     public static final String str62 = "";
     public static final String str63 = "";
