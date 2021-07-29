@@ -92,12 +92,15 @@ public class T_HudFragment extends Fragment {
 //
 //    private long lastToast;
 
+    private Table root;
 
 
     /** 游戏界面构建*/
     public void build(Group parent) {
         //menu at top left
-        parent.fill(cont -> {
+
+        parent.fill(Tex.white9s1, cont -> {
+            root = cont;
             cont.setName("overlaymarker");
             cont.top().left();
 
@@ -108,6 +111,10 @@ public class T_HudFragment extends Fragment {
             });
 
         });
+
+        // children build
+        ui.miniFrag.build(root);
+        ui.chatFrag.build(root);
 
         parent.fill(t -> {
 //            t.visible(() -> Core.settings.getBool("minimap") && !state.rules.tutorial);
